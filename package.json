@@ -11,7 +11,8 @@
     "build:cms": "tinacms build",
     "build:tina": "tinacms build --skip-cloud-checks && astro build",
     "build:tina:strict": "tinacms build && astro build",
-    "tina:sync-lock": "tinacms dev --datalayer-port 9019 --noWatch --no-server --noTelemetry"
+    "tina:sync-lock": "tinacms dev --datalayer-port 9019 --noWatch --no-server --noTelemetry",
+    "photos:leadership": "node scripts/download-leadership-photos.mjs"
   },
   "repository": {
     "type": "git",

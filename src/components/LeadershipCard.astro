@@ -1,0 +1,62 @@
+---
+import type { StaffPerson } from "../data/leadership";
+
+interface Props {
+  person: StaffPerson;
+  officeEmail: string;
+  photoSrc?: string;
+}
+
+const { person, officeEmail, photoSrc } = Astro.props;
+
+function initials(name: string): string {
+  const p = name.trim().split(/\s+/).filter(Boolean);
+  if (p.length >= 2) {
+    const a = p[0]?.[0] ?? "";
+    const b = p[p.length - 1]?.[0] ?? "";
+    return `${a}${b}`.toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+const imgAlt = `${person.name}, ${person.title}`;
+---
+
+<li class="staff-card">
+  <div class:list={["staff-photo-wrap", photoSrc && "staff-photo-wrap--has-img"]}>
+    {
+      photoSrc ? (
+        <img
+          class="staff-photo"
+          src={photoSrc}
+          alt={imgAlt}
+          width={480}
+          height={560}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="staff-initials" aria-hidden="true">{initials(person.name)}</span>
+      )
+    }
+  </div>
+  <div class="staff-card-body">
+    <h3 class="staff-name">{person.name}</h3>
+    <p class="staff-title">{person.title}</p>
+    <p class="staff-email-line">
+      {
+        person.email ? (
+          <a class="staff-email-link" href={`mailto:${person.email}`}>
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            {person.email}
+          </a>
+        ) : (
+          <a class="staff-email-link staff-email-link--fallback" href={`mailto:${officeEmail}`}>
+            <span class="staff-email-muted">Via office:</span>
+            {officeEmail}
+          </a>
+        )
+      }
+    </p>
+  </div>
+</li>

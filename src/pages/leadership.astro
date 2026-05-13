@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import LeadershipCard from "../components/LeadershipCard.astro";
 import { getCollection } from "astro:content";
 import { churchContact, elders, ministryLeads, adminStaff } from "../data/leadership";
+import { staffPhotos } from "../data/leadership-photos";
 
 const pages = await getCollection("pages");
 const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
@@ -14,124 +16,79 @@ if (!homePage) {
 
 <BaseLayout
   title="Leadership & Staff | Cypress Bible Church"
-  description="Elders, ministry leads, and administrative staff — names and ways to reach Cypress Bible Church."
+  description="Elders, ministry leads, and administrative staff — photos and ways to reach Cypress Bible Church."
 >
   <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
 
   <article class="staff-page">
     <div class="staff-page-inner">
-    <header class="staff-page-head">
-      <h1 class="staff-page-title">Leadership & Staff</h1>
-      <p class="staff-page-sub">
-        Main office contacts below. Listed emails match the CBC website where provided; otherwise reach the office first.
+      <header class="staff-page-head">
+        <h1 class="staff-page-title">Leadership & Staff</h1>
+        <p class="staff-page-sub">
+          Portraits from the church website. Main office contacts below; listed emails match the CBC site where
+          provided—otherwise start with the office.
+        </p>
+        <dl class="staff-contact-row" aria-label="Church office">
+          <div class="staff-contact-block">
+            <dt>Address</dt>
+            <dd>
+              <a href={churchContact.mapHref}>{churchContact.addressLine}</a>
+            </dd>
+          </div>
+          <div class="staff-contact-block">
+            <dt>Phone</dt>
+            <dd>
+              <a href={`tel:${churchContact.phoneTel}`}>{churchContact.phoneDisplay}</a>
+            </dd>
+          </div>
+          <div class="staff-contact-block">
+            <dt>Email</dt>
+            <dd>
+              <a href={`mailto:${churchContact.email}`}>{churchContact.email}</a>
+            </dd>
+          </div>
+        </dl>
+      </header>
+
+      <section class="staff-section" aria-labelledby="staff-elders">
+        <h2 id="staff-elders" class="staff-heading">Elders</h2>
+        <ul class="staff-grid">
+          {
+            elders.map((p) => (
+              <LeadershipCard person={p} officeEmail={churchContact.email} photoSrc={staffPhotos[p.name]} />
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="staff-section" aria-labelledby="staff-ministry">
+        <h2 id="staff-ministry" class="staff-heading">Ministry leads</h2>
+        <ul class="staff-grid">
+          {
+            ministryLeads.map((p) => (
+              <LeadershipCard person={p} officeEmail={churchContact.email} photoSrc={staffPhotos[p.name]} />
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="staff-section" aria-labelledby="staff-admin">
+        <h2 id="staff-admin" class="staff-heading">Administrative staff</h2>
+        <ul class="staff-grid">
+          {
+            adminStaff.map((p) => (
+              <LeadershipCard person={p} officeEmail={churchContact.email} photoSrc={staffPhotos[p.name]} />
+            ))
+          }
+        </ul>
+      </section>
+
+      <p class="staff-footnote">
+        Roster &amp; portraits from{' '}
+        <a href="https://cypressbible.org/leadership/">Cypress Bible Church — Leadership</a>. Missing photos show
+        initials (some images on the live site are placeholders). Regenerate files with{' '}
+        <code class="staff-code">npm run photos:leadership</code>.
       </p>
-      <dl class="staff-contact-row" aria-label="Church office">
-        <div class="staff-contact-block">
-          <dt>Address</dt>
-          <dd>
-            <a href={churchContact.mapHref}>{churchContact.addressLine}</a>
-          </dd>
-        </div>
-        <div class="staff-contact-block">
-          <dt>Phone</dt>
-          <dd>
-            <a href={`tel:${churchContact.phoneTel}`}>{churchContact.phoneDisplay}</a>
-          </dd>
-        </div>
-        <div class="staff-contact-block">
-          <dt>Email</dt>
-          <dd>
-            <a href={`mailto:${churchContact.email}`}>{churchContact.email}</a>
-          </dd>
-        </div>
-      </dl>
-    </header>
-
-    <section class="staff-section" aria-labelledby="staff-elders">
-      <h2 id="staff-elders" class="staff-heading">Elders</h2>
-      <ul class="staff-grid">
-        {
-          elders.map((p) => (
-            <li class="staff-card">
-              <h3 class="staff-name">{p.name}</h3>
-              <p class="staff-title">{p.title}</p>
-              <p class="staff-email-line">
-                {p.email ? (
-                  <a class="staff-email-link" href={`mailto:${p.email}`}>
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    {p.email}
-                  </a>
-                ) : (
-                  <a class="staff-email-link staff-email-link--fallback" href={`mailto:${churchContact.email}`}>
-                    <span class="staff-email-muted">Via office:</span>
-                    {churchContact.email}
-                  </a>
-                )}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <section class="staff-section" aria-labelledby="staff-ministry">
-      <h2 id="staff-ministry" class="staff-heading">Ministry leads</h2>
-      <ul class="staff-grid">
-        {
-          ministryLeads.map((p) => (
-            <li class="staff-card">
-              <h3 class="staff-name">{p.name}</h3>
-              <p class="staff-title">{p.title}</p>
-              <p class="staff-email-line">
-                {p.email ? (
-                  <a class="staff-email-link" href={`mailto:${p.email}`}>
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    {p.email}
-                  </a>
-                ) : (
-                  <a class="staff-email-link staff-email-link--fallback" href={`mailto:${churchContact.email}`}>
-                    <span class="staff-email-muted">Via office:</span>
-                    {churchContact.email}
-                  </a>
-                )}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <section class="staff-section" aria-labelledby="staff-admin">
-      <h2 id="staff-admin" class="staff-heading">Administrative staff</h2>
-      <ul class="staff-grid">
-        {
-          adminStaff.map((p) => (
-            <li class="staff-card">
-              <h3 class="staff-name">{p.name}</h3>
-              <p class="staff-title">{p.title}</p>
-              <p class="staff-email-line">
-                {p.email ? (
-                  <a class="staff-email-link" href={`mailto:${p.email}`}>
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    {p.email}
-                  </a>
-                ) : (
-                  <a class="staff-email-link staff-email-link--fallback" href={`mailto:${churchContact.email}`}>
-                    <span class="staff-email-muted">Via office:</span>
-                    {churchContact.email}
-                  </a>
-                )}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <p class="staff-footnote">
-      Roster mirrored from{' '}
-      <a href="https://cypressbible.org/leadership/">Cypress Bible Church — Leadership</a>.
-    </p>
     </div>
   </article>
 </BaseLayout>
