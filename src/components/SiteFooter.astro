@@ -51,16 +51,18 @@ const mapEmbedSrc =
           <label for="nl-email">Email <span class="req">*</span></label>
           <input id="nl-email" name="email" type="email" required autocomplete="email" />
         </div>
-        <div class="field field--split">
-          <div>
-            <label for="nl-first">Name <span class="req">*</span></label>
-            <input id="nl-first" name="first_name" type="text" required autocomplete="given-name" />
-            <span class="field-hint">First</span>
-          </div>
-          <div>
-            <label for="nl-last" class="visually-hidden">Last name</label>
-            <input id="nl-last" name="last_name" type="text" required autocomplete="family-name" />
-            <span class="field-hint">Last</span>
+        <div class="field field-name">
+          <label for="nl-first">Name <span class="req">*</span></label>
+          <div class="field--split">
+            <div class="field-col">
+              <input id="nl-first" name="first_name" type="text" required autocomplete="given-name" />
+              <span class="field-hint">First</span>
+            </div>
+            <div class="field-col">
+              <label for="nl-last" class="visually-hidden">Last name</label>
+              <input id="nl-last" name="last_name" type="text" required autocomplete="family-name" />
+              <span class="field-hint">Last</span>
+            </div>
           </div>
         </div>
         <button class="btn-foot btn-foot--submit" type="submit">Submit</button>

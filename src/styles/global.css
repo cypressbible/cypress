@@ -607,6 +607,17 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  align-items: start;
+}
+
+.field-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.field-col input {
+  width: 100%;
 }
 
 .field-hint {
