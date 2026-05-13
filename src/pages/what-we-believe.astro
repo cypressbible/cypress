@@ -1,0 +1,196 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+import {
+  DOCTRINAL_STATEMENT_PDF,
+  doctrineSections,
+  ordinancePhilosophy,
+  statementAffirmations
+} from "../data/what-we-believe";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+---
+
+<BaseLayout
+  title="What We Believe | Cypress Bible Church"
+  description="Statement of faith, Nicene echoes, full doctrinal statement, and communion philosophy—from Cypress Bible Church."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <a class="belief-skip" href="#belief-main">Skip to doctrinal content</a>
+
+  <section class="belief-visual" aria-label="Creeds as invitation">
+    <div class="belief-visual-inner">
+      <p class="belief-visual-eyebrow">Rooted in the ancient church</p>
+      <div class="belief-visual-grid">
+        <div class="belief-tile belief-tile--span belief-tile--deep">
+          <span class="belief-tile-label">Credal heartbeat</span>
+          <span class="belief-tile-huge">I believe</span>
+          <span class="belief-tile-sub">in one God</span>
+        </div>
+        <div class="belief-tile belief-tile--accent">
+          <span class="belief-tile-kicker">The Father</span>
+          <span class="belief-tile-text"
+            >Almighty maker of heaven and earth, of all things visible and invisible.</span
+          >
+        </div>
+        <div class="belief-tile">
+          <span class="belief-tile-kicker">The Son</span>
+          <span class="belief-tile-text belief-tile-text--emph"
+            >One Lord Jesus Christ—begotten not made—the way, the truth, and the life.</span
+          >
+        </div>
+        <div class="belief-tile belief-tile--muted">
+          <span class="belief-tile-kicker">Our hope</span>
+          <span class="belief-tile-text">For us and for our salvation he came down from heaven…</span>
+        </div>
+        <div class="belief-tile belief-tile--accent2">
+          <span class="belief-tile-kicker">Holy Spirit</span>
+          <span class="belief-tile-text"
+            >The Lord, the giver of life—adored with the Father and the Son—with us still today.</span
+          >
+        </div>
+        <div class="belief-tile">
+          <span class="belief-tile-kicker">One church</span>
+          <span class="belief-tile-text">Holy, witnessing, commissioned—gathered locally, united globally.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="belief-toc" aria-label="On this page">
+    <div class="belief-toc-inner">
+      <a href="#belief-intro">Introduction</a>
+      <a href="#belief-seven">Seven affirmations</a>
+      {doctrineSections.map((d) => <a href={`#${d.id}`}>{d.toc}</a>)}
+      <a href="#ordinance-philosophy">Communion philosophy</a>
+    </div>
+  </nav>
+
+  <div id="belief-main" class="belief-main">
+    <section id="belief-intro" class="belief-panel belief-intro-dual">
+      <article class="belief-card belief-card--soft">
+        <div class="belief-card-icon" aria-hidden="true">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <h2 class="belief-h2">Statement of faith</h2>
+        <p class="belief-lede">
+          Seven succinct affirmations—grounded in the historic Christian faith as summarized in echoes of the Nicene
+          Creed. <strong>All members</strong> agree with this summary.
+        </p>
+      </article>
+      <article class="belief-card belief-card--strong">
+        <div class="belief-card-icon belief-card-icon--light" aria-hidden="true">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <h2 class="belief-h2 belief-h2--on-dark">Doctrinal statement</h2>
+        <p class="belief-lede belief-lede--on-dark">
+          Twelve teaching headings with Scripture references—which you can explore below—spell out CBC’s theological
+          position in detail. <strong>All teachers</strong> instruct in line with these convictions.
+        </p>
+      </article>
+    </section>
+
+    <p class="belief-pdf-banner">
+      <a class="belief-pdf-link" href={DOCTRINAL_STATEMENT_PDF} rel="noopener noreferrer" target="_blank">
+        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+        Download the official doctrinal statement (PDF)</a
+      >
+    </p>
+
+    <section id="belief-seven" class="belief-panel belief-affirm-strip" aria-labelledby="seven-heading">
+      <h2 id="seven-heading" class="belief-section-title">
+        Seven affirmations <span class="belief-section-muted">statement of faith</span>
+      </h2>
+      <div class="belief-affirm-grid">
+        {
+          statementAffirmations.map((row, index) => (
+            <article class="belief-affirm-card">
+              <span class="belief-affirm-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3 class="belief-affirm-title">{row.title}</h3>
+              <p class="belief-affirm-body">{row.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="belief-panel belief-doctrine-wrap" aria-labelledby="doctrine-heading">
+      <h2 id="doctrine-heading" class="belief-section-title">
+        Twelve-part teaching<span class="belief-section-muted"> — open any section</span>
+      </h2>
+      <p class="belief-scan-hint">
+        Each block matches our published doctrinal statement. Scripture references appear after the teaching paragraphs.
+      </p>
+      <div class="belief-details-stack">
+        {
+          doctrineSections.map((d) => (
+            <details id={d.id} class="belief-details">
+              <summary>
+                <span class="belief-details-label">{d.label}</span>
+                <span class="belief-details-title">{d.title}</span>
+              </summary>
+              <div class="belief-details-body">
+                <p>{d.teaching}</p>
+                <p class="belief-refs">
+                  <strong>References:</strong>{" "}
+                  {d.references}
+                </p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="ordinance-philosophy" class="belief-panel belief-ordinance" aria-labelledby="ord-heading">
+      <h2 id="ord-heading" class="belief-section-title">
+        Philosophy of communion <span class="belief-section-muted">ordinance practice at CBC</span>
+      </h2>
+      <p class="belief-scan-hint">
+        How we approach the Lord’s Supper—purpose, practice, and boundaries—stated as affirmations and denials.
+      </p>
+      {
+        ordinancePhilosophy.map((topic) =>
+          topic.closing && !topic.intro && (!topic.pairs || topic.pairs.length === 0) ? (
+            <aside class="belief-ord-sum" aria-labelledby={`${topic.id}-title`}>
+              <h3 id={`${topic.id}-title`} class="belief-ord-sum-title">
+                {topic.heading}
+              </h3>
+              <p class="belief-ord-closing">{topic.closing}</p>
+            </aside>
+          ) : (
+            <details class="belief-details belief-details--sub" id={topic.id}>
+              <summary>{topic.heading}</summary>
+              <div class="belief-details-body">
+                {topic.intro && <p class="belief-ord-intro">{topic.intro}</p>}
+                {topic.pairs?.map((pair) => (
+                  <div class="belief-ad-grid">
+                    <p class="belief-ad belief-ad--yes">
+                      <span class="belief-ad-tag">Affirm</span>
+                      {pair.affirm}
+                    </p>
+                    <p class="belief-ad belief-ad--no">
+                      <span class="belief-ad-tag">Deny</span>
+                      {pair.deny}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )
+        )
+      }
+    </section>
+
+    <p class="belief-source-note">
+      Content from <a href="https://cypressbible.org/whatwebelieve/">Cypress Bible Church — What We Believe</a>.
+    </p>
+  </div>
+</BaseLayout>

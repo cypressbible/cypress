@@ -25,11 +25,6 @@ function linkIsCurrent(href: string): boolean {
   if (!here || href.startsWith("http")) return false;
   return normPath(href) === here;
 }
-
-function dropdownHasCurrent(children: MenuChild[] | undefined): boolean {
-  if (!children?.length) return false;
-  return children.some((c) => linkIsCurrent(c.href));
-}
 ---
 
 <header class="top-nav">
@@ -49,11 +44,7 @@ function dropdownHasCurrent(children: MenuChild[] | undefined): boolean {
       menuItems.map((item) =>
         item.children && item.children.length > 0 ? (
           <div
-            class:list={[
-              "nav-item",
-              "nav-item--dropdown",
-              (linkIsCurrent(item.href) || dropdownHasCurrent(item.children)) && "is-active-branch"
-            ]}
+            class:list={["nav-item", "nav-item--dropdown"]}
           >
             <a class="nav-top-link" href={item.href}>
               {item.label}

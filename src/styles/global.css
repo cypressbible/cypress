@@ -84,14 +84,16 @@ a {
 }
 
 /* Invisible hit area so the pointer can move from the label to the menu
-   without leaving the dropdown parent (avoids hover gap flicker). */
+   without leaving the dropdown parent (avoids hover gap flicker).
+   Keep width limited to this nav column only — a wide centered strip would sit
+   under the next menu item and open the wrong dropdown. */
 .nav-item--dropdown::after {
   content: "";
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   top: 100%;
-  width: max(100%, 240px);
+  width: 100%;
   height: 18px;
   z-index: 119;
 }
@@ -129,6 +131,11 @@ a {
   pointer-events: auto;
 }
 
+.nav-item--dropdown:hover,
+.nav-item--dropdown:focus-within {
+  z-index: 125;
+}
+
 .nav-dropdown-link {
   display: block;
   padding: 11px 20px;
@@ -147,10 +154,10 @@ a {
 
 .nav-dropdown-link.is-current {
   color: #4a6f8f;
+  text-decoration: none;
 }
 
-.nav-top-link.is-current,
-.nav-item--dropdown.is-active-branch > .nav-top-link {
+.nav-top-link.is-current {
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
@@ -1678,6 +1685,697 @@ a {
   }
 
   .field--split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- What We Believe (/what-we-believe) ---- */
+
+.belief-skip {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  z-index: 200;
+}
+
+.belief-skip:focus {
+  left: 12px;
+  top: 12px;
+  padding: 12px 16px;
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 4px;
+}
+
+.belief-visual {
+  background:
+    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(74, 111, 143, 0.45), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(45, 106, 106, 0.35), transparent 50%),
+    linear-gradient(165deg, #050915 0%, #0b1530 45%, #0a1228 100%);
+  color: #e8eef6;
+  padding: clamp(32px, 6vw, 72px) 24px clamp(48px, 8vw, 88px);
+}
+
+.belief-visual-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.belief-visual-eyebrow {
+  margin: 0 0 clamp(14px, 2.5vw, 22px);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.belief-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 18px);
+}
+
+.belief-tile {
+  grid-column: span 4;
+  border-radius: 14px;
+  padding: clamp(18px, 3vw, 26px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.25);
+}
+
+.belief-tile--span {
+  grid-column: span 8;
+}
+
+.belief-tile--deep {
+  background:
+    linear-gradient(135deg, rgba(74, 111, 143, 0.35), rgba(5, 9, 21, 0.5)),
+    rgba(255, 255, 255, 0.03);
+}
+
+.belief-tile--accent {
+  grid-column: span 4;
+  background: rgba(74, 111, 143, 0.22);
+  border-color: rgba(148, 180, 204, 0.25);
+}
+
+.belief-tile--accent2 {
+  grid-column: span 4;
+  background: rgba(45, 106, 106, 0.2);
+  border-color: rgba(134, 199, 199, 0.22);
+}
+
+.belief-tile--muted {
+  grid-column: span 8;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.belief-tile-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.belief-tile-huge {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.75rem, 8vw, 4.85rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.belief-tile-sub {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 600;
+  opacity: 0.88;
+}
+
+.belief-tile-kicker {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #a8bcd0;
+}
+
+.belief-tile-text {
+  font-size: 0.94rem;
+  line-height: 1.58;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.belief-tile-text--emph {
+  font-weight: 600;
+  font-size: 1.06rem;
+}
+
+.belief-toc {
+  position: sticky;
+  top: var(--belief-toc-offset, 68px);
+  z-index: 90;
+  background: rgba(11, 18, 41, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.belief-toc-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.belief-toc-inner a {
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.belief-toc-inner a:hover,
+.belief-toc-inner a:focus-visible {
+  background: rgba(74, 111, 143, 0.35);
+  color: #f8fafc;
+}
+
+.belief-main {
+  padding: clamp(28px, 5vw, 52px) 24px clamp(72px, 12vw, 120px);
+  max-width: 1180px;
+  margin: 0 auto;
+  background: #0e1629;
+}
+
+.belief-main section[id],
+.belief-main details[id] {
+  scroll-margin-top: clamp(140px, 22vh, 200px);
+}
+
+.belief-panel {
+  margin-bottom: clamp(40px, 7vw, 72px);
+}
+
+.belief-intro-dual {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 3vw, 28px);
+}
+
+.belief-card {
+  padding: clamp(26px, 4vw, 36px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.belief-card--soft {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(15, 23, 42, 0.3));
+}
+
+.belief-card--strong {
+  background:
+    linear-gradient(145deg, rgba(74, 111, 143, 0.45), rgba(30, 41, 59, 0.95)),
+    #1e293b;
+  border-color: rgba(148, 180, 204, 0.2);
+}
+
+.belief-card-icon {
+  font-size: 1.85rem;
+  color: #4a6f8f;
+  margin-bottom: 12px;
+}
+
+.belief-card-icon--light {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.belief-h2 {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.belief-h2--on-dark {
+  color: #f8fafc;
+}
+
+.belief-lede {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.belief-lede--on-dark {
+  opacity: 0.95;
+}
+
+.belief-pdf-banner {
+  text-align: center;
+  margin: clamp(-10px, -1vw, 8px) 0 clamp(44px, 7vw, 72px);
+}
+
+.belief-pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: rgba(74, 111, 143, 0.2);
+  border: 1px solid rgba(74, 111, 143, 0.35);
+  color: #dfe7f5;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.belief-pdf-link:hover,
+.belief-pdf-link:focus-visible {
+  background: rgba(74, 111, 143, 0.42);
+}
+
+.belief-section-title {
+  margin: 0 0 clamp(12px, 2vw, 18px);
+  font-size: clamp(1.2rem, 2.8vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.belief-section-muted {
+  display: inline;
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: clamp(0.78rem, 1.9vw, 0.92rem);
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+  text-transform: none;
+}
+
+.belief-scan-hint {
+  margin: 0 0 clamp(22px, 4vw, 32px);
+  font-size: 0.94rem;
+  line-height: 1.58;
+  color: rgba(203, 213, 225, 0.88);
+}
+
+.belief-affirm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: clamp(16px, 2.5vw, 22px);
+}
+
+.belief-affirm-card {
+  position: relative;
+  padding: clamp(22px, 4vw, 28px);
+  padding-top: clamp(42px, 6vw, 52px);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.belief-affirm-index {
+  position: absolute;
+  left: clamp(22px, 4vw, 28px);
+  top: clamp(14px, 2.5vw, 20px);
+  font-size: clamp(2.75rem, 6vw, 3.85rem);
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(74, 111, 143, 0.22);
+  font-variant-numeric: tabular-nums;
+}
+
+.belief-affirm-title {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #e8eef6;
+}
+
+.belief-affirm-body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: rgba(203, 213, 225, 0.92);
+}
+
+.belief-details-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.belief-details {
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.belief-details summary {
+  list-style: none;
+  cursor: pointer;
+  padding: clamp(16px, 3vw, 22px);
+  padding-right: clamp(40px, 5vw, 48px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.belief-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.belief-details summary::after {
+  content: "+";
+  position: absolute;
+  right: clamp(14px, 3vw, 22px);
+  top: clamp(16px, 3vw, 22px);
+  opacity: 0.45;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.belief-details[open] summary::after {
+  content: "\2013";
+}
+
+.belief-details-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #7fafc9;
+}
+
+.belief-details-title {
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  font-weight: 700;
+}
+
+.belief-details-body {
+  padding: 0 clamp(18px, 3vw, 26px) clamp(20px, 3vw, 26px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.belief-details-body p {
+  margin: clamp(14px, 2vw, 18px) 0 0;
+  font-size: 0.95rem;
+  line-height: 1.68;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.belief-details-body p:first-child {
+  margin-top: clamp(14px, 2vw, 18px);
+}
+
+.belief-refs {
+  font-size: 0.88rem;
+  color: #a8bcc8;
+}
+
+.belief-refs strong {
+  color: #e2e8f0;
+}
+
+.belief-details--sub summary {
+  grid-template-columns: 1fr;
+}
+
+.belief-details--sub summary::after {
+  top: clamp(14px, 3vw, 20px);
+}
+
+.belief-ord-intro {
+  font-style: italic;
+}
+
+.belief-ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(14px, 3vw, 20px);
+  margin-top: clamp(16px, 3vw, 22px);
+}
+
+.belief-ad {
+  margin: 0;
+  padding: clamp(14px, 3vw, 18px);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.62;
+}
+
+.belief-ad--yes {
+  background: rgba(45, 106, 106, 0.15);
+  border: 1px solid rgba(99, 196, 169, 0.25);
+}
+
+.belief-ad--no {
+  background: rgba(180, 90, 90, 0.1);
+  border: 1px solid rgba(214, 120, 120, 0.22);
+}
+
+.belief-ad-tag {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+.belief-ord-sum {
+  margin-top: clamp(28px, 5vw, 40px);
+  padding: clamp(22px, 4vw, 30px);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.belief-ord-sum-title {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.belief-ord-closing {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.62;
+}
+
+.belief-source-note {
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.9);
+  text-align: center;
+  margin-top: clamp(48px, 10vw, 80px);
+}
+
+.belief-source-note a {
+  color: #a8bdc9;
+}
+
+@media (max-width: 900px) {
+  .belief-visual-grid .belief-tile,
+  .belief-visual-grid .belief-tile--accent,
+  .belief-visual-grid .belief-tile--accent2,
+  .belief-visual-grid .belief-tile--muted,
+  .belief-visual-grid .belief-tile--span {
+    grid-column: span 12;
+  }
+
+  .belief-details summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .belief-toc-inner {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .belief-toc-inner a {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---- Leadership & staff (/leadership) ---- */
+
+.staff-page {
+  flex: 1 0 auto;
+  width: 100%;
+  background: #f4f7fb;
+  color: #1e293b;
+}
+
+.staff-page-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 32px) clamp(72px, 11vw, 120px);
+}
+
+.staff-page-head {
+  padding-bottom: clamp(28px, 5vw, 40px);
+  margin-bottom: clamp(36px, 6vw, 52px);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.staff-page-title {
+  margin: 0 0 12px;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #0f172a;
+}
+
+.staff-page-sub {
+  margin: 0 0 clamp(24px, 4vw, 32px);
+  max-width: 52ch;
+  font-size: 0.975rem;
+  line-height: 1.62;
+  color: #475569;
+}
+
+.staff-contact-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(16px, 3vw, 24px);
+  margin: 0;
+}
+
+.staff-contact-block {
+  padding: 16px 18px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.staff-contact-block dt {
+  margin: 0 0 6px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.staff-contact-block dd {
+  margin: 0;
+}
+
+.staff-contact-block a {
+  color: #294a62;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.staff-contact-block a:hover {
+  color: #1e293b;
+}
+
+.staff-section {
+  margin-bottom: clamp(44px, 8vw, 64px);
+}
+
+.staff-heading {
+  margin: 0 0 clamp(18px, 3vw, 24px);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.staff-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 14px;
+}
+
+.staff-card {
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e8edf3;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.staff-name {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.staff-title {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.staff-email-line {
+  margin: 0;
+  font-size: 0.8225rem;
+  line-height: 1.5;
+}
+
+.staff-email-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-word;
+  color: #37608a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.staff-email-link:hover {
+  color: #294a62;
+}
+
+.staff-email-muted {
+  font-weight: 500;
+  opacity: 0.75;
+  margin-right: 6px;
+}
+
+.staff-email-link--fallback .staff-email-muted {
+  opacity: 0.65;
+  font-weight: 600;
+  font-size: 0.7225rem;
+  letter-spacing: 0.04em;
+}
+
+.staff-footnote {
+  margin: clamp(32px, 6vw, 48px) 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #64748b;
+  text-align: center;
+}
+
+.staff-footnote a {
+  color: #476985;
+}
+
+@media (max-width: 560px) {
+  .staff-grid {
     grid-template-columns: 1fr;
   }
 }
