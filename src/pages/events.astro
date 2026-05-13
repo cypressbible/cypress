@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { getCollection } from "astro:content";
 import { getUpcomingSerializedEvents } from "../lib/calendar";
-import { GOOGLE_CALENDAR_EMBED_SRC } from "../config/calendar-embed";
+import { CHURCH_CALENDAR_EMBED_SRC, CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
 import { formatEventRange, CHURCH_TZ } from "../lib/calendar-display";
 
 const pages = await getCollection("pages");
@@ -34,8 +34,8 @@ function excerpt(text: string | undefined, max = 220): string {
         <p class="events-hero-eyebrow">Plan ahead</p>
         <h1 class="events-hero-title">Upcoming Events</h1>
         <p class="events-hero-lede">
-          Times shown in Central Time (<span class="events-tz">{CHURCH_TZ}</span>). The embedded calendar below mirrors
-          the public Google Calendar view.
+          Times shown in Central Time (<span class="events-tz">{CHURCH_TZ}</span>). The embedded calendar below matches our
+          public Church Community Builder (CCB) calendar.
         </p>
       </div>
     </header>
@@ -45,11 +45,10 @@ function excerpt(text: string | undefined, max = 220): string {
         {
           eventsList.length === 0 ? (
             <div class="events-empty-panel">
-              <p class="events-empty-title">Calendar feed not connected yet</p>
+              <p class="events-empty-title">Calendar could not load this build</p>
               <p class="events-empty-body">
-                Set <code class="events-empty-code">CALENDAR_ICAL_URL</code> in your build environment to the calendar’s secret
-                iCal address (Calendar settings → Integrate calendar). The embedded Google Calendar below still lists
-                everything publicly.
+                The schedule is normally read from Cypress Bible&apos;s subscription calendar at build time. If this
+                message appears, confirm the ICS feed still responds—or set <code class="events-empty-code">CALENDAR_ICAL_URL</code> explicitly (use <code class="events-empty-code">https://…</code> or <code class="events-empty-code">webcal://…</code>).
               </p>
               <p class="events-empty-body">
                 <a href="#full-calendar">Jump to embedded calendar →</a>
@@ -100,18 +99,18 @@ function excerpt(text: string | undefined, max = 220): string {
 
     <section id="full-calendar" class="events-embed-band" aria-labelledby="embed-cal-heading">
       <div class="events-embed-inner">
-        <h2 id="embed-cal-heading" class="events-embed-heading">Full Google calendar</h2>
+        <h2 id="embed-cal-heading" class="events-embed-heading">Full church calendar</h2>
         <p class="events-embed-note">
-          Same calendar as{' '}
-          <a href="https://calendar.google.com/calendar/u/0/r?cid=c_15707e55fdffdd4c4dd98b1dd2cfcd423bf6c1d2825ec521fa72d39a27448773%40group.calendar.google.com"
-            target="_blank"
-            rel="noopener noreferrer">open in Google Calendar</a>.
+          Prefer the web app?{' '}
+          <a href={CHURCH_CALENDAR_WEB_URL} target="_blank" rel="noopener noreferrer">
+            Open the public calendar at CCB →
+          </a>
         </p>
         <div class="events-iframe-shell">
           <iframe
             class="events-iframe"
-            title="Google Calendar — Cypress Bible Church events"
-            src={GOOGLE_CALENDAR_EMBED_SRC}
+            title="Cypress Bible Church — public calendar"
+            src={CHURCH_CALENDAR_EMBED_SRC}
             loading="lazy"
           />
         </div>

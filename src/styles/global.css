@@ -48,6 +48,41 @@ a {
   text-decoration: none;
 }
 
+/* ESV Cross-Reference Tool — Crossway-provided verse hovers (`EsvCrossref.astro`) */
+a.esv-crossref-link {
+  color: #7eb8dc !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+a.esv-crossref-link:hover,
+a.esv-crossref-link:focus-visible {
+  color: #c5e4f9 !important;
+}
+
+.staff-page a.esv-crossref-link,
+.events-body-inner a.esv-crossref-link,
+.plan-pav--white a.esv-crossref-link,
+.plan-pav--beige a.esv-crossref-link,
+.plan-pav--paper a.esv-crossref-link {
+  color: var(--cbc-accent-slate) !important;
+}
+
+.staff-page a.esv-crossref-link:hover,
+.staff-page a.esv-crossref-link:focus-visible,
+.events-body-inner a.esv-crossref-link:hover,
+.events-body-inner a.esv-crossref-link:focus-visible,
+.plan-pav--white a.esv-crossref-link:hover,
+.plan-pav--beige a.esv-crossref-link:hover,
+.plan-pav--paper a.esv-crossref-link:hover,
+.plan-pav--white a.esv-crossref-link:focus-visible,
+.plan-pav--beige a.esv-crossref-link:focus-visible,
+.plan-pav--paper a.esv-crossref-link:focus-visible {
+  color: #1a365d !important;
+}
+
 .hero {
   min-height: 90vh;
   background: #050915;
@@ -1009,7 +1044,7 @@ a {
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* --- Plan a Visit (matches cypressbible.org/plan-a-visit layout; photos from same page) --- */
+/* --- Plan a Visit (layout ported from legacy plan-a-visit page; photos from same originals) --- */
 
 .plan-pav {
   width: 100%;
@@ -1792,223 +1827,103 @@ a {
   border-radius: 4px;
 }
 
-.belief-visual {
-  background:
-    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(74, 111, 143, 0.45), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(45, 106, 106, 0.35), transparent 50%),
-    linear-gradient(165deg, #050915 0%, #0b1530 45%, #0a1228 100%);
-  color: #e8eef6;
-  padding: clamp(32px, 6vw, 72px) 24px clamp(48px, 8vw, 88px);
-}
-
-.belief-visual-inner {
-  max-width: 1180px;
-  margin: 0 auto;
-}
-
-.belief-visual-eyebrow {
-  margin: 0 0 clamp(14px, 2.5vw, 22px);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  opacity: 0.65;
-}
-
-.belief-visual-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(12px, 2vw, 18px);
-}
-
-.belief-tile {
-  grid-column: span 4;
-  border-radius: 14px;
-  padding: clamp(18px, 3vw, 26px);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.25);
-}
-
-.belief-tile--span {
-  grid-column: span 8;
-}
-
-.belief-tile--deep {
-  background:
-    linear-gradient(135deg, rgba(74, 111, 143, 0.35), rgba(5, 9, 21, 0.5)),
-    rgba(255, 255, 255, 0.03);
-}
-
-.belief-tile--accent {
-  grid-column: span 4;
-  background: rgba(74, 111, 143, 0.22);
-  border-color: rgba(148, 180, 204, 0.25);
-}
-
-.belief-tile--accent2 {
-  grid-column: span 4;
-  background: rgba(45, 106, 106, 0.2);
-  border-color: rgba(134, 199, 199, 0.22);
-}
-
-.belief-tile--muted {
-  grid-column: span 8;
-  background: rgba(15, 23, 42, 0.45);
-}
-
-.belief-tile-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
-
-.belief-tile-huge {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.75rem, 8vw, 4.85rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-
-.belief-tile-sub {
-  font-size: clamp(1.35rem, 3vw, 2rem);
-  font-weight: 600;
-  opacity: 0.88;
-}
-
-.belief-tile-kicker {
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #a8bcd0;
-}
-
-.belief-tile-text {
-  font-size: 0.94rem;
-  line-height: 1.58;
-  color: rgba(226, 232, 240, 0.9);
-}
-
-.belief-tile-text--emph {
-  font-weight: 600;
-  font-size: 1.06rem;
-}
-
-.belief-toc {
-  position: sticky;
-  top: var(--belief-toc-offset, 68px);
-  z-index: 90;
-  background: rgba(11, 18, 41, 0.92);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.belief-toc-inner {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 12px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-}
-
-.belief-toc-inner a {
-  font-size: 0.71rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(226, 232, 240, 0.9);
-}
-
-.belief-toc-inner a:hover,
-.belief-toc-inner a:focus-visible {
-  background: rgba(74, 111, 143, 0.35);
-  color: #f8fafc;
-}
-
-.belief-main {
+.belief-shell {
   padding: clamp(28px, 5vw, 52px) 24px clamp(72px, 12vw, 120px);
-  max-width: 1180px;
+  max-width: 860px;
   margin: 0 auto;
   background: #0e1629;
 }
 
-.belief-main section[id],
-.belief-main details[id] {
-  scroll-margin-top: clamp(140px, 22vh, 200px);
+.belief-shell section[id],
+.belief-shell details[id] {
+  scroll-margin-top: clamp(100px, 18vh, 160px);
 }
 
-.belief-panel {
-  margin-bottom: clamp(40px, 7vw, 72px);
+.belief-page-head {
+  text-align: center;
+  margin-bottom: clamp(20px, 4vw, 32px);
 }
 
-.belief-intro-dual {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(18px, 3vw, 28px);
-}
-
-.belief-card {
-  padding: clamp(26px, 4vw, 36px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.belief-card--soft {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(15, 23, 42, 0.3));
-}
-
-.belief-card--strong {
-  background:
-    linear-gradient(145deg, rgba(74, 111, 143, 0.45), rgba(30, 41, 59, 0.95)),
-    #1e293b;
-  border-color: rgba(148, 180, 204, 0.2);
-}
-
-.belief-card-icon {
-  font-size: 1.85rem;
-  color: #4a6f8f;
-  margin-bottom: 12px;
-}
-
-.belief-card-icon--light {
-  color: rgba(226, 232, 240, 0.9);
-}
-
-.belief-h2 {
-  margin: 0 0 12px;
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.belief-h2--on-dark {
+.belief-page-title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: #f8fafc;
 }
 
-.belief-lede {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.62;
-  color: rgba(226, 232, 240, 0.92);
+.belief-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: clamp(22px, 4vw, 32px);
 }
 
-.belief-lede--on-dark {
-  opacity: 0.95;
+.belief-tab {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.9);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.belief-tab:hover,
+.belief-tab:focus-visible {
+  outline: none;
+  background: rgba(74, 111, 143, 0.28);
+  border-color: rgba(148, 180, 204, 0.35);
+}
+
+.belief-tab--active {
+  background: linear-gradient(135deg, rgba(74, 111, 143, 0.55), rgba(45, 106, 106, 0.35));
+  border-color: rgba(148, 180, 204, 0.45);
+  color: #f8fafc;
+}
+
+.belief-compare-intro {
+  margin: 0 0 clamp(28px, 5vw, 40px);
+  font-size: 0.95rem;
+  line-height: 1.68;
+  color: rgba(203, 213, 225, 0.9);
+}
+
+.belief-pane {
+  margin-top: clamp(8px, 2vw, 16px);
+}
+
+.belief-panel-h2 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.belief-sof-intro {
+  margin: 0 0 clamp(22px, 4vw, 32px);
+  font-size: 0.9175rem;
+  line-height: 1.58;
+  color: rgba(203, 213, 225, 0.92);
+}
+
+.belief-doc-lede {
+  margin: 0 0 clamp(18px, 3vw, 26px);
+  font-size: 0.9425rem;
+  line-height: 1.65;
+  color: rgba(203, 213, 225, 0.9);
 }
 
 .belief-pdf-banner {
@@ -2061,46 +1976,81 @@ a {
   color: rgba(203, 213, 225, 0.88);
 }
 
-.belief-affirm-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
-  gap: clamp(16px, 2.5vw, 22px);
+.belief-pdf-banner--pane {
+  text-align: left;
+  margin: 0 0 clamp(18px, 3vw, 26px);
 }
 
-.belief-affirm-card {
-  position: relative;
-  padding: clamp(22px, 4vw, 28px);
-  padding-top: clamp(42px, 6vw, 52px);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.belief-acc-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.belief-affirm-index {
-  position: absolute;
-  left: clamp(22px, 4vw, 28px);
-  top: clamp(14px, 2.5vw, 20px);
-  font-size: clamp(2.75rem, 6vw, 3.85rem);
+.belief-video-row {
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: rgba(74, 111, 143, 0.12);
+  border: 1px solid rgba(74, 111, 143, 0.22);
+}
+
+.belief-video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8375rem;
+  font-weight: 700;
+  color: #a8dae8;
+  text-decoration: none;
+}
+
+.belief-video-link:hover,
+.belief-video-link:focus-visible {
+  color: #e8f8fc;
+  text-decoration: underline;
+  outline: none;
+}
+
+.belief-video-icon {
+  font-size: 1.15rem;
+  opacity: 0.92;
+}
+
+.belief-panel-section {
+  margin-top: clamp(48px, 8vw, 72px);
+  padding-top: clamp(28px, 5vw, 40px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.belief-scan-hint--tight {
+  margin-bottom: clamp(14px, 2.5vw, 22px);
+}
+
+.belief-details--sof summary {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(14px, 3vw, 22px);
+}
+
+.belief-sof-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.95rem;
   font-weight: 800;
-  line-height: 1;
-  color: rgba(74, 111, 143, 0.22);
   font-variant-numeric: tabular-nums;
 }
 
-.belief-affirm-title {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #e8eef6;
-}
-
-.belief-affirm-body {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.62;
-  color: rgba(203, 213, 225, 0.92);
+.belief-details-sof-heading {
+  font-size: clamp(0.978rem, 2.35vw, 1.1125rem);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .belief-details-stack {
@@ -2254,44 +2204,13 @@ a {
   line-height: 1.62;
 }
 
-.belief-source-note {
-  font-size: 0.82rem;
-  color: rgba(148, 163, 184, 0.9);
-  text-align: center;
-  margin-top: clamp(48px, 10vw, 80px);
-}
-
-.belief-source-note a {
-  color: #a8bdc9;
-}
 
 @media (max-width: 900px) {
-  .belief-visual-grid .belief-tile,
-  .belief-visual-grid .belief-tile--accent,
-  .belief-visual-grid .belief-tile--accent2,
-  .belief-visual-grid .belief-tile--muted,
-  .belief-visual-grid .belief-tile--span {
-    grid-column: span 12;
-  }
-
-  .belief-details summary {
+  .belief-details:not(.belief-details--sof) summary {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 640px) {
-  .belief-toc-inner {
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .belief-toc-inner a {
-    flex: 0 0 auto;
-  }
-}
 
 /* ---- Leadership & staff (/leadership) ---- */
 

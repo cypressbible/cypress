@@ -1,9 +1,13 @@
 /**
- * Pull church events from Google Calendar’s **secret iCal URL** at build time.
+ * Pull church events from CCB subscription ICS at build time (default), or override with `CALENDAR_ICAL_URL`.
  * @see DESIGN_SYSTEM.md (calendar section)
  */
 
 import ical from "node-ical";
+import {
+  CHURCH_CALENDAR_ICAL_IMPORT_URL,
+  normalizeCalendarIcsFetchUrl
+} from "../config/calendar-embed";
 
 export type SerialCalendarEvent = {
   uid: string;
@@ -16,13 +20,14 @@ export type SerialCalendarEvent = {
   location?: string;
 };
 
-function icalUrl(): string | undefined {
-  const raw =
-    typeof process !== "undefined" && process.env?.CALENDAR_ICAL_URL
-      ? String(process.env.CALENDAR_ICAL_URL)
+function icalFetchUrl(): string | undefined {
+  const env =
+    typeof process !== "undefined" && process.env?.CALENDAR_ICAL_URL != null
+      ? String(process.env.CALENDAR_ICAL_URL).trim()
       : "";
-  const v = raw.trim();
-  return v.length > 0 ? v : undefined;
+  const chosen = env.length > 0 ? env : CHURCH_CALENDAR_ICAL_IMPORT_URL;
+  const normalized = normalizeCalendarIcsFetchUrl(chosen);
+  return normalized.length > 0 ? normalized : undefined;
 }
 
 function startOf(ev: { start?: Date }): Date {
@@ -59,7 +64,7 @@ export function loadCalendarEvents(): Promise<SerialCalendarEvent[]> {
 }
 
 async function fetchAndParse(): Promise<SerialCalendarEvent[]> {
-  const url = icalUrl();
+  const url = icalFetchUrl();
   if (!url) return [];
 
   let text: string;
@@ -72,7 +77,7 @@ async function fetchAndParse(): Promise<SerialCalendarEvent[]> {
       }
     });
     if (!res.ok) {
-      console.warn(`[calendar] ICS HTTP ${res.status} for CALENDAR_ICAL_URL`);
+      console.warn(`[calendar] ICS HTTP ${res.status} from ${url.slice(0, 60)}…`);
       return [];
     }
     text = await res.text();

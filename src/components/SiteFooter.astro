@@ -29,10 +29,26 @@ const otherPages = [
 ];
 
 const social = [
-  { label: "Facebook", href: "#", icon: "fb" as const },
-  { label: "Instagram", href: "#", icon: "ig" as const },
-  { label: "YouTube", href: "#", icon: "yt" as const },
-  { label: "RSS", href: "#", icon: "rss" as const }
+  {
+    label: "Cypress Bible Church on Facebook",
+    href: "https://www.facebook.com/cypressbiblechurch",
+    icon: "fb" as const
+  },
+  {
+    label: "Cypress Bible Church on Instagram",
+    href: "https://www.instagram.com/cypressbiblechurch/",
+    icon: "ig" as const
+  },
+  {
+    label: "Cypress Bible Church on YouTube",
+    href: "https://www.youtube.com/cypressbiblechurch",
+    icon: "yt" as const
+  },
+  {
+    label: "Cypress Bible Church on Apple Podcasts",
+    href: "https://podcasts.apple.com/us/podcast/cypress-bible-church/id1385750567",
+    icon: "podcast" as const
+  }
 ];
 
 const mapEmbedSrc =
@@ -117,8 +133,8 @@ const mapEmbedSrc =
               <a
                 class="social-btn"
                 href={s.href}
-                target={s.href === "#" ? undefined : "_blank"}
-                rel={s.href === "#" ? undefined : "noopener noreferrer"}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={s.label}
               >
                 {s.icon === "fb" && (
@@ -145,11 +161,11 @@ const mapEmbedSrc =
                     />
                   </svg>
                 )}
-                {s.icon === "rss" && (
+                {s.icon === "podcast" && (
                   <svg viewBox="0 0 24 24" aria-hidden="true" class="social-svg">
                     <path
                       fill="currentColor"
-                      d="M4 4a16 16 0 0 1 16 16h-3A13 13 0 0 0 4 7V4zm0 6a10 10 0 0 1 10 10h-3a7 7 0 0 0-7-7V10zm2.5 8.25A2.25 2.25 0 1 1 4.25 20 2.25 2.25 0 0 1 6.5 18.25z"
+                      d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5zM12 18.75a6 6 0 0 0 6-6h-2.25a3.75 3.75 0 0 1-7.5 0H6a6 6 0 0 0 6 6zm-1.5 2.25v-1.5h3v1.5h-3z"
                     />
                   </svg>
                 )}
@@ -199,8 +215,9 @@ const mapEmbedSrc =
             ) : (
               <>
                 <p class="footer-cal-fallback-text">
-                  Add <code class="footer-cal-code">CALENDAR_ICAL_URL</code> during build for the next headline here—or
-                  browse the full calendar anytime.
+                  Add <code class="footer-cal-code">CALENDAR_ICAL_URL</code> during build to override—or check the ICS feed.
+                  Browse the embedded calendar anytime on{' '}
+                  <a href="/events">Events</a>.
                 </p>
                 <a class="footer-cal-more footer-cal-more--solo" href="/events">
                   View upcoming events →

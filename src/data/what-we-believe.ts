@@ -1,36 +1,65 @@
-/** Source: https://cypressbible.org/whatwebelieve/ */
+/** Doctrinal and belief-section content adapted for this site */
 
 export const DOCTRINAL_STATEMENT_PDF =
   "https://cdn.prod.website-files.com/616854f60407775532f2077a/66d8bc2eafd56237f9b4526a_Doctrinal%20Statement%20August%2022%2C%202024%5B16361%5D.pdf";
 
-export const statementAffirmations: { title: string; body: string }[] = [
+export const beliefComparisonIntro =
+  "Membership at Cypress Bible means embracing our statement of faith—seven core doctrines every member affirms together. Our doctrinal statement then unpacks theology across twelve headings in greater detail as the baseline for preaching and teaching. Both are anchored in Scripture; the statement stays portable for unity, while the doctrinal articulation addresses questions and distinctions as we shepherd the flock.";
+
+export const statementOfFaithIntro =
+  "The following CBC doctrines must be fully affirmed by all Cypress Bible Church members.";
+
+/** Optional `videoUrl`: YouTube/watch link shown above each accordion row when set */
+export type StatementOfFaithRow = {
+  id: string;
+  title: string;
+  body: string;
+  references: string;
+  videoUrl?: string;
+};
+
+export const statementOfFaithRows: StatementOfFaithRow[] = [
   {
-    title: "One God the Father Almighty",
-    body: "Maker of heaven and earth, of all things visible and invisible—we worship the one living God revealed in Scripture."
+    id: "sof-scriptures",
+    title: "The Scriptures",
+    body: "We believe the Bible is the inspired, inerrant Word of God, sufficient and authoritative for all matters of faith, life, and godliness.",
+    references: "Psalm 19:7–9; 2 Timothy 3:16–17."
   },
   {
-    title: "One Lord Jesus Christ",
-    body: "The only-begotten Son: God from God, true God from true God, become man by the Spirit and the virgin Mary—for us crucified, raised, ascended; he will come again in glory."
+    id: "sof-god",
+    title: "The Person of God",
+    body: "We believe there is one God, eternally existing in three distinct persons—the Father, Son, and Holy Spirit. We believe Jesus Christ is fully man and fully God.",
+    references: "John 1:1–18; 2 Corinthians 13:14; Colossians 1:15–23."
   },
   {
-    title: "For us and for our salvation",
-    body: "Christ’s person and work are the center of God’s rescue plan; we rest entirely on his finished work, not our own."
+    id: "sof-man",
+    title: "The Nature of Man",
+    body: "We believe all men are sinners, falling short of the glory of God, and are in need of salvation from sin and its consequences.",
+    references: "Genesis 1–3; Romans 3:10–12."
   },
   {
-    title: "The Holy Spirit",
-    body: "The Lord and giver of life, proceeding from the Father and the Son, adored with them—who has spoken through the prophets and still speaks in the church today."
+    id: "sof-salvation",
+    title: "Salvation",
+    body: "We believe that salvation is by grace alone, through faith alone, in Jesus Christ alone, apart from works. Christ died in our place and bore our sins in His own body. Jesus physically rose again, demonstrating His victory over sin and death.",
+    references: "John 1:12, 14:6; Romans 5:8–9, 14:9; Ephesians 1:7, 2:8–10; 1 Peter 1:18–19."
   },
   {
-    title: "One holy Church",
-    body: "We affirm the one body of Christ, visible in local churches where the Word is preached, the sacraments observed, and discipline practiced."
+    id: "sof-sanctification",
+    title: "Sanctification",
+    body: "We believe every believer is indwelt by the Holy Spirit and is able and expected to walk in the newness of the Spirit by obeying God and growing in Christ-likeness.",
+    references: "1 Thessalonians 5:22–23; 1 John 3:1–2."
   },
   {
-    title: "One baptism for the forgiveness of sins",
-    body: "We confess the sign and seal of union with Christ in his death and resurrection, received in faithful obedience after conversion."
+    id: "sof-church",
+    title: "The Church",
+    body: "We believe in one universal church made up of many local churches whereby all true believers are united through faith in Christ according to the truth of God's Word.",
+    references: "Acts 1:8, 11:19–30; Ephesians 1:22–23."
   },
   {
-    title: "The resurrection and the life to come",
-    body: "We await the resurrection of the dead and the life of the world to come. Amen."
+    id: "sof-future",
+    title: "The Future",
+    body: "We believe in the future resurrection of those who have died—the saved to eternal life, and the unsaved to eternal punishment. Jesus Christ will come again to the earth personally, visibly, and bodily to consummate the eternal plan of God.",
+    references: "Luke 21:25–28; John 5:25–29."
   }
 ];
 
@@ -41,6 +70,7 @@ export type DoctrineSection = {
   title: string;
   teaching: string;
   references: string;
+  videoUrl?: string;
 };
 
 export const doctrineSections: DoctrineSection[] = [

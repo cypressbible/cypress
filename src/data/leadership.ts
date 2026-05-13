@@ -1,4 +1,4 @@
-/** Roster synced with https://cypressbible.org/leadership/ — emails from that page markup where verified. */
+/** Leadership roster — emails synced from prior church roster where verified */
 
 export const churchContact = {
   addressLine: "11711 Cypress North Houston Rd, Cypress, TX 77429",

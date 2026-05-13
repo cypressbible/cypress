@@ -76,19 +76,24 @@ Spacing: favor **clamp()** bands already used elsewhere (`24px→48px` lateral p
 
 ## 6. Events & calendar (content integration)
 
-Public church calendar IDs live in **`src/config/calendar-embed.ts`** (iframe embed).
+The **authoritative URLs** live in **`src/config/calendar-embed.ts`**:
 
-**Listed events cards** (`/events`) and the **footer “Next up”** block rely on ICS at **build time**:
+- **ICS import:** `webcal://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics` (build normalizes `webcal` → **`https`**; default fetch uses **`?strip_html=true`** for cleaner text).
+- **Embed:** `/goto/embed/calendar/public`
+- **Web:** `/goto/events/public`
+
+**Listed events cards** (`/events`) and the **footer “Next up”** block consume that ICS feed at **build time**. If **`CALENDAR_ICAL_URL`** is **unset**, Astro uses **`CHURCH_CALENDAR_ICAL_IMPORT_URL`** from config (CCB subscription feed).
 
 ```bash
-# Cloudflare Pages or local .env — secret iCal address (Calendar settings → Integrate calendar → Secret address in iCal format)
-CALENDAR_ICAL_URL=https://calendar.google.com/calendar/ical/…/basic.ics
+# Optional — override ICS source (HTTPS or webcal URL)
+CALENDAR_ICAL_URL=webcal://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics
+
+# Alternatively:
+# CALENDAR_ICAL_URL=https://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics?strip_html=true
 ```
 
-- If **`CALENDAR_ICAL_URL`** is unset or invalid, `/events` shows an empty-state panel and footer shows a generic CTA—but the **embedded Google Calendar** iframe still renders (public embed).
-- The church must enable iCal sharing for that URL to work.
-
-Regenerate deployments after changing **`CALENDAR_ICAL_URL`** (static build parses once).
+- If fetching fails during build or the feed is empty, cards may omit items while the embedded CCB iframe on `/events` can still render.
+- Regenerate deployments after changing **`CALENDAR_ICAL_URL`** (static HTML is generated once per build).
 
 ---
 
