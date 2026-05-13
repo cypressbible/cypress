@@ -83,6 +83,19 @@ a {
   gap: 6px;
 }
 
+/* Invisible hit area so the pointer can move from the label to the menu
+   without leaving the dropdown parent (avoids hover gap flicker). */
+.nav-item--dropdown::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  width: max(100%, 240px);
+  height: 18px;
+  z-index: 119;
+}
+
 .nav-chevron {
   font-size: 0.55rem;
   opacity: 0.85;
@@ -91,7 +104,7 @@ a {
 
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 18px);
   left: 50%;
   transform: translateX(-50%);
   min-width: 240px;

@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "build:cms": "tinacms build",
     "build:tina": "tinacms build --skip-cloud-checks && astro build",
-    "build:tina:strict": "tinacms build && astro build"
+    "build:tina:strict": "tinacms build && astro build",
+    "tina:sync-lock": "tinacms dev --datalayer-port 9019 --noWatch --no-server --noTelemetry"
   },
   "repository": {
     "type": "git",
