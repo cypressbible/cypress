@@ -1,0 +1,186 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+/** Same videos as https://cypressbible.org/ourmission/ (Elementor YouTube widgets). */
+const VIDEO_5MIN_ID = "Y44Yyh1ZbiE";
+const VIDEO_FULL_ID = "ZUzbtjSR00A";
+const embed = (id: string) =>
+  `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1`;
+---
+
+<BaseLayout
+  title="Mission Statement | Cypress Bible Church"
+  description="Cypress Bible Church exists to glorify God by pointing the affections of all peoples to the all-satisfying person of Jesus Christ."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <a class="mission-skip" href="#mission-main">Skip to mission content</a>
+
+  <section id="top" class="mission-hero" aria-label="Mission headline">
+    <div class="mission-hero-inner">
+      <p class="mission-hero-line mission-hero-line--sm">We exist to glorify God</p>
+      <p class="mission-hero-jesus">Jesus</p>
+      <p class="mission-hero-line mission-hero-line--mid">
+        By pointing the affections of all peoples to the all-satisfying person of
+      </p>
+      <p class="mission-hero-christ">Christ</p>
+    </div>
+  </section>
+
+  <nav class="mission-toc" aria-label="On this page">
+    <div class="mission-toc-inner">
+      <a href="#top">Top</a>
+      <a href="#video-short">5-minute video</a>
+      <a href="#compass">North star</a>
+      <a href="#glorify">Glorify God</a>
+      <a href="#affections">Affections</a>
+      <a href="#peoples">All peoples</a>
+      <a href="#christ">All-satisfying Christ</a>
+      <a href="#video-full">Full message</a>
+    </div>
+  </nav>
+
+  <div id="mission-main" class="mission-main">
+    <section id="video-short" class="mission-panel mission-panel--video">
+      <h2 class="mission-h2">Watch a 5-minute video explaining the mission of CBC</h2>
+      <div class="mission-embed">
+        <iframe
+          title="Five-minute mission video"
+          src={embed(VIDEO_5MIN_ID)}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <p class="mission-video-alt">
+        <a href={`https://youtu.be/${VIDEO_5MIN_ID}`} rel="noopener noreferrer" target="_blank"
+          >Open this video on YouTube</a
+        >
+      </p>
+    </section>
+
+    <section id="compass" class="mission-panel mission-panel--intro">
+      <p class="mission-lede">
+        A <strong>mission statement</strong> functions like a north star. It is the compass by which CBC checks her
+        course. And in the very same way that the direction north does not originate from the traveler so the
+        direction of God&apos;s church does not originate from the minds of men. God himself, through his Word, calls
+        his church to a very specific purpose.
+      </p>
+      <p class="mission-hint">
+        The longer sections below stay collapsed so this page is easier to scan. Every word is here—open any section, or
+        use the strip of links above to jump.
+      </p>
+    </section>
+
+    <section class="mission-panel mission-panel--details" aria-label="Mission teaching in sections">
+      <details id="glorify" class="mission-details">
+        <summary>We exist to glorify God…</summary>
+        <div class="mission-details-body">
+          <p>
+            If forced to distill the purpose of man&apos;s existence into a single sentence, it would be difficult to
+            improve upon the wording found in the Westminster Shorter Catechism: What is the chief end of man? Answer:
+            To glorify God and enjoy him forever. This is certainly in line with what the Scriptures teach. God speaks
+            of his sons and daughters from the ends of the earth as those &quot;whom I created for my glory&quot; (Isa.
+            43:7; cf. Eph. 1:11–12). This pours very specific meaning into the command &quot;do all to the glory of
+            God&quot; (1 Cor. 10:31). The very purpose of our existence, whether we are eating or drinking or playing or
+            working, is to bring God glory. This eternal, universal purpose of man can be further segmented by asking
+            this question, &quot;What is the purpose of man&apos;s existence on earth.&quot; By adding the phrase
+            &quot;on earth&quot; the focus shifts to our primary purpose in this life (as opposed to our primary purpose
+            in eternity).
+          </p>
+        </div>
+      </details>
+
+      <details id="affections" class="mission-details">
+        <summary>By pointing the affections…</summary>
+        <div class="mission-details-body">
+          <p>
+            Our purpose in this life is to undo the effects of the fall on our affections to make Jesus the most
+            desirable thing in the universe (Mt. 13:44 Mt. 10:39). God designed men and women with desires. We don&apos;t
+            want to be indifferent, unaffected spectators. We either like or dislike; we are pleased or displeased; we
+            approve or reject. These inclinations and the subsequent emotions associated with the pursuit of what we
+            desire are known as our affections. The goal of all our living should be to have the affections of all men
+            and women wrapped up in Jesus Christ. This is true for both believers and unbelievers. As the affections of
+            believers are untangled from self and the world, they begin to hate sin and pursue righteousness with
+            heart-motivated zeal (sanctification). Unbelievers do not desire Christ in the least, and yet, Christ is the
+            cure to their terminal sickness. As their affections turn to Christ and they begin to love him, they
+            surrender to the only one who can save them from their sin (justification). So by pointing the affections of
+            all believers to Christ and by pointing the affections of unbelievers to Christ, we are bringing glory to
+            God. Those whose affections are given to God love God and those who love God are recipients of his blessing
+            (James 2:5; 1 Peter 1:8; 1 Cor. 2:9; John 14:23).
+          </p>
+        </div>
+      </details>
+
+      <details id="peoples" class="mission-details">
+        <summary>Of all peoples…</summary>
+        <div class="mission-details-body">
+          <p>
+            These three words capture God&apos;s heart for the world. They help us see the scope of his redemptive
+            plan. The term &quot;peoples&quot; might sound strange in our ear but it has been used by many to avoid what
+            is meant by the English word &quot;nations.&quot; The word nation in English is a reference to geo-political
+            groupings of people. But, the Greek word <em>ethnos</em> and the Hebrew word <em>gôy</em> have a very
+            different, and much more specific meaning. We get the English word ethnic from <em>ethnos</em>. Ethnic groups
+            are defined by language, culture, and geographical location (not political boundaries). So when the term
+            nation is used in the Bible it means different ethnic groups. This becomes very significant as we view the
+            command of the great commission to &quot;Go therefore and make disciples of all nations, baptizing them in
+            the name of the Father and of the Son and of the Holy Spirit.&quot; God&apos;s global purpose then, is to
+            glorify himself among all the ethnic groups of the world. History culminates with a global representation of
+            people who worship God (whose affections are given to Jesus Christ). God clarifies that Christ&apos;s blood,
+            &quot;ransomed people for God from every tribe and language and people and nation&quot; (Rev. 5:9; cf. Rev.
+            7:9; Rev. 14:6).
+          </p>
+        </div>
+      </details>
+
+      <details id="christ" class="mission-details">
+        <summary>To the all-satisfying person of Jesus Christ.</summary>
+        <div class="mission-details-body">
+          <p>
+            God gets glory when the affections of all peoples find their satisfaction in Christ and in nothing else.
+            The heart, filled to brimming with the presence of God, is like a person who has been well banqueted, and who
+            can therefore look calmly on the passionate heat of starving men and women who fight with each other over
+            garbage scraps. The world has much to offer, but nothing in comparison to what Christ offers in himself. God
+            created us with needs, and he designed every one of those needs to be filled by him. David knew that
+            &quot;in your presence, there is fullness of joy; at your right hand are pleasures forevermore&quot; (Ps.
+            16:11). But universally, people have sought to fill those needs with God-substitutes. Even Solomon tried to
+            do this and experienced failure (Ecc. 2:11; cf. Ecc. 1:14). This failure is designed by God to alert mankind
+            that they are seeking happiness in the wrong place. God has commissioned us to point searching people to the
+            true source, the all-satisfying source of satisfaction, Jesus Christ (Is. 55:2-3; Jer. 31:25; cf. Jer. 31:14;
+            John 10:10). He is the perfect satisfaction to every thirst of the soul (John 4:14; cf. John 6:35, 58).
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section id="video-full" class="mission-panel mission-panel--video mission-panel--video-last">
+      <h2 class="mission-h2">Watch the full message explaining our mission statement</h2>
+      <div class="mission-embed">
+        <iframe
+          title="Full sermon on the mission statement"
+          src={embed(VIDEO_FULL_ID)}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <p class="mission-video-alt">
+        <a href={`https://www.youtube.com/watch?v=${VIDEO_FULL_ID}`} rel="noopener noreferrer" target="_blank"
+          >Open this video on YouTube</a
+        >
+      </p>
+    </section>
+
+    <p class="mission-source-note">
+      Content adapted from the church&apos;s <a href="https://cypressbible.org/ourmission/">mission statement page</a
+      >.
+    </p>
+  </div>
+</BaseLayout>
