@@ -1,0 +1,4 @@
+old_url,content_type,template_used,priority,keep_same_slug,new_url,owner,status
+https://example.com/,page,home,high,yes,https://example.com/,content-team,todo
+https://example.com/about,page,default,medium,yes,https://example.com/about,content-team,todo
+https://example.com/blog/post-slug,post,single-post,high,yes,https://example.com/blog/post-slug,editorial,todo

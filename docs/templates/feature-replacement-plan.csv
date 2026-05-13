@@ -1,0 +1,5 @@
+wp_feature,plugin_or_source,required_in_static,replacement,owner,status,notes
+Contact form,Elementor Form,yes,Formspree,marketing,todo,Map all form fields and notifications
+Site search,WordPress native,yes,Pagefind,engineering,todo,Index during build
+Related posts,custom widget,optional,manual links or remove,editorial,todo,Decide by template
+Popups,Elementor popup,optional,lightweight JS modal,marketing,todo,Audit triggers first

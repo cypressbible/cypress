@@ -1,0 +1,29 @@
+{
+  "name": "newcypress",
+  "version": "1.0.0",
+  "description": "Static Cypress Bible site built with Astro",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cypressbible/cypress.git"
+  },
+  "keywords": [
+    "astro",
+    "cloudflare-pages",
+    "static-site"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cypressbible/cypress/issues"
+  },
+  "homepage": "https://github.com/cypressbible/cypress#readme",
+  "dependencies": {
+    "astro": "^6.3.1"
+  }
+}
