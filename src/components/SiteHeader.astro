@@ -65,9 +65,6 @@ function dropdownHasCurrent(children: MenuChild[] | undefined): boolean {
                   role="menuitem"
                   class:list={["nav-dropdown-link", linkIsCurrent(child.href) && "is-current"]}
                   href={child.href}
-                  {...(child.href.startsWith("http")
-                    ? { rel: "noopener noreferrer", target: "_blank" }
-                    : {})}
                   aria-current={linkIsCurrent(child.href) ? "page" : undefined}
                 >
                   {child.label}

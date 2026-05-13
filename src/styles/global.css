@@ -489,7 +489,7 @@ a {
 }
 
 .pillar-circle :global(.pillar-fa) {
-  font-size: clamp(3.35rem, 7vw, 4.35rem);
+  font-size: clamp(4.1rem, 9vw, 5.5rem);
   line-height: 1;
 }
 

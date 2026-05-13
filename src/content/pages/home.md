@@ -108,11 +108,3 @@ discipleshipPillars:
     title: "SERVE ON TEAMS"
     body: "The body of Christ can never be healthy until every member is using their gifts. Our structure helps encourage this."
 ---
-
-### Homepage migration notes
-
-The first section now includes:
-
-- Main menu items based on the current site
-- A hero rotator with editable slides
-- Dot navigation and autoplay behavior

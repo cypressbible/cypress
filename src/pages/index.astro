@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import PillarIcon from "../components/PillarIcon.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import type { PillarIconKey } from "../components/PillarIcon.astro";
 
 const pages = await getCollection("pages");
@@ -12,7 +12,6 @@ if (!homePage) {
   throw new Error("Missing content entry: src/content/pages/home.md");
 }
 
-const { Content } = await render(homePage);
 const slides = homePage.data.heroSlides;
 const discipleshipPillars = homePage.data.discipleshipPillars;
 ---
@@ -137,16 +136,6 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
         }
       </div>
     </div>
-  </section>
-
-  <section class="migration-notes">
-    <article class="content">
-      <Content />
-    </article>
-    <p class="admin-note">
-      Open <a href="/admin/index.html">/admin/index.html</a> in local dev to edit
-      menu and slide content with Tina.
-    </p>
   </section>
 
   <script is:inline>
