@@ -1,14 +1,12 @@
 # Welcome video
 
-Place your homepage welcome video here as **`welcome.mp4`**.
+The homepage uses **`welcome.mp4`** (H.264 + AAC, 720p, web-optimized with `faststart`) checked into this folder so Cloudflare Pages can serve it.
 
-Your file in Downloads is named **`website-video.mp4`**. Copy it locally (do not commit if over GitHub’s 100MB limit):
+To replace it with a new master from Downloads:
 
 ```bash
-cp ~/Downloads/website-video.mp4 ./public/videos/welcome.mp4
+ffmpeg -y -i ~/Downloads/website-video.mp4 -vf "scale=-2:720" -c:v libx264 -crf 26 -preset fast \
+  -c:a aac -b:a 128k -movflags +faststart ./welcome.mp4
 ```
 
-For production, either:
-
-- Re-encode to under ~80MB and commit, or  
-- Host the file (R2, Cloudflare Stream, YouTube, etc.) and set **`welcomeVideoSrc`** in `src/content/pages/home.md` (or Tina) to that full URL.
+Or point `welcomeVideoSrc` in `src/content/pages/home.md` to any HTTPS URL.

@@ -204,6 +204,7 @@ a {
   overflow: hidden;
   background: #e2e8f0;
   aspect-ratio: 16 / 10;
+  isolation: isolate;
 }
 
 .welcome-video-el {
@@ -212,6 +213,17 @@ a {
   height: 100%;
   object-fit: cover;
   vertical-align: middle;
+  position: relative;
+  z-index: 0;
+}
+
+/* Video layer can sit above the play control in some browsers; keep taps on the button until playback starts */
+.welcome-video:not(.is-playing) .welcome-video-el {
+  pointer-events: none;
+}
+
+.welcome-video.is-playing .welcome-video-el {
+  pointer-events: auto;
 }
 
 .welcome-play {
@@ -228,6 +240,26 @@ a {
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.welcome-video-error {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #b91c1c;
+  background: #fef2f2;
+  border-radius: 4px;
+  display: none;
+}
+
+.welcome-video.has-error .welcome-video-error {
+  display: block;
+}
+
+.welcome-video.has-error .welcome-play {
+  display: none;
 }
 
 .welcome-play:hover {

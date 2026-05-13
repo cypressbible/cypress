@@ -4,5 +4,4 @@ dist/
 .DS_Store
 .tina/
 
-# Large welcome video (copy from Downloads; GitHub rejects files >100MB)
-public/videos/welcome.mp4
+# Legacy: large welcome source was ignored; `welcome.mp4` is now a compressed web file tracked in git.

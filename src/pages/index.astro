@@ -96,10 +96,15 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
           src={homePage.data.welcomeVideoSrc}
           playsinline
           preload="metadata"
-        ></video>
+        >
+        </video>
         <button type="button" class="welcome-play" aria-label="Play welcome video">
           <span class="welcome-play-icon" aria-hidden="true"></span>
         </button>
+        <p class="welcome-video-error" role="alert">
+          This video could not be loaded. Try refreshing the page, or use a current version of Chrome,
+          Safari, or Firefox.
+        </p>
       </div>
       <div class="welcome-copy">
         <p class="welcome-eyebrow">{homePage.data.welcomeEyebrow}</p>
@@ -193,15 +198,39 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
     const btn = wrap.querySelector(".welcome-play");
     if (!video || !btn || !(btn instanceof HTMLButtonElement)) return;
 
-    btn.addEventListener("click", () => {
+    video.addEventListener("error", () => {
+      wrap.classList.add("has-error");
+    });
+
+    btn.addEventListener("click", async () => {
+      wrap.classList.add("is-playing");
       video.setAttribute("controls", "");
-      void video.play();
-      btn.hidden = true;
+
+      const tryPlay = async (muted) => {
+        video.muted = muted;
+        await video.play();
+      };
+
+      try {
+        await tryPlay(false);
+        btn.hidden = true;
+      } catch {
+        try {
+          await tryPlay(true);
+          btn.hidden = true;
+        } catch {
+          wrap.classList.remove("is-playing");
+          video.removeAttribute("controls");
+          video.muted = false;
+        }
+      }
     });
 
     video.addEventListener("ended", () => {
       btn.hidden = false;
+      wrap.classList.remove("is-playing");
       video.removeAttribute("controls");
+      video.muted = false;
     });
   });
   </script>

@@ -37,13 +37,9 @@ npm run preview
 If you later connect Tina Cloud credentials (`TINA_CLIENT_ID`, `TINA_TOKEN`), you can
 run `npm run build:cms` to generate the production admin app.
 
-## Welcome video (`website-video.mp4`)
+## Welcome video
 
-The homepage expects `public/videos/welcome.mp4`. Copy from Downloads:
-
-`cp ~/Downloads/website-video.mp4 ./public/videos/welcome.mp4`
-
-That file is larger than GitHub’s 100MB limit, so it is **gitignored**; use a compressed file or a hosted URL in `welcomeVideoSrc` for production. See `public/videos/README.md`.
+The file `public/videos/welcome.mp4` is a **compressed H.264** copy (~10MB) deployed with the site. To swap it, replace that file or set `welcomeVideoSrc` in `src/content/pages/home.md` to a hosted URL. See `public/videos/README.md`.
 
 ## WordPress migration docs
 
