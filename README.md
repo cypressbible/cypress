@@ -20,13 +20,7 @@ Tina admin **production** (e.g. `https://cypress-bse.pages.dev/admin/index.html`
 2. In **Cloudflare Pages → your project → Settings → Environment variables** (for **Production** builds), add:
    - `NEXT_PUBLIC_TINA_CLIENT_ID` — your Tina client ID (must be present at **build** time).
    - `TINA_TOKEN` — your Tina read-only token (build time; treat as a secret).
-3. Change the **Build command** from `npm run build` to:
-
-   ```bash
-   npm run build:tina
-   ```
-
-   That runs `tinacms build` (generates `public/admin/`) then `astro build`.
+3. **Build command** on Pages can stay the default **`npm run build`** (it runs `tinacms build` then `astro build`). You can still use **`npm run build:tina`** explicitly if you prefer; it is the same pipeline.
 
 4. Commit **`tina/tina-lock.json`** after it is generated (run `npm run dev` or `npx tinacms dev` once locally so Tina creates it, then commit). TinaCloud needs this file in GitHub to index your schema.
 
@@ -34,27 +28,23 @@ Copy `.env.example` to `.env` for local `tinacms build` / testing (Tina only rea
 
 ## Build
 
+Full production build (Tina admin in `dist/admin/`; needs Tina env vars for `tinacms build`):
+
 ```bash
 npm run build
 npm run preview
 ```
 
-Site-only build (no `/admin` output):
+Site-only (Astro only, no `/admin`; no Tina credentials needed):
 
 ```bash
-npm run build
-```
-
-Full production build with Tina admin (needs Tina env vars):
-
-```bash
-npm run build:tina
+npm run build:astro
 ```
 
 ## Cloudflare Pages settings
 
 - Framework preset: `Astro` or `None`
-- Build command: `npm run build:tina` once Tina Cloud env vars are set (otherwise `npm run build` is fine without admin).
+- Build command: **`npm run build`** (includes Tina) once Tina Cloud env vars are set. Use **`npm run build:astro`** only if you intentionally deploy without `/admin`.
 - Build output directory: `dist`
 - Production branch: `main`
 
