@@ -1206,22 +1206,108 @@ a {
   color: #475569;
 }
 
-.plan-visit-touch {
+/* Get in touch + map (beige band) */
+.plan-pav--touch {
+  background: #d4cfc6;
+  color: #2c3e50;
+}
+
+.plan-pav-touch-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 40px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: start;
 }
 
-.plan-visit-touch-block h3 {
-  margin: 0 0 8px;
-  font-size: 0.95rem;
-  color: #334155;
+.plan-pav-touch-intro {
+  padding-right: clamp(0px, 3vw, 24px);
 }
 
-.plan-visit-touch-block p {
+.plan-pav-touch-eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.plan-pav-touch-title {
+  margin: 0 0 14px;
+  font-size: clamp(1.85rem, 4.5vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #2c3e50;
+}
+
+.plan-pav-touch-lede {
   margin: 0;
-  color: #475569;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.plan-pav-touch-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.plan-pav-touch-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.plan-pav-touch-icon {
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.plan-pav-touch-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.plan-pav-touch-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.plan-pav-touch-value:hover,
+.plan-pav-touch-value:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plan-pav-touch-map {
+  width: 100%;
+  margin: 0;
+  line-height: 0;
+  background: #c4bdb3;
+}
+
+.plan-pav-touch-map iframe {
+  width: 100%;
+  height: clamp(320px, 52vw, 520px);
+  border: 0;
+  display: block;
 }
 
 @media (max-width: 900px) {
@@ -1263,15 +1349,16 @@ a {
     grid-row: 3;
     max-height: 200px;
   }
-}
 
-@media (max-width: 720px) {
-  .plan-visit-touch {
+  .plan-pav-touch-grid {
     grid-template-columns: 1fr;
+    padding-bottom: 32px;
   }
-}
 
-@media (max-width: 900px) {
+  .plan-pav-touch-intro {
+    padding-right: 0;
+  }
+
   .newsletter-inner {
     grid-template-columns: 1fr;
   }

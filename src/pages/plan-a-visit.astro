@@ -13,6 +13,9 @@ if (!homePage) {
 const mapHref =
   "https://www.google.com/maps/place/11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429/@29.9507516,-95.6001355,17z";
 
+const mapEmbedSrc =
+  "https://www.google.com/maps?q=11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429&output=embed";
+
 const img = (name: string) => `/images/plan-a-visit/${name}`;
 ---
 
@@ -155,29 +158,54 @@ const img = (name: string) => `/images/plan-a-visit/${name}`;
         </p>
       </details>
     </div>
+  </article>
 
-    <h2>We are here to help</h2>
-    <h3>Get in touch</h3>
-    <p>Answering your questions is important to us!</p>
-    <div class="plan-visit-touch">
-      <div class="plan-visit-touch-block">
-        <h3>Email</h3>
-        <p>
-          <a href="mailto:info@cypressbible.org">info@cypressbible.org</a>
-        </p>
+  <section class="plan-pav plan-pav--touch" aria-labelledby="plan-touch-title">
+    <div class="plan-pav-touch-grid">
+      <div class="plan-pav-touch-intro">
+        <p class="plan-pav-touch-eyebrow">We are here to help</p>
+        <h2 id="plan-touch-title" class="plan-pav-touch-title">Get in touch</h2>
+        <p class="plan-pav-touch-lede">Answering your questions is important to us!</p>
       </div>
-      <div class="plan-visit-touch-block">
-        <h3>Phone</h3>
-        <p>
-          <a href="tel:+12814696063">(281) 469-6063</a>
-        </p>
-      </div>
-      <div class="plan-visit-touch-block">
-        <h3>Location</h3>
-        <p>
-          <a href={mapHref}>11711 Cypress North Houston Rd<br />Cypress, TX 77429</a>
-        </p>
+      <div class="plan-pav-touch-rows">
+        <div class="plan-pav-touch-row">
+          <span class="plan-pav-touch-icon" aria-hidden="true">
+            <i class="fa-regular fa-envelope"></i>
+          </span>
+          <div>
+            <div class="plan-pav-touch-label">Get in touch via email</div>
+            <a class="plan-pav-touch-value" href="mailto:info@cypressbible.org">info@cypressbible.org</a>
+          </div>
+        </div>
+        <div class="plan-pav-touch-row">
+          <span class="plan-pav-touch-icon" aria-hidden="true">
+            <i class="fa-solid fa-phone"></i>
+          </span>
+          <div>
+            <div class="plan-pav-touch-label">Reach us by phone</div>
+            <a class="plan-pav-touch-value" href="tel:+12814696063">(281) 469-6063</a>
+          </div>
+        </div>
+        <div class="plan-pav-touch-row">
+          <span class="plan-pav-touch-icon" aria-hidden="true">
+            <i class="fa-solid fa-location-dot"></i>
+          </span>
+          <div>
+            <div class="plan-pav-touch-label">Our church location</div>
+            <a class="plan-pav-touch-value" href={mapHref}>
+              11711 Cypress North Houston Rd, Cypress, TX 77429
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-  </article>
+    <div class="plan-pav-touch-map">
+      <iframe
+        title="Cypress Bible Church on Google Maps"
+        src={mapEmbedSrc}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </section>
 </BaseLayout>
