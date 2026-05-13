@@ -48,6 +48,22 @@ npm run build:astro
 - Build output directory: `dist`
 - Production branch: `main`
 
+## Tina Cloud: `Branch 'main' is not on TinaCloud` (Pages build fails)
+
+The Cloudflare log shows `tinacms build` stopping before `astro build`. That almost always means **Tina Cloud does not recognize this repo + branch + credentials combo**, not Astro.
+
+1. **Match the Client ID to the project in the error**  
+   The log links to a Tina project id (for example `…/projects/cb87ebbb-…/configuration`). In Cloudflare → **Environment variables** → **Production**, open `NEXT_PUBLIC_TINA_CLIENT_ID` and confirm it is the **same** project’s client id from [app.tina.io](https://app.tina.io) → that project → **Overview**. A typo or an old project’s id will produce this error even if `main` looks fine elsewhere.
+
+2. **Branches**  
+   In that same Tina project → **Configuration** → **Branches**, ensure **`main`** is listed and **indexed** (not stuck on “pending”). The GitHub repo attached there must be **`cypressbible/cypress`**.
+
+3. **Force the branch name in Cloudflare** (optional)  
+   Add a Production variable **`TINA_BRANCH`** = `main`. `tina/config.ts` reads it first, before `CF_PAGES_BRANCH`.
+
+4. **Refresh `tina/tina-lock.json`**  
+   After any change to `tina/config.ts`, run **`npm run build`** (or `npx tinacms build`) **locally** with `.env` containing `NEXT_PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`, then commit the updated `tina/tina-lock.json`. If the dev server is using port 9000, use for example: `npx tinacms build --datalayer-port 9010`. See [Tina Cloud troubleshooting](https://tina.io/docs/tinacloud/troubleshooting).
+
 ## TinaCMS content location
 
 - Homepage content: `src/content/pages/home.md`

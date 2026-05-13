@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+const mapHref =
+  "https://www.google.com/maps/place/11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429/@29.9507516,-95.6001355,17z";
+---
+
+<BaseLayout
+  title="Plan a Sunday Morning Visit | Cypress Bible Church"
+  description="Service times, directions, and what to expect when you visit Cypress Bible Church in Cypress, Texas."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <section class="plan-visit-hero" aria-label="Plan a visit">
+    <div class="plan-visit-hero-inner">
+      <p class="plan-visit-hero-kicker">Welcome to</p>
+      <h1 class="plan-visit-hero-title">Cypress Bible Church</h1>
+      <p class="plan-visit-hero-tag">
+        We exist to glorify God by pointing the affections of all peoples to the all-satisfying person of Jesus Christ
+      </p>
+      <div class="plan-visit-hero-actions">
+        <a class="plan-visit-btn" href="https://cypressbible.org/whatwebelieve/">What We Believe</a>
+        <a class="plan-visit-btn" href="https://cypressbible.org/messages/">Watch a Message</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="plan-visit-mission-band" aria-label="Mission">
+    <p>
+      We exist to glorify God by pointing the affections of all peoples to the all-satisfying person of{" "}
+      <span class="emph">Jesus Christ</span>
+    </p>
+  </section>
+
+  <article class="plan-visit-wrap">
+    <h2>Welcome to Cypress Bible Church</h2>
+    <p>
+      Join us on a Sunday morning. Whether you are exploring Christianity for the first time or looking for a church
+      home, we would love to meet you.
+    </p>
+
+    <h2>Join us for service</h2>
+    <h3>Sunday at 9:30 am &amp; 11:00 am</h3>
+    <ul class="plan-visit-service-meta">
+      <li>Deaf interpretation at 11 am</li>
+      <li>
+        <a href="https://cypressbible.org/livestream/">Livestream available</a> (11 am)
+      </li>
+    </ul>
+    <p>
+      <a href={mapHref}>11711 Cypress North Houston Rd, Cypress, TX 77429</a>
+    </p>
+
+    <div class="plan-visit-grid-2">
+      <div class="plan-visit-card">
+        <h3>Cypress Bible Church Kids: Birth – 5th grade</h3>
+        <p>
+          Please arrive around 15 minutes early to use our secure check-in process to drop your children off in their
+          classes before the service. Once the service is over, you will be able to pick your children up from their
+          classes by showing your child&apos;s unique check-in sticker.
+        </p>
+        <p>
+          <a href="https://cypressbible.org/childrens/">Learn more about Kids</a>
+        </p>
+      </div>
+      <div class="plan-visit-card">
+        <h3>Student ministries</h3>
+        <p>
+          Our Middle and High School Ministry meets on Sunday morning at 9:30 am in the gym. They also meet on Wednesday
+          evenings from 6 pm – 8:30 pm at the church in the gym.
+        </p>
+        <p>
+          <a href="https://cypressbible.org/students/">Check out Student Ministries</a>
+        </p>
+      </div>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <p>
+      Attending church for the first time can be an intimidating experience, especially if you don&apos;t know what to
+      expect. We hope you will find that the central feature at Cypress Bible Church is the person of Jesus Christ.
+    </p>
+
+    <div class="plan-visit-faq">
+      <details>
+        <summary>Do I need to be a Christian to attend?</summary>
+        <p>
+          Absolutely not! We welcome anyone who is interested in exploring the claims of Jesus. All people are broken
+          and in need of the healing of Christ, so we welcome anyone in any condition. We want everyone to come as they
+          are; we want nobody to leave as they came.
+        </p>
+      </details>
+      <details>
+        <summary>What is the worship style?</summary>
+        <p>
+          We sing mostly contemporary Christian songs that are both singable and lyrically accurate. We also incorporate
+          hymns that have been written for modern worship bands. Here&apos;s a{" "}
+          <a
+            href="https://open.spotify.com/playlist/1ynKxwQ5S8Ejh8Sg7FVzQ9"
+            rel="noopener noreferrer"
+            target="_blank">Spotify playlist</a
+          >{" "}
+          of some of the songs we sing.
+        </p>
+      </details>
+      <details>
+        <summary>How long are the services?</summary>
+        <p>
+          Services are typically 85 minutes long. Children&apos;s Ministry programming is available for both services.
+        </p>
+      </details>
+      <details>
+        <summary>Is the church accessible for people with disabilities?</summary>
+        <p>
+          Yes! We have wheelchair and handicap accessible restrooms as well as a thriving{" "}
+          <a href="https://cypressbible.org/specialneeds/">special needs ministry</a> at Cypress Bible Church.
+        </p>
+      </details>
+      <details>
+        <summary>Is Cypress Bible Church part of a denomination?</summary>
+        <p>Cypress Bible Church is a non-denominational church and is an elder-led church.</p>
+      </details>
+      <details>
+        <summary>What is the dress code?</summary>
+        <p>
+          Just come dressed in a way that is comfortable for you. You will find anything from shorts to suit coats; jeans
+          to dresses.
+        </p>
+      </details>
+      <details>
+        <summary>How often and who is allowed to take communion?</summary>
+        <p>
+          We hold communion on the 1st and 3rd Sundays of the month with bread or crackers (gluten free available) and
+          grape juice. All believers are welcome to partake, but we ask those to abstain who do not profess faith in
+          Jesus Christ or who knowingly have unrepentant hearts.
+        </p>
+      </details>
+    </div>
+
+    <h2>We are here to help</h2>
+    <h3>Get in touch</h3>
+    <p>Answering your questions is important to us!</p>
+    <div class="plan-visit-touch">
+      <div class="plan-visit-touch-block">
+        <h3>Email</h3>
+        <p>
+          <a href="mailto:info@cypressbible.org">info@cypressbible.org</a>
+        </p>
+      </div>
+      <div class="plan-visit-touch-block">
+        <h3>Phone</h3>
+        <p>
+          <a href="tel:+12814696063">(281) 469-6063</a>
+        </p>
+      </div>
+      <div class="plan-visit-touch-block">
+        <h3>Location</h3>
+        <p>
+          <a href={mapHref}>11711 Cypress North Houston Rd<br />Cypress, TX 77429</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

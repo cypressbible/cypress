@@ -1,0 +1,93 @@
+---
+type MenuChild = { label: string; href: string };
+
+type MenuItem = {
+  label: string;
+  href: string;
+  children?: MenuChild[];
+};
+
+interface Props {
+  menuItems: MenuItem[];
+  currentPath?: string;
+}
+
+const { menuItems, currentPath = "" } = Astro.props;
+
+const normPath = (p: string) => {
+  const s = p.replace(/\/$/, "");
+  return s === "" ? "/" : s;
+};
+
+const here = normPath(currentPath);
+
+function linkIsCurrent(href: string): boolean {
+  if (!here || href.startsWith("http")) return false;
+  return normPath(href) === here;
+}
+
+function dropdownHasCurrent(children: MenuChild[] | undefined): boolean {
+  if (!children?.length) return false;
+  return children.some((c) => linkIsCurrent(c.href));
+}
+---
+
+<header class="top-nav">
+  <a class="brand" href="/">
+    <img
+      class="brand-logo"
+      src="/images/logo-white.webp"
+      alt="Cypress Bible Church"
+      width="220"
+      height="56"
+      loading="eager"
+      decoding="async"
+    />
+  </a>
+  <nav class="main-menu" aria-label="Main navigation">
+    {
+      menuItems.map((item) =>
+        item.children && item.children.length > 0 ? (
+          <div
+            class:list={[
+              "nav-item",
+              "nav-item--dropdown",
+              (linkIsCurrent(item.href) || dropdownHasCurrent(item.children)) && "is-active-branch"
+            ]}
+          >
+            <a class="nav-top-link" href={item.href}>
+              {item.label}
+              <i class="fa-solid fa-chevron-down nav-chevron" aria-hidden="true"></i>
+            </a>
+            <div class="nav-dropdown" role="menu">
+              {item.children.map((child) => (
+                <a
+                  role="menuitem"
+                  class:list={["nav-dropdown-link", linkIsCurrent(child.href) && "is-current"]}
+                  href={child.href}
+                  {...(child.href.startsWith("http")
+                    ? { rel: "noopener noreferrer", target: "_blank" }
+                    : {})}
+                  aria-current={linkIsCurrent(child.href) ? "page" : undefined}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a
+            class:list={["nav-top-link", "nav-item", linkIsCurrent(item.href) && "is-current"]}
+            href={item.href}
+            aria-current={linkIsCurrent(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        )
+      )
+    }
+  </nav>
+  <button class="search-btn" type="button" aria-label="Search site">
+    <span aria-hidden="true">&#128269;</span>
+  </button>
+</header>

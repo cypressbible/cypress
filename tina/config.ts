@@ -1,11 +1,15 @@
 import { defineConfig } from "tinacms";
 
-/** Cloudflare Pages sets CF_PAGES_BRANCH; others use HEAD / Vercel refs. See https://tina.io/docs/tinacloud/overview */
+/**
+ * Branch Tina uses for cloud builds (must match a branch listed in Tina Cloud → Configuration).
+ * Override if CI branch env is wrong: set TINA_BRANCH in Cloudflare (e.g. `main`).
+ * @see https://tina.io/docs/tinacloud/overview
+ */
 const branch =
-  process.env.CF_PAGES_BRANCH ||
-  process.env.HEAD ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF ||
+  (process.env.TINA_BRANCH || "").trim() ||
+  (process.env.CF_PAGES_BRANCH || "").trim() ||
+  (process.env.VERCEL_GIT_COMMIT_REF || "").trim() ||
+  (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || "").trim() ||
   "main";
 
 /**
@@ -78,6 +82,26 @@ export default defineConfig({
                 name: "href",
                 label: "URL",
                 required: true
+              },
+              {
+                type: "object",
+                name: "children",
+                label: "Dropdown links (optional)",
+                list: true,
+                fields: [
+                  {
+                    type: "string",
+                    name: "label",
+                    label: "Label",
+                    required: true
+                  },
+                  {
+                    type: "string",
+                    name: "href",
+                    label: "URL (use /path or full https URL)",
+                    required: true
+                  }
+                ]
               }
             ]
           },

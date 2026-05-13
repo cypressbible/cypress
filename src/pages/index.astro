@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 import PillarIcon from "../components/PillarIcon.astro";
 import { getCollection, render } from "astro:content";
 import type { PillarIconKey } from "../components/PillarIcon.astro";
@@ -17,29 +18,7 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
-  <header class="top-nav">
-    <a class="brand" href="/">
-      <img
-        class="brand-logo"
-        src="/images/logo-white.webp"
-        alt="Cypress Bible Church"
-        width="220"
-        height="56"
-        loading="eager"
-        decoding="async"
-      />
-    </a>
-    <nav class="main-menu" aria-label="Main navigation">
-      {
-        homePage.data.menuItems.map((item) => (
-          <a href={item.href}>{item.label}</a>
-        ))
-      }
-    </nav>
-    <button class="search-btn" type="button" aria-label="Search site">
-      <span aria-hidden="true">&#128269;</span>
-    </button>
-  </header>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
 
   <section class="hero">
     <div class="rotator" data-rotator>

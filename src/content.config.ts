@@ -9,7 +9,15 @@ const pages = defineCollection({
     menuItems: z.array(
       z.object({
         label: z.string(),
-        href: z.string()
+        href: z.string(),
+        children: z
+          .array(
+            z.object({
+              label: z.string(),
+              href: z.string()
+            })
+          )
+          .optional()
       })
     ),
     heroSlides: z.array(
