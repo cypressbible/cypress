@@ -52,7 +52,18 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
           >
             <div class="overlay"></div>
             <div class="slide-content">
-              <h1>{slide.title}</h1>
+              <h1 class="slide-headline">
+                {slide.title.includes("|") ? (
+                  slide.title
+                    .split("|")
+                    .map((s) => s.trim())
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((line) => <span class="slide-headline-line">{line}</span>)
+                ) : (
+                  slide.title
+                )}
+              </h1>
               <p>{slide.subtitle}</p>
               {slide.serviceTimes && <p class="slide-service-times">{slide.serviceTimes}</p>}
               <a class="hero-cta" href={slide.ctaHref}>

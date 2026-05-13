@@ -17,7 +17,7 @@ menuItems:
   - label: "GIVE"
     href: "/give"
 heroSlides:
-  - title: "WE EXIST TO GLORIFY GOD"
+  - title: "WE EXIST TO|GLORIFY GOD"
     subtitle: "By pointing the affections of all peoples to the all-satisfying person of Jesus Christ."
     serviceTimes: "Sunday services · 9:30 am & 11:00 am"
     ctaText: "MISSION STATEMENT"

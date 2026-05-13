@@ -117,12 +117,20 @@ a {
   padding: 120px 74px 90px;
 }
 
-.slide-content h1 {
+.slide-content h1.slide-headline {
   margin: 0 0 20px;
   font-size: clamp(2.2rem, 6vw, 5rem);
-  line-height: 0.98;
+  line-height: 1.05;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+.slide-headline-line {
+  display: block;
+}
+
+.slide-headline-line:first-child {
+  margin-bottom: 0.04em;
 }
 
 .slide-content p {

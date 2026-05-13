@@ -75,6 +75,7 @@ export default defineConfig({
                 type: "string",
                 name: "title",
                 label: "Slide Title",
+                description: "Use a vertical bar | to force a line break (exactly two lines). Example: WE EXIST TO|GLORIFY GOD",
                 required: true
               },
               {
