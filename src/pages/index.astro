@@ -149,7 +149,9 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
                 <PillarIcon variant={pillar.iconKey as PillarIconKey} />
                 <span class="pillar-badge">{pillar.badge}</span>
               </div>
-              <h3 class="pillar-title">{pillar.title}</h3>
+              <div class="pillar-title-slot">
+                <h3 class="pillar-title">{pillar.title}</h3>
+              </div>
               <p class="pillar-body">{pillar.body}</p>
             </article>
           ))

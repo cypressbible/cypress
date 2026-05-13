@@ -374,22 +374,28 @@ a {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(20px, 3vw, 32px);
+  align-items: stretch;
 }
 
 .discipleship-pillar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   text-align: left;
+  min-height: 100%;
 }
 
 .pillar-circle {
-  width: 132px;
-  height: 132px;
+  width: 152px;
+  height: 152px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 22px;
+  flex-shrink: 0;
   color: #fff;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
@@ -399,7 +405,7 @@ a {
 }
 
 .pillar-circle :global(.pillar-fa) {
-  font-size: 2rem;
+  font-size: 2.85rem;
   line-height: 1;
 }
 
@@ -414,12 +420,23 @@ a {
   max-width: 110px;
 }
 
-.pillar-title {
-  margin: 0 0 14px;
+.pillar-title-slot {
   font-size: 0.82rem;
+  line-height: 1.35;
+  min-height: calc(2 * 1em * 1.35);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.pillar-title {
+  margin: 0;
+  font-size: inherit;
   font-weight: 800;
   letter-spacing: 0.08em;
-  line-height: 1.35;
+  line-height: inherit;
   text-transform: uppercase;
   color: #f8fafc;
 }
@@ -429,6 +446,7 @@ a {
   font-size: 0.88rem;
   line-height: 1.6;
   color: rgba(226, 232, 240, 0.9);
+  flex-grow: 1;
 }
 
 @media (max-width: 900px) {
