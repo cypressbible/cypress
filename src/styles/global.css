@@ -344,9 +344,9 @@ a {
   color: #0f172a;
 }
 
-.pillar-circle :global(.pillar-icon-svg) {
-  width: 52px;
-  height: 52px;
+.pillar-circle :global(.pillar-fa) {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .pillar-badge {
