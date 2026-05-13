@@ -1,5 +1,14 @@
 ---
+import type { SerialCalendarEvent } from "../lib/calendar";
+import { formatEventFooter } from "../lib/calendar-display";
+
 const year = new Date().getFullYear();
+
+interface Props {
+  nextEvent?: SerialCalendarEvent;
+}
+
+const { nextEvent } = Astro.props as Props;
 
 const bulletinHref = "/bulletin";
 const privacyHref = "/privacy";
@@ -7,7 +16,7 @@ const privacyHref = "/privacy";
 const quickLinks = [
   { label: "Prayer Request", href: "/prayer-request" },
   { label: "Campus Map", href: "/campus-map" },
-  { label: "Our Staff", href: "/staff" },
+  { label: "Our Staff", href: "/leadership" },
   { label: "Our History", href: "/history" },
   { label: "The Hub", href: "/hub" }
 ];
@@ -173,8 +182,33 @@ const mapEmbedSrc =
       </div>
 
       <div class="footer-col">
-        <h3 class="footer-heading">Church calendar</h3>
-        <p class="footer-calendar-note">Calendar embed or link can go here.</p>
+        <h3 class="footer-heading">Events</h3>
+        <div class="footer-calendar-panel">
+          {
+            nextEvent ? (
+              <>
+                <p class="footer-cal-kicker">Next up</p>
+                <time class="footer-cal-datetime" datetime={nextEvent.start}>
+                  {formatEventFooter(nextEvent)}
+                </time>
+                <p class="footer-cal-title">{nextEvent.title}</p>
+                <a class="footer-cal-more" href="/events">
+                  All events →
+                </a>
+              </>
+            ) : (
+              <>
+                <p class="footer-cal-fallback-text">
+                  Add <code class="footer-cal-code">CALENDAR_ICAL_URL</code> during build for the next headline here—or
+                  browse the full calendar anytime.
+                </p>
+                <a class="footer-cal-more footer-cal-more--solo" href="/events">
+                  View upcoming events →
+                </a>
+              </>
+            )
+          }
+        </div>
       </div>
     </div>
   </div>

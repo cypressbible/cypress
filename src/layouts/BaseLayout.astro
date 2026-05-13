@@ -1,6 +1,7 @@
 ---
 import SiteFooter from "../components/SiteFooter.astro";
 import "../styles/global.css";
+import { getNextSerializedEvent } from "../lib/calendar";
 
 interface Props {
   title?: string;
@@ -11,6 +12,8 @@ const {
   title = "Cypress Bible",
   description = "Cypress Bible static site"
 } = Astro.props as Props;
+
+const nextCalendarEvent = await getNextSerializedEvent();
 ---
 
 <!doctype html>
@@ -31,6 +34,6 @@ const {
     <main>
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter nextEvent={nextCalendarEvent} />
   </body>
 </html>
