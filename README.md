@@ -20,7 +20,7 @@ Tina admin **production** (e.g. `https://cypress-bse.pages.dev/admin/index.html`
 2. In **Cloudflare Pages → your project → Settings → Environment variables** (for **Production** builds), add:
    - `NEXT_PUBLIC_TINA_CLIENT_ID` — your Tina client ID (must be present at **build** time).
    - `TINA_TOKEN` — your Tina read-only token (build time; treat as a secret).
-3. **Build command** on Pages can stay the default **`npm run build`** (it runs `tinacms build` then `astro build`). You can still use **`npm run build:tina`** explicitly if you prefer; it is the same pipeline.
+3. **Build command** on Pages can stay the default **`npm run build`** (runs `tinacms build --skip-cloud-checks` then `astro build` so deploys are not blocked by Tina’s branch-index HTTP check). Use **`npm run build:tina:strict`** in CI only when Tina Cloud shows your branch as fully indexed and you want full pre-build validation.
 
 4. Commit **`tina/tina-lock.json`** after it is generated (run `npm run dev` or `npx tinacms dev` once locally so Tina creates it, then commit). TinaCloud needs this file in GitHub to index your schema.
 
@@ -63,6 +63,9 @@ The Cloudflare log shows `tinacms build` stopping before `astro build`. That alm
 
 4. **Refresh `tina/tina-lock.json`**  
    After any change to `tina/config.ts`, run **`npm run build`** (or `npx tinacms build`) **locally** with `.env` containing `NEXT_PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`, then commit the updated `tina/tina-lock.json`. If the dev server is using port 9000, use for example: `npx tinacms build --datalayer-port 9010`. See [Tina Cloud troubleshooting](https://tina.io/docs/tinacloud/troubleshooting).
+
+5. **Branch check still fails on Pages**  
+   Default **`npm run build`** / **`npm run build:tina`** runs `tinacms build --skip-cloud-checks` so Cloudflare can finish even when Tina shows `Branch 'main' is not on TinaCloud` (that flag skips Tina’s pre-build indexing/schema HTTP checks; the static site still builds from Git files, and `/admin` is still generated). After Tina lists `main` as indexed, you can optionally switch CI to **`npm run build:tina:strict`** for full cloud validation.
 
 ## TinaCMS content location
 
