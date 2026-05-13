@@ -1,11 +1,27 @@
 import { defineConfig } from "tinacms";
 
-const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
+/** Cloudflare Pages sets CF_PAGES_BRANCH; others use HEAD / Vercel refs. See https://tina.io/docs/tinacloud/overview */
+const branch =
+  process.env.CF_PAGES_BRANCH ||
+  process.env.HEAD ||
+  process.env.VERCEL_GIT_COMMIT_REF ||
+  process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF ||
+  "main";
+
+/**
+ * TinaCloud credentials (required for `tinacms build` / production /admin).
+ * Local `npm run dev` still works with nulls (local GraphQL).
+ * @see https://tina.io/docs/tinacloud/overview
+ */
+const clientId =
+  process.env.NEXT_PUBLIC_TINA_CLIENT_ID || process.env.TINA_PUBLIC_CLIENT_ID || null;
+
+const token = process.env.TINA_TOKEN || null;
 
 export default defineConfig({
   branch,
-  clientId: null,
-  token: null,
+  clientId,
+  token,
   build: {
     outputFolder: "admin",
     publicFolder: "public"

@@ -10,9 +10,27 @@ npm install
 npm run dev
 ```
 
-Tina admin (local mode):
+Tina admin **local**:
 
-- `http://localhost:4321/admin/index.html`
+- Run `npm run dev`, then open `http://localhost:4321/admin/index.html` (Tina runs in dev mode with local content).
+
+Tina admin **production** (e.g. `https://cypress-bse.pages.dev/admin/index.html`) does **not** appear until you:
+
+1. Create a **TinaCloud** project at [app.tina.io](https://app.tina.io/), connect the **cypressbible/cypress** repo, and note the **Client ID** and a **read-only token** ([going live / TinaCloud](https://tina.io/docs/tinacloud/overview)).
+2. In **Cloudflare Pages → your project → Settings → Environment variables** (for **Production** builds), add:
+   - `NEXT_PUBLIC_TINA_CLIENT_ID` — your Tina client ID (must be present at **build** time).
+   - `TINA_TOKEN` — your Tina read-only token (build time; treat as a secret).
+3. Change the **Build command** from `npm run build` to:
+
+   ```bash
+   npm run build:tina
+   ```
+
+   That runs `tinacms build` (generates `public/admin/`) then `astro build`.
+
+4. Commit **`tina/tina-lock.json`** after it is generated (run `npm run dev` or `npx tinacms dev` once locally so Tina creates it, then commit). TinaCloud needs this file in GitHub to index your schema.
+
+Copy `.env.example` to `.env` for local `tinacms build` / testing (Tina only reads `.env` for the CLI, not `.env.local`).
 
 ## Build
 
@@ -21,10 +39,22 @@ npm run build
 npm run preview
 ```
 
+Site-only build (no `/admin` output):
+
+```bash
+npm run build
+```
+
+Full production build with Tina admin (needs Tina env vars):
+
+```bash
+npm run build:tina
+```
+
 ## Cloudflare Pages settings
 
 - Framework preset: `Astro` or `None`
-- Build command: `npm run build`
+- Build command: `npm run build:tina` once Tina Cloud env vars are set (otherwise `npm run build` is fine without admin).
 - Build output directory: `dist`
 - Production branch: `main`
 
@@ -33,9 +63,6 @@ npm run preview
 - Homepage content: `src/content/pages/home.md`
 - Tina schema: `tina/config.ts`
 - Astro content schema: `src/content.config.ts`
-
-If you later connect Tina Cloud credentials (`TINA_CLIENT_ID`, `TINA_TOKEN`), you can
-run `npm run build:cms` to generate the production admin app.
 
 ## Welcome video
 

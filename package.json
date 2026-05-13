@@ -7,7 +7,8 @@
     "dev": "tinacms dev -c \"astro dev\"",
     "build": "astro build",
     "preview": "astro preview",
-    "build:cms": "tinacms build"
+    "build:cms": "tinacms build",
+    "build:tina": "tinacms build && astro build"
   },
   "repository": {
     "type": "git",
