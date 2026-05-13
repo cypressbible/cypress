@@ -2,3 +2,7 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+.tina/
+
+# Large welcome video (copy from Downloads; GitHub rejects files >100MB)
+public/videos/welcome.mp4

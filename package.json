@@ -4,9 +4,10 @@
   "description": "Static Cypress Bible site built with Astro",
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "tinacms dev -c \"astro dev\"",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "build:cms": "tinacms build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
   },
   "homepage": "https://github.com/cypressbible/cypress#readme",
   "dependencies": {
-    "astro": "^6.3.1"
+    "@tinacms/cli": "^2.3.0",
+    "astro": "^6.3.1",
+    "tinacms": "^3.8.0"
   }
 }

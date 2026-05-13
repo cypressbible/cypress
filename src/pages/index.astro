@@ -1,11 +1,201 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PillarIcon from "../components/PillarIcon.astro";
+import { getCollection, render } from "astro:content";
+import type { PillarIconKey } from "../components/PillarIcon.astro";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+const { Content } = await render(homePage);
+const slides = homePage.data.heroSlides;
+const discipleshipPillars = homePage.data.discipleshipPillars;
 ---
 
-<BaseLayout title="Cypress Bible" description="Static site running on Cloudflare Pages">
-  <h1>Cypress Bible Site Update</h1>
-  <p>
-    If you are seeing this text, the latest Astro change deployed successfully
-    from GitHub to Cloudflare Pages.
-  </p>
+<BaseLayout title={homePage.data.title} description={homePage.data.description}>
+  <section class="hero">
+    <header class="top-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">Cypress Bible Church</span>
+      </a>
+      <nav class="main-menu" aria-label="Main navigation">
+        {
+          homePage.data.menuItems.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))
+        }
+      </nav>
+      <button class="search-btn" type="button" aria-label="Search site">
+        <span aria-hidden="true">&#128269;</span>
+      </button>
+    </header>
+
+    <div class="rotator" data-rotator>
+      {
+        slides.map((slide, index) => (
+          <article
+            class={`slide ${index === 0 ? "is-active" : ""}`}
+            data-slide
+            style={slide.backgroundImage ? `--bg-image: url('${slide.backgroundImage}')` : ""}
+          >
+            <div class="overlay"></div>
+            <div class="slide-content">
+              <h1>{slide.title}</h1>
+              <p>{slide.subtitle}</p>
+              <a class="hero-cta" href={slide.ctaHref}>
+                {slide.ctaText}
+              </a>
+            </div>
+          </article>
+        ))
+      }
+      <div class="dot-nav" aria-label="Hero slide controls">
+        {
+          slides.map((_, index) => (
+            <button
+              type="button"
+              class={`dot ${index === 0 ? "is-active" : ""}`}
+              data-dot={index}
+              aria-label={`Show slide ${index + 1}`}
+            ></button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="sermon-widget-section" aria-label="Recent sermon">
+    <div class="sermon-widget-wrap">
+      <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
+      <bibleslides-recent-sermon
+        church="cypressbible"
+        api-base="https://bibleslides.app"
+        surface="white"
+        theme="light"
+      ></bibleslides-recent-sermon>
+    </div>
+  </section>
+
+  <section class="welcome-section" aria-labelledby="welcome-heading">
+    <div class="welcome-inner">
+      <div class="welcome-video" data-video-wrap>
+        <video
+          class="welcome-video-el"
+          src={homePage.data.welcomeVideoSrc}
+          playsinline
+          preload="metadata"
+        ></video>
+        <button type="button" class="welcome-play" aria-label="Play welcome video">
+          <span class="welcome-play-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="welcome-copy">
+        <p class="welcome-eyebrow">{homePage.data.welcomeEyebrow}</p>
+        <h2 id="welcome-heading" class="welcome-title">{homePage.data.welcomeTitle}</h2>
+        <p class="welcome-body">{homePage.data.welcomeBody}</p>
+        <a class="welcome-cta" href={homePage.data.welcomeCtaHref}>{homePage.data.welcomeCtaText}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="discipleship-section" aria-labelledby="discipleship-heading">
+    <div class="discipleship-inner">
+      <div class="discipleship-intro">
+        <h2 id="discipleship-heading" class="discipleship-heading">
+          {homePage.data.discipleshipHeading}
+        </h2>
+        <p class="discipleship-lede">{homePage.data.discipleshipIntro}</p>
+      </div>
+      <div class="discipleship-pillars">
+        {
+          discipleshipPillars.map((pillar) => (
+            <article class="discipleship-pillar">
+              <div
+                class:list={[
+                  "pillar-circle",
+                  pillar.lightCircle && "pillar-circle--light"
+                ]}
+                style={`background-color: ${pillar.circleColor}`}
+              >
+                <PillarIcon variant={pillar.iconKey as PillarIconKey} />
+                <span class="pillar-badge">{pillar.badge}</span>
+              </div>
+              <h3 class="pillar-title">{pillar.title}</h3>
+              <p class="pillar-body">{pillar.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="migration-notes">
+    <article class="content">
+      <Content />
+    </article>
+    <p class="admin-note">
+      Open <a href="/admin/index.html">/admin/index.html</a> in local dev to edit
+      menu and slide content with Tina.
+    </p>
+  </section>
+
+  <script is:inline>
+  const rotator = document.querySelector("[data-rotator]");
+  if (rotator) {
+    const slides = Array.from(rotator.querySelectorAll("[data-slide]"));
+    const dots = Array.from(rotator.querySelectorAll("[data-dot]"));
+    let activeIndex = 0;
+    let timer;
+
+    const showSlide = (index) => {
+      activeIndex = index;
+      slides.forEach((slide, i) => slide.classList.toggle("is-active", i === activeIndex));
+      dots.forEach((dot, i) => dot.classList.toggle("is-active", i === activeIndex));
+    };
+
+    const startAutoplay = () => {
+      if (slides.length < 2) return;
+      timer = window.setInterval(() => {
+        const next = (activeIndex + 1) % slides.length;
+        showSlide(next);
+      }, 5500);
+    };
+
+    const restartAutoplay = () => {
+      if (timer) window.clearInterval(timer);
+      startAutoplay();
+    };
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        showSlide(index);
+        restartAutoplay();
+      });
+    });
+
+    startAutoplay();
+  }
+
+  document.querySelectorAll("[data-video-wrap]").forEach((wrap) => {
+    const video = wrap.querySelector("video");
+    const btn = wrap.querySelector(".welcome-play");
+    if (!video || !btn || !(btn instanceof HTMLButtonElement)) return;
+
+    btn.addEventListener("click", () => {
+      video.setAttribute("controls", "");
+      void video.play();
+      btn.hidden = true;
+    });
+
+    video.addEventListener("ended", () => {
+      btn.hidden = false;
+      video.removeAttribute("controls");
+    });
+  });
+  </script>
 </BaseLayout>

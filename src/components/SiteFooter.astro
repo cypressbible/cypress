@@ -1,0 +1,194 @@
+---
+const year = new Date().getFullYear();
+
+const bulletinHref = "/bulletin";
+const privacyHref = "/privacy";
+
+const quickLinks = [
+  { label: "Prayer Request", href: "/prayer-request" },
+  { label: "Campus Map", href: "/campus-map" },
+  { label: "Our Staff", href: "/staff" },
+  { label: "Our History", href: "/history" },
+  { label: "The Hub", href: "/hub" }
+];
+
+const otherPages = [
+  { label: "Donate", href: "/give" },
+  { label: "Life Groups", href: "/life-groups" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Doctrinal Statement", href: "/doctrinal-statement" }
+];
+
+const social = [
+  { label: "Facebook", href: "#", icon: "fb" as const },
+  { label: "Instagram", href: "#", icon: "ig" as const },
+  { label: "YouTube", href: "#", icon: "yt" as const },
+  { label: "RSS", href: "#", icon: "rss" as const }
+];
+
+const mapEmbedSrc =
+  "https://www.google.com/maps?q=11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429&output=embed";
+---
+
+<footer class="site-footer" id="site-footer">
+  <section class="newsletter-bar" aria-labelledby="newsletter-heading">
+    <div class="newsletter-inner">
+      <div class="newsletter-left">
+        <h2 id="newsletter-heading" class="newsletter-heading">
+          Subscribe to our newsletter for events and updates.
+        </h2>
+        <a class="btn-foot btn-foot--wide" href={bulletinHref}>Read This Week's Bulletin</a>
+      </div>
+      <form
+        class="newsletter-form"
+        action="https://formsubmit.co/info@cypressbible.org"
+        method="POST"
+      >
+        <input type="hidden" name="_subject" value="Newsletter signup" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+        <div class="field">
+          <label for="nl-email">Email <span class="req">*</span></label>
+          <input id="nl-email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div class="field field--split">
+          <div>
+            <label for="nl-first">Name <span class="req">*</span></label>
+            <input id="nl-first" name="first_name" type="text" required autocomplete="given-name" />
+            <span class="field-hint">First</span>
+          </div>
+          <div>
+            <label for="nl-last" class="visually-hidden">Last name</label>
+            <input id="nl-last" name="last_name" type="text" required autocomplete="family-name" />
+            <span class="field-hint">Last</span>
+          </div>
+        </div>
+        <button class="btn-foot btn-foot--submit" type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <div class="footer-main">
+    <div class="footer-grid">
+      <div class="footer-col footer-col--brand">
+        <a class="footer-brand" href="/">
+          <span class="footer-brand-mark" aria-hidden="true"></span>
+          <span class="footer-brand-text">Cypress Bible Church</span>
+        </a>
+        <p class="footer-mission">
+          We exist to glorify God by pointing the affections of all peoples to the all-satisfying
+          person of Jesus Christ.
+        </p>
+        <address class="footer-contact">
+          <span>11711 Cypress North Houston Rd, Cypress, TX 77429</span>
+          <span>Service Times: 9:30 am &amp; 11:00 am</span>
+          <span><a href="tel:+18326841827">(832) 684-1827</a></span>
+          <span><a href="mailto:info@cypressbible.org">info@cypressbible.org</a></span>
+        </address>
+        <div class="footer-map">
+          <iframe
+            title="Cypress Bible Church on Google Maps"
+            src={mapEmbedSrc}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="footer-social">
+          {
+            social.map((s) => (
+              <a
+                class="social-btn"
+                href={s.href}
+                target={s.href === "#" ? undefined : "_blank"}
+                rel={s.href === "#" ? undefined : "noopener noreferrer"}
+                aria-label={s.label}
+              >
+                {s.icon === "fb" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="social-svg">
+                    <path
+                      fill="currentColor"
+                      d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.2-1.5 1.5-1.5H17V4.6h-2.4c-2.9 0-4.1 1.5-4.1 4.2V11H8v3h2.5v8h3z"
+                    />
+                  </svg>
+                )}
+                {s.icon === "ig" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="social-svg">
+                    <path
+                      fill="currentColor"
+                      d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zm4.5 3.25A4.75 4.75 0 1 1 7.25 12 4.75 4.75 0 0 1 12 7.25zm0 2A2.75 2.75 0 1 0 14.75 12 2.75 2.75 0 0 0 12 9.25zm5.25-3.5a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"
+                    />
+                  </svg>
+                )}
+                {s.icon === "yt" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="social-svg">
+                    <path
+                      fill="currentColor"
+                      d="M21.8 8.001a2.75 2.75 0 0 0-1.945-1.95C18.2 5.75 12 5.75 12 5.75s-6.2 0-7.855.301A2.75 2.75 0 0 0 2.2 8v8a2.75 2.75 0 0 0 1.945 1.945C5.8 18.25 12 18.25 12 18.25s6.2 0 7.855-.305A2.75 2.75 0 0 0 21.8 16V8zM10 14.25v-4.5L15.2 12 10 14.25z"
+                    />
+                  </svg>
+                )}
+                {s.icon === "rss" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="social-svg">
+                    <path
+                      fill="currentColor"
+                      d="M4 4a16 16 0 0 1 16 16h-3A13 13 0 0 0 4 7V4zm0 6a10 10 0 0 1 10 10h-3a7 7 0 0 0-7-7V10zm2.5 8.25A2.25 2.25 0 1 1 4.25 20 2.25 2.25 0 0 1 6.5 18.25z"
+                    />
+                  </svg>
+                )}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Quick links</h3>
+        <ul class="footer-list">
+          {quickLinks.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Other pages</h3>
+        <ul class="footer-list">
+          {otherPages.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Church calendar</h3>
+        <p class="footer-calendar-note">Calendar embed or link can go here.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <div class="footer-legal-inner">
+      <p class="footer-copy">
+        &copy; {year} Cypress Bible Church. All Rights Reserved.
+      </p>
+      <div class="footer-legal-right">
+        <a href={privacyHref}>Privacy policy</a>
+        <button type="button" class="to-top" aria-label="Back to top" data-to-top>
+          <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script is:inline>
+  document.querySelectorAll("[data-to-top]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+</script>
