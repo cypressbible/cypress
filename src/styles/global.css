@@ -904,199 +904,306 @@ a {
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* --- Plan a Visit (inner page) --- */
+/* --- Plan a Visit (matches cypressbible.org/plan-a-visit layout; photos from same page) --- */
 
-.plan-visit-hero {
-  position: relative;
-  min-height: min(78vh, 820px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.plan-pav {
+  width: 100%;
+}
+
+.plan-pav--white {
+  background: #fff;
+  color: #2c3e50;
+}
+
+.plan-pav--beige {
+  background: #d3cec4;
+  color: #2c3e50;
+}
+
+.plan-pav--slate {
+  background: #547284;
+  color: #fff;
+}
+
+.plan-pav--paper.plan-visit-wrap {
+  max-width: 900px;
+  margin: 0 auto;
   padding: 48px 24px 72px;
-  background-color: #0a0f18;
-  background-image:
-    linear-gradient(105deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0.04) 75%, transparent 75%, transparent),
-    linear-gradient(0deg, rgba(5, 8, 17, 0.82), rgba(5, 8, 17, 0.45)),
-    url("/images/plan-a-visit-hero.webp");
-  background-size:
-    10px 10px,
-    cover,
-    cover;
-  background-position: center;
-  color: #fff;
+  background: #f1f5f9;
+  color: #1e293b;
 }
 
-.plan-visit-hero-inner {
-  position: relative;
-  z-index: 2;
-  max-width: 920px;
+.plan-pav-inner {
+  margin: 0 auto;
+  padding: 48px 24px 56px;
 }
 
-.plan-visit-hero-kicker {
-  margin: 0 0 8px;
-  font-size: clamp(1.35rem, 3.5vw, 2.25rem);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+.plan-pav-inner--wide {
+  max-width: 1120px;
 }
 
-.plan-visit-hero-title {
-  margin: 0 0 22px;
-  font-size: clamp(2.4rem, 7vw, 4.25rem);
+.plan-pav-inner--split {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.plan-pav-heading {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.08;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
   text-transform: uppercase;
+  text-align: center;
 }
 
-.plan-visit-hero-tag {
-  margin: 0 auto 32px;
-  max-width: 640px;
-  font-size: clamp(1rem, 2.2vw, 1.35rem);
-  line-height: 1.45;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  opacity: 0.96;
+.plan-pav-inner--split .plan-pav-heading {
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
-.plan-visit-hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  justify-content: center;
+.plan-pav-heading--navy {
+  color: #2c3e50;
 }
 
-.plan-visit-btn {
-  display: inline-block;
-  padding: 14px 28px;
-  border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #4a6f8f;
+.plan-pav-heading--white {
   color: #fff;
+}
+
+.plan-pav-body {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.plan-pav-body--navy {
+  color: #2c3e50;
+}
+
+.plan-pav-body--white {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.plan-pav-welcome-photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2vw, 22px);
+  margin: 0 0 48px;
+}
+
+.plan-pav-welcome-photos img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.plan-pav-service {
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.plan-pav-service-kicker {
+  margin: 0 0 10px;
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #2c3e50;
+}
+
+.plan-pav-service-times {
+  margin: 0 0 8px;
+  font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2c3e50;
+}
+
+.plan-pav-service-note {
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #2c3e50;
+}
+
+.plan-pav-service-btn-wrap {
+  margin: 0 0 22px;
+}
+
+.plan-pav-btn {
+  display: inline-block;
+  padding: 14px 26px;
+  border-radius: 3px;
   font-weight: 700;
   letter-spacing: 0.06em;
   font-size: 0.78rem;
   text-transform: uppercase;
-}
-
-.plan-visit-btn:hover,
-.plan-visit-btn:focus-visible {
-  filter: brightness(1.06);
-}
-
-.plan-visit-mission-band {
-  background: #4a6f8f;
-  color: #fff;
-  padding: 36px 24px;
-  text-align: center;
-}
-
-.plan-visit-mission-band p {
-  margin: 0 auto;
-  max-width: 1100px;
-  font-size: clamp(1rem, 2.4vw, 1.45rem);
-  font-weight: 700;
-  line-height: 1.45;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.plan-visit-mission-band .emph {
+  text-decoration: none;
   border: none;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.9);
-  border-radius: 0;
-  padding: 0 2px 2px;
-  margin-left: 2px;
+  cursor: pointer;
 }
 
-.plan-visit-wrap {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 48px 24px 72px;
-  color: #e2e8f0;
-}
-
-.plan-visit-wrap h2 {
-  margin: 48px 0 16px;
-  font-size: clamp(1.35rem, 3vw, 1.85rem);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.plan-pav-btn--slate {
+  background: #547284;
   color: #fff;
 }
 
-.plan-visit-wrap h2:first-child {
-  margin-top: 0;
+.plan-pav-btn--slate:hover,
+.plan-pav-btn--slate:focus-visible {
+  filter: brightness(1.08);
 }
 
-.plan-visit-wrap h3 {
-  margin: 32px 0 12px;
-  font-size: 1.05rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #cbd5e1;
+.plan-pav-btn--navy {
+  background: #2c3e50;
+  color: #fff;
 }
 
-.plan-visit-wrap p,
-.plan-visit-wrap li {
-  margin: 0 0 14px;
-  line-height: 1.55;
-  color: #cbd5e1;
+.plan-pav-btn--navy:hover,
+.plan-pav-btn--navy:focus-visible {
+  filter: brightness(1.12);
 }
 
-.plan-visit-wrap a {
-  color: #93c5fd;
+.plan-pav-address {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.plan-pav-address a {
+  color: #64748b;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.plan-visit-service-meta {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
+.plan-pav-address a:hover {
+  color: #2c3e50;
 }
 
-.plan-visit-service-meta li {
-  margin-bottom: 8px;
+.plan-pav-mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
-.plan-visit-grid-2 {
+.plan-pav-mosaic--kids {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  grid-template-rows: minmax(72px, 0.85fr) minmax(100px, 1fr) minmax(64px, 0.65fr);
+  gap: 10px;
+  min-height: 280px;
+}
+
+.plan-pav-kids-a {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.plan-pav-kids-b {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+}
+
+.plan-pav-kids-c {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.plan-pav-kids-d {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.plan-pav-mosaic--students {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  margin-top: 8px;
+  grid-template-rows: 1.2fr 1fr;
+  gap: 10px;
+  min-height: 260px;
 }
 
-.plan-visit-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  padding: 22px 20px;
+.plan-pav-mosaic--students img {
+  filter: grayscale(1) contrast(1.06);
 }
 
-.plan-visit-card h3 {
+.plan-pav-stud-a {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.plan-pav-stud-b {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.plan-pav-stud-c {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.plan-pav--paper.plan-visit-wrap h2 {
+  margin: 48px 0 16px;
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1e293b;
+}
+
+.plan-pav--paper.plan-visit-wrap h2:first-child {
   margin-top: 0;
 }
 
-.plan-visit-faq details {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.plan-pav--paper.plan-visit-wrap h3 {
+  margin: 32px 0 12px;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #334155;
+}
+
+.plan-pav--paper.plan-visit-wrap > p {
+  margin: 0 0 14px;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.plan-pav--paper.plan-visit-wrap a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plan-pav--paper .plan-visit-faq details {
+  border: 1px solid #cbd5e1;
   border-radius: 4px;
   padding: 14px 16px;
   margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: #fff;
 }
 
-.plan-visit-faq summary {
+.plan-pav--paper .plan-visit-faq summary {
   cursor: pointer;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #f1f5f9;
+  color: #1e293b;
 }
 
-.plan-visit-faq details[open] summary {
+.plan-pav--paper .plan-visit-faq details[open] summary {
   margin-bottom: 10px;
+}
+
+.plan-pav--paper .plan-visit-faq details p {
+  color: #475569;
 }
 
 .plan-visit-touch {
@@ -1109,14 +1216,56 @@ a {
 .plan-visit-touch-block h3 {
   margin: 0 0 8px;
   font-size: 0.95rem;
+  color: #334155;
 }
 
 .plan-visit-touch-block p {
   margin: 0;
+  color: #475569;
+}
+
+@media (max-width: 900px) {
+  .plan-pav-inner--split {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-pav-welcome-photos {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .plan-pav-mosaic--kids {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+
+  .plan-pav-kids-a {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .plan-pav-kids-b {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .plan-pav-kids-c {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    max-height: 280px;
+  }
+
+  .plan-pav-kids-d {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    max-height: 200px;
+  }
 }
 
 @media (max-width: 720px) {
-  .plan-visit-grid-2,
   .plan-visit-touch {
     grid-template-columns: 1fr;
   }

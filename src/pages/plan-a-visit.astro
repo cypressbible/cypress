@@ -12,6 +12,8 @@ if (!homePage) {
 
 const mapHref =
   "https://www.google.com/maps/place/11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429/@29.9507516,-95.6001355,17z";
+
+const img = (name: string) => `/images/plan-a-visit/${name}`;
 ---
 
 <BaseLayout
@@ -20,70 +22,78 @@ const mapHref =
 >
   <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
 
-  <section class="plan-visit-hero" aria-label="Plan a visit">
-    <div class="plan-visit-hero-inner">
-      <p class="plan-visit-hero-kicker">Welcome to</p>
-      <h1 class="plan-visit-hero-title">Cypress Bible Church</h1>
-      <p class="plan-visit-hero-tag">
-        We exist to glorify God by pointing the affections of all peoples to the all-satisfying person of Jesus Christ
-      </p>
-      <div class="plan-visit-hero-actions">
-        <a class="plan-visit-btn" href="https://cypressbible.org/whatwebelieve/">What We Believe</a>
-        <a class="plan-visit-btn" href="https://cypressbible.org/messages/">Watch a Message</a>
+  <section class="plan-pav plan-pav--white" aria-label="Welcome">
+    <div class="plan-pav-inner plan-pav-inner--wide">
+      <h2 class="plan-pav-heading plan-pav-heading--navy">Welcome to Cypress Bible Church</h2>
+      <div class="plan-pav-welcome-photos">
+        <img src={img("welcome-1.webp")} width="360" height="360" alt="Guests at Cypress Bible Church" loading="eager" />
+        <img src={img("welcome-2.webp")} width="360" height="360" alt="Congregation in the lobby" loading="eager" />
+        <img src={img("welcome-3.webp")} width="360" height="360" alt="Fellowship at Cypress Bible Church" loading="lazy" />
+      </div>
+
+      <div class="plan-pav-service">
+        <p class="plan-pav-service-kicker">Join us for service</p>
+        <p class="plan-pav-service-times">Sunday at 9:30am &amp; 11:00am</p>
+        <p class="plan-pav-service-note">Deaf Interpretation at 11am</p>
+        <p class="plan-pav-service-btn-wrap">
+          <a class="plan-pav-btn plan-pav-btn--slate" href="https://cypressbible.org/livestream/">
+            Livestream Available 11AM
+          </a>
+        </p>
+        <p class="plan-pav-address">
+          <a href={mapHref}>11711 Cypress North Houston Rd, Cypress, TX 77429</a>
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="plan-visit-mission-band" aria-label="Mission">
-    <p>
-      We exist to glorify God by pointing the affections of all peoples to the all-satisfying person of{" "}
-      <span class="emph">Jesus Christ</span>
-    </p>
-  </section>
-
-  <article class="plan-visit-wrap">
-    <h2>Welcome to Cypress Bible Church</h2>
-    <p>
-      Join us on a Sunday morning. Whether you are exploring Christianity for the first time or looking for a church
-      home, we would love to meet you.
-    </p>
-
-    <h2>Join us for service</h2>
-    <h3>Sunday at 9:30 am &amp; 11:00 am</h3>
-    <ul class="plan-visit-service-meta">
-      <li>Deaf interpretation at 11 am</li>
-      <li>
-        <a href="https://cypressbible.org/livestream/">Livestream available</a> (11 am)
-      </li>
-    </ul>
-    <p>
-      <a href={mapHref}>11711 Cypress North Houston Rd, Cypress, TX 77429</a>
-    </p>
-
-    <div class="plan-visit-grid-2">
-      <div class="plan-visit-card">
-        <h3>Cypress Bible Church Kids: Birth – 5th grade</h3>
-        <p>
+  <section class="plan-pav plan-pav--beige" aria-label="Kids ministry">
+    <div class="plan-pav-inner plan-pav-inner--split">
+      <div class="plan-pav-kids-copy">
+        <h2 class="plan-pav-heading plan-pav-heading--navy">
+          Cypress Bible Church Kids: Birth – 5th grade
+        </h2>
+        <p class="plan-pav-body plan-pav-body--navy">
           Please arrive around 15 minutes early to use our secure check-in process to drop your children off in their
           classes before the service. Once the service is over, you will be able to pick your children up from their
           classes by showing your child&apos;s unique check-in sticker.
         </p>
         <p>
-          <a href="https://cypressbible.org/childrens/">Learn more about Kids</a>
+          <a class="plan-pav-btn plan-pav-btn--navy" href="https://cypressbible.org/checkin/">Learn More</a>
         </p>
       </div>
-      <div class="plan-visit-card">
-        <h3>Student ministries</h3>
-        <p>
-          Our Middle and High School Ministry meets on Sunday morning at 9:30 am in the gym. They also meet on Wednesday
-          evenings from 6 pm – 8:30 pm at the church in the gym.
+      <div class="plan-pav-mosaic plan-pav-mosaic--kids" aria-hidden="true">
+        <img class="plan-pav-kids-a" src={img("kids-4.webp")} width="400" height="225" alt="" loading="lazy" />
+        <img class="plan-pav-kids-b" src={img("kids-3.webp")} width="400" height="267" alt="" loading="lazy" />
+        <img class="plan-pav-kids-c" src={img("kids-1.webp")} width="500" height="700" alt="" loading="lazy" />
+        <img class="plan-pav-kids-d" src={img("kids-2.webp")} width="400" height="267" alt="" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="plan-pav plan-pav--slate" aria-label="Student ministries">
+    <div class="plan-pav-inner plan-pav-inner--split plan-pav-inner--students">
+      <div class="plan-pav-mosaic plan-pav-mosaic--students" aria-hidden="true">
+        <img class="plan-pav-stud-a" src={img("stud-1.webp")} width="600" height="400" alt="" loading="lazy" />
+        <img class="plan-pav-stud-b" src={img("stud-2.webp")} width="400" height="400" alt="" loading="lazy" />
+        <img class="plan-pav-stud-c" src={img("stud-3.webp")} width="400" height="400" alt="" loading="lazy" />
+      </div>
+      <div class="plan-pav-students-copy">
+        <h2 class="plan-pav-heading plan-pav-heading--white">Student ministries</h2>
+        <p class="plan-pav-body plan-pav-body--white">
+          Our Middle and High School Ministry meets on Sunday Morning at 9:30am in the gym. They also meet on Wednesday
+          evenings from 6pm – 8:30pm at the church in the gym.
         </p>
         <p>
-          <a href="https://cypressbible.org/students/">Check out Student Ministries</a>
+          <a class="plan-pav-btn plan-pav-btn--navy" href="https://cypressbible.org/students/">
+            Check out Student Ministries
+          </a>
         </p>
       </div>
     </div>
+  </section>
 
+  <article class="plan-pav plan-pav--paper plan-visit-wrap">
     <h2>Frequently asked questions</h2>
     <p>
       Attending church for the first time can be an intimidating experience, especially if you don&apos;t know what to
