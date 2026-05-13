@@ -54,6 +54,7 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
             <div class="slide-content">
               <h1>{slide.title}</h1>
               <p>{slide.subtitle}</p>
+              {slide.serviceTimes && <p class="slide-service-times">{slide.serviceTimes}</p>}
               <a class="hero-cta" href={slide.ctaHref}>
                 {slide.ctaText}
               </a>

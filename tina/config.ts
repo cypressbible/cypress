@@ -85,6 +85,11 @@ export default defineConfig({
               },
               {
                 type: "string",
+                name: "serviceTimes",
+                label: "Service times (optional, e.g. Sunday 9:30 & 11:00)"
+              },
+              {
+                type: "string",
                 name: "ctaText",
                 label: "Button Label",
                 required: true

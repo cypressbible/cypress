@@ -19,6 +19,7 @@ menuItems:
 heroSlides:
   - title: "WE EXIST TO GLORIFY GOD"
     subtitle: "By pointing the affections of all peoples to the all-satisfying person of Jesus Christ."
+    serviceTimes: "Sunday services · 9:30 am & 11:00 am"
     ctaText: "MISSION STATEMENT"
     ctaHref: "/mission-statement"
     backgroundImage: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1800&q=80"

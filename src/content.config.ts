@@ -16,6 +16,7 @@ const pages = defineCollection({
       z.object({
         title: z.string(),
         subtitle: z.string(),
+        serviceTimes: z.string().optional(),
         ctaText: z.string(),
         ctaHref: z.string(),
         backgroundImage: z.string().optional()
