@@ -17,31 +17,31 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
-  <section class="hero">
-    <header class="top-nav">
-      <a class="brand" href="/">
-        <img
-          class="brand-logo"
-          src="/images/logo-white.webp"
-          alt="Cypress Bible Church"
-          width="220"
-          height="56"
-          loading="eager"
-          decoding="async"
-        />
-      </a>
-      <nav class="main-menu" aria-label="Main navigation">
-        {
-          homePage.data.menuItems.map((item) => (
-            <a href={item.href}>{item.label}</a>
-          ))
-        }
-      </nav>
-      <button class="search-btn" type="button" aria-label="Search site">
-        <span aria-hidden="true">&#128269;</span>
-      </button>
-    </header>
+  <header class="top-nav">
+    <a class="brand" href="/">
+      <img
+        class="brand-logo"
+        src="/images/logo-white.webp"
+        alt="Cypress Bible Church"
+        width="220"
+        height="56"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+    <nav class="main-menu" aria-label="Main navigation">
+      {
+        homePage.data.menuItems.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+    <button class="search-btn" type="button" aria-label="Search site">
+      <span aria-hidden="true">&#128269;</span>
+    </button>
+  </header>
 
+  <section class="hero">
     <div class="rotator" data-rotator>
       {
         slides.map((slide, index) => (

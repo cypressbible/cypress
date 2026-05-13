@@ -28,15 +28,19 @@ a {
 }
 
 .top-nav {
-  position: absolute;
-  z-index: 10;
+  position: sticky;
   top: 0;
+  z-index: 100;
   left: 0;
   width: 100%;
-  padding: 18px 28px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   gap: 24px;
+  background: rgba(5, 9, 21, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .brand {
@@ -110,7 +114,7 @@ a {
   position: relative;
   z-index: 2;
   max-width: 650px;
-  padding: 180px 74px 90px;
+  padding: 120px 74px 90px;
 }
 
 .slide-content h1 {
@@ -470,9 +474,8 @@ a {
 
 @media (max-width: 900px) {
   .top-nav {
-    position: static;
     flex-wrap: wrap;
-    background: #050915;
+    row-gap: 12px;
   }
 
   .brand {
@@ -492,7 +495,7 @@ a {
   }
 
   .slide-content {
-    padding: 90px 24px 70px;
+    padding: 72px 24px 70px;
   }
 
   .dot-nav {
