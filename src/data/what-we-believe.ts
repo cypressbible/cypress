@@ -74,6 +74,75 @@ export type DoctrineSection = {
   videoUrl: string;
 };
 
+function youtubeStartSeconds(searchParams: URLSearchParams): number | undefined {
+  const raw = searchParams.get("t") ?? searchParams.get("start");
+  if (!raw) return undefined;
+  const leadingDigits = raw.match(/^(\d+)/);
+  if (leadingDigits) return parseInt(leadingDigits[1], 10);
+  let sec = 0;
+  const h = raw.match(/(\d+)h/);
+  const m = raw.match(/(\d+)m/);
+  const s = raw.match(/(\d+)s/);
+  if (h) sec += parseInt(h[1], 10) * 3600;
+  if (m) sec += parseInt(m[1], 10) * 60;
+  if (s) sec += parseInt(s[1], 10);
+  if (h || m || s) return sec;
+  return undefined;
+}
+
+/** Extract YouTube video id from common watch, share, shorts, or embed URLs. */
+export function getYoutubeVideoId(url: string): string | null {
+  try {
+    const u = new URL(url.trim());
+
+    const shorts = u.pathname.match(/\/shorts\/([^/?]+)/);
+    if (shorts?.[1]) return shorts[1];
+
+    const embed = u.pathname.match(/\/embed\/([^/?]+)/);
+    if (embed?.[1]) return embed[1];
+
+    if (u.hostname === "youtu.be" || u.hostname.endsWith(".youtu.be")) {
+      const id = u.pathname.replace(/^\//, "").split("/")[0];
+      return id || null;
+    }
+
+    const v = u.searchParams.get("v");
+    if (v) return v;
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/** `youtube-nocookie` embed URL with playlist and start time when present on the watch link. */
+export function getYoutubeEmbedSrc(url: string): string | null {
+  const id = getYoutubeVideoId(url);
+  if (!id) return null;
+
+  let list: string | null = null;
+  let start: number | undefined;
+  try {
+    const u = new URL(url.trim());
+    list = u.searchParams.get("list");
+    start = youtubeStartSeconds(u.searchParams);
+  } catch {
+    /* invalid url */
+  }
+
+  const params = new URLSearchParams({ rel: "0", modestbranding: "1" });
+  if (list) params.set("list", list);
+  if (start !== undefined && start > 0) params.set("start", String(start));
+
+  return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
+}
+
+export function getYoutubeThumbnailSrc(url: string): string | null {
+  const id = getYoutubeVideoId(url);
+  if (!id) return null;
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+}
+
 /** Teaching videos (legacy https://www.cypressbible.org/whatwebelieve/ order, first appearance). */
 export const doctrineSections: DoctrineSection[] = [
   {

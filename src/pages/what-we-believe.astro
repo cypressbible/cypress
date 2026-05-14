@@ -6,6 +6,8 @@ import {
   beliefComparisonIntro,
   DOCTRINAL_STATEMENT_PDF,
   doctrineSections,
+  getYoutubeEmbedSrc,
+  getYoutubeThumbnailSrc,
   statementOfFaithIntro,
   statementOfFaithRows
 } from "../data/what-we-believe";
@@ -142,39 +144,64 @@ if (!homePage) {
         </a>
       </p>
       <p class="belief-scan-hint">
-        Each heading matches our published doctrinal statement; Scripture citations follow the prose. The watch link on each heading row mirrors the teaching videos from our legacy What We Believe page.
+        Each heading matches our published doctrinal statement; Scripture citations follow the prose. Open a heading for the full text; use the row link or the thumbnail below to watch the matching teaching video from our legacy What We Believe page.
       </p>
 
       <div class="belief-details-stack">
         {
-          doctrineSections.map((d) => (
-            <details id={d.id} class="belief-details belief-details--doctrine">
-              <summary>
-                <span class="belief-summary-main">
-                  <span class="belief-details-label">{d.label}</span>
-                  <span class="belief-details-title">{d.title}</span>
-                </span>
-                <a
-                  class="belief-summary-video-link belief-video-link"
-                  href={d.videoUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  onclick="event.stopPropagation()"
-                >
-                  <i class="fa-solid fa-circle-play belief-video-icon" aria-hidden="true" />
-                  <span>Watch video</span>
-                </a>
-                <span class="belief-details-expand" aria-hidden="true"></span>
-              </summary>
-              <div class="belief-details-body">
-                <p>{d.teaching}</p>
-                <p class="belief-refs">
-                  <strong>References:</strong>
-                  {" "}{d.references}
-                </p>
-              </div>
-            </details>
-          ))
+          doctrineSections.map((d) => {
+            const embedSrc = getYoutubeEmbedSrc(d.videoUrl);
+            const thumbSrc = getYoutubeThumbnailSrc(d.videoUrl);
+
+            return (
+              <details id={d.id} class="belief-details belief-details--doctrine">
+                <summary>
+                  <span class="belief-summary-main">
+                    <span class="belief-details-label">{d.label}</span>
+                    <span class="belief-details-title">{d.title}</span>
+                  </span>
+                  <a
+                    class="belief-summary-video-link belief-video-link"
+                    href={d.videoUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    onclick="event.stopPropagation()"
+                  >
+                    <i class="fa-solid fa-circle-play belief-video-icon" aria-hidden="true" />
+                    <span>Watch video</span>
+                  </a>
+                  <span class="belief-details-expand" aria-hidden="true"></span>
+                </summary>
+                <div class="belief-details-body">
+                  <p>{d.teaching}</p>
+                  <p class="belief-refs">
+                    <strong>References:</strong>
+                    {" "}{d.references}
+                  </p>
+                  {embedSrc && thumbSrc ? (
+                    <div class="belief-youtube-facade" data-belief-youtube-facade data-embed-src={embedSrc}>
+                      <button type="button" class="belief-youtube-poster" aria-label={`Play embedded video: ${d.title}`}>
+                        <img src={thumbSrc} alt="" width={480} height={360} loading="lazy" decoding="async" />
+                        <span class="belief-youtube-play-badge" aria-hidden="true">
+                          <i class="fa-solid fa-circle-play"></i>
+                        </span>
+                      </button>
+                      <div class="belief-youtube-frame-wrap" hidden>
+                        <iframe
+                          class="belief-youtube-iframe"
+                          title={`YouTube: ${d.title}`}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </details>
+            );
+          })
         }
       </div>
     </section>
@@ -184,30 +211,45 @@ if (!homePage) {
 <script is:inline>
   (function () {
     var tabWrap = document.querySelector("[data-belief-tabs]");
-    if (!tabWrap) return;
-    var tabs = tabWrap.querySelectorAll('[role="tab"]');
-    var panes = {
-      sof: document.querySelector('[data-belief-pane="sof"]'),
-      doctrine: document.querySelector('[data-belief-pane="doctrine"]')
-    };
+    if (tabWrap) {
+      var tabs = tabWrap.querySelectorAll('[role="tab"]');
+      var panes = {
+        sof: document.querySelector('[data-belief-pane="sof"]'),
+        doctrine: document.querySelector('[data-belief-pane="doctrine"]')
+      };
 
-    function setTab(key) {
-      for (var i = 0; i < tabs.length; i++) {
-        var t = tabs[i];
-        var sel = t.getAttribute("data-belief-tab") === key;
-        t.setAttribute("aria-selected", sel ? "true" : "false");
-        t.classList.toggle("belief-tab--active", sel);
-        t.setAttribute("tabindex", sel ? "0" : "-1");
+      function setTab(key) {
+        for (var i = 0; i < tabs.length; i++) {
+          var t = tabs[i];
+          var sel = t.getAttribute("data-belief-tab") === key;
+          t.setAttribute("aria-selected", sel ? "true" : "false");
+          t.classList.toggle("belief-tab--active", sel);
+          t.setAttribute("tabindex", sel ? "0" : "-1");
+        }
+        if (panes.sof) panes.sof.hidden = key !== "sof";
+        if (panes.doctrine) panes.doctrine.hidden = key !== "doctrine";
       }
-      if (panes.sof) panes.sof.hidden = key !== "sof";
-      if (panes.doctrine) panes.doctrine.hidden = key !== "doctrine";
+
+      tabWrap.addEventListener("click", function (ev) {
+        var btn = ev.target.closest('[role="tab"]');
+        if (!btn || !tabWrap.contains(btn)) return;
+        var key = btn.getAttribute("data-belief-tab");
+        if (key) setTab(key);
+      });
     }
 
-    tabWrap.addEventListener("click", function (ev) {
-      var btn = ev.target.closest('[role="tab"]');
-      if (!btn || !tabWrap.contains(btn)) return;
-      var key = btn.getAttribute("data-belief-tab");
-      if (key) setTab(key);
+    document.querySelectorAll("[data-belief-youtube-facade]").forEach(function (wrap) {
+      var poster = wrap.querySelector(".belief-youtube-poster");
+      var frameWrap = wrap.querySelector(".belief-youtube-frame-wrap");
+      var iframe = wrap.querySelector(".belief-youtube-iframe");
+      var baseSrc = wrap.getAttribute("data-embed-src");
+      if (!poster || !frameWrap || !iframe || !baseSrc) return;
+      poster.addEventListener("click", function () {
+        var sep = baseSrc.indexOf("?") >= 0 ? "&" : "?";
+        iframe.src = baseSrc + sep + "autoplay=1";
+        frameWrap.hidden = false;
+        poster.hidden = true;
+      });
     });
   })();
 </script>

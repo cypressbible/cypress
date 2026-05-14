@@ -2250,6 +2250,71 @@ a.esv-crossref-link:focus-visible {
   margin-top: clamp(14px, 2vw, 18px);
 }
 
+.belief-youtube-facade {
+  margin-top: clamp(22px, 4vw, 30px);
+}
+
+.belief-youtube-poster {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0f172a;
+}
+
+.belief-youtube-poster:focus-visible {
+  outline: 2px solid #7eb8dc;
+  outline-offset: 3px;
+}
+
+.belief-youtube-poster img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.belief-youtube-play-badge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.38);
+  pointer-events: none;
+}
+
+.belief-youtube-play-badge .fa-circle-play {
+  font-size: clamp(3rem, 10vw, 4rem);
+  color: rgba(248, 250, 252, 0.96);
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.5));
+}
+
+.belief-youtube-poster:hover .belief-youtube-play-badge {
+  background: rgba(15, 23, 42, 0.52);
+}
+
+.belief-youtube-frame-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.belief-youtube-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .belief-refs {
   font-size: 0.88rem;
   color: #a8bcc8;
