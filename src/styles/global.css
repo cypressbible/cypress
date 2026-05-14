@@ -1829,7 +1829,7 @@ a.esv-crossref-link:focus-visible {
 
 .belief-shell {
   padding: clamp(28px, 5vw, 52px) 24px clamp(72px, 12vw, 120px);
-  max-width: 860px;
+  max-width: 960px;
   margin: 0 auto;
   background: #0e1629;
 }
@@ -1853,43 +1853,99 @@ a.esv-crossref-link:focus-visible {
   color: #f8fafc;
 }
 
-.belief-tablist {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+.belief-intro-dual {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 3vw, 28px);
+}
+
+.belief-choice-tablist {
   margin-bottom: clamp(22px, 4vw, 32px);
 }
 
-.belief-tab {
+.belief-choice-card.belief-tab {
   appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(226, 232, 240, 0.9);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 12px 22px;
-  border-radius: 999px;
+  margin: 0;
   cursor: pointer;
+  text-align: left;
+  font: inherit;
+  width: 100%;
+  padding: clamp(26px, 4vw, 38px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
   transition:
-    background 0.18s ease,
+    transform 0.18s ease,
     border-color 0.18s ease,
-    color 0.18s ease;
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
-.belief-tab:hover,
-.belief-tab:focus-visible {
-  outline: none;
-  background: rgba(74, 111, 143, 0.28);
-  border-color: rgba(148, 180, 204, 0.35);
+.belief-choice-card.belief-tab:hover {
+  transform: translateY(-3px);
 }
 
-.belief-tab--active {
-  background: linear-gradient(135deg, rgba(74, 111, 143, 0.55), rgba(45, 106, 106, 0.35));
-  border-color: rgba(148, 180, 204, 0.45);
+.belief-choice-card.belief-tab:focus-visible {
+  outline: 2px solid #7eb8dc;
+  outline-offset: 3px;
+}
+
+.belief-choice-card.belief-tab.belief-tab--active {
+  border-color: rgba(148, 180, 204, 0.72);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
+}
+
+.belief-card--soft {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(15, 23, 42, 0.35));
+}
+
+.belief-card--strong {
+  background:
+    linear-gradient(145deg, rgba(74, 111, 143, 0.48), rgba(30, 41, 59, 0.92)),
+    #1e293b;
+  border-color: rgba(148, 180, 204, 0.22);
+}
+
+.belief-card-icon {
+  font-size: 1.85rem;
+  margin-bottom: 12px;
+}
+
+.belief-card--soft .belief-card-icon {
+  color: #6fa8cf;
+}
+
+.belief-card-icon--light {
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.belief-choice-title {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.belief-card--soft .belief-choice-title {
+  color: #f1f5f9;
+}
+
+.belief-card--strong .belief-choice-title {
   color: #f8fafc;
+}
+
+.belief-choice-lede {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.58;
+}
+
+.belief-card--soft .belief-choice-lede {
+  color: rgba(226, 232, 240, 0.88);
+}
+
+.belief-card--strong .belief-choice-lede {
+  color: rgba(226, 232, 240, 0.9);
 }
 
 .belief-compare-intro {

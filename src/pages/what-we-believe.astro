@@ -6,7 +6,6 @@ import {
   beliefComparisonIntro,
   DOCTRINAL_STATEMENT_PDF,
   doctrineSections,
-  ordinancePhilosophy,
   statementOfFaithIntro,
   statementOfFaithRows
 } from "../data/what-we-believe";
@@ -21,7 +20,7 @@ if (!homePage) {
 
 <BaseLayout
   title="What We Believe | Cypress Bible Church"
-  description="Compare our membership statement of faith with the full doctrinal statement and communion philosophy—all rooted in Scripture."
+  description="Compare our membership statement of faith with the full doctrinal statement—both rooted in Scripture, with teaching videos for each doctrinal heading."
 >
   <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
 
@@ -32,25 +31,43 @@ if (!homePage) {
       <h1 class="belief-page-title">What we believe</h1>
     </header>
 
-    <div class="belief-tablist" data-belief-tabs role="tablist" aria-label="Statement of faith or doctrinal statement">
+    <div class="belief-intro-dual belief-choice-tablist" data-belief-tabs role="tablist" aria-label="Statement of faith or doctrinal statement">
       <button
         type="button"
         id="belief-tab-sof"
-        class="belief-tab belief-tab--active"
+        class="belief-choice-card belief-card belief-card--soft belief-tab belief-tab--active"
         role="tab"
         aria-selected="true"
         aria-controls="belief-pane-sof"
         tabindex="0"
-        data-belief-tab="sof">Statement of faith</button>
+        data-belief-tab="sof"
+      >
+        <div class="belief-card-icon" aria-hidden="true">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <h2 class="belief-choice-title">Statement of faith</h2>
+        <p class="belief-choice-lede">
+          Seven doctrinal pillars every CBC member affirms—the portable backbone of our unity.
+        </p>
+      </button>
       <button
         type="button"
         id="belief-tab-doctrine"
-        class="belief-tab"
+        class="belief-choice-card belief-card belief-card--strong belief-tab"
         role="tab"
         aria-selected="false"
         aria-controls="belief-pane-doctrine"
         tabindex="-1"
-        data-belief-tab="doctrine">Doctrinal statement</button>
+        data-belief-tab="doctrine"
+      >
+        <div class="belief-card-icon belief-card-icon--light" aria-hidden="true">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <h2 class="belief-choice-title">Doctrinal statement</h2>
+        <p class="belief-choice-lede">
+          Twelve theological headings—all who preach and teach align with these convictions.
+        </p>
+      </button>
     </div>
 
     <p class="belief-compare-intro">{beliefComparisonIntro}</p>
@@ -125,28 +142,24 @@ if (!homePage) {
         </a>
       </p>
       <p class="belief-scan-hint">
-        Each heading matches our published doctrinal statement; Scripture citations follow the prose.
+        Each heading matches our published doctrinal statement; Scripture citations follow the prose. The watch links above each heading mirror the teaching videos from our legacy What We Believe page.
       </p>
 
       <div class="belief-details-stack">
         {
           doctrineSections.map((d) => (
             <div class="belief-acc-item">
-              {
-                d.videoUrl && (
-                  <div class="belief-video-row">
-                    <a
-                      class="belief-video-link"
-                      href={d.videoUrl}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <i class="fa-solid fa-circle-play belief-video-icon" aria-hidden="true" />
-                      <span>Watch teaching video</span>
-                    </a>
-                  </div>
-                )
-              }
+              <div class="belief-video-row">
+                <a
+                  class="belief-video-link"
+                  href={d.videoUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <i class="fa-solid fa-circle-play belief-video-icon" aria-hidden="true" />
+                  <span>Watch teaching video</span>
+                </a>
+              </div>
               <details id={d.id} class="belief-details">
                 <summary>
                   <span class="belief-details-label">{d.label}</span>
@@ -164,46 +177,6 @@ if (!homePage) {
           ))
         }
       </div>
-
-      <section class="belief-panel-section" id="ordinance-philosophy" aria-labelledby="ord-heading">
-        <h3 id="ord-heading" class="belief-section-title">
-          Philosophy of communion <span class="belief-section-muted">ordinance practice at CBC</span>
-        </h3>
-        <p class="belief-scan-hint belief-scan-hint--tight">
-          How we approach the Lord’s Supper—purpose, practice, and boundaries—stated as affirmations and denials.
-        </p>
-        {
-          ordinancePhilosophy.map((topic) =>
-            topic.closing && !topic.intro && (!topic.pairs || topic.pairs.length === 0) ? (
-              <aside class="belief-ord-sum" aria-labelledby={`${topic.id}-title`}>
-                <h4 id={`${topic.id}-title`} class="belief-ord-sum-title">
-                  {topic.heading}
-                </h4>
-                <p class="belief-ord-closing">{topic.closing}</p>
-              </aside>
-            ) : (
-              <details class="belief-details belief-details--sub" id={topic.id}>
-                <summary>{topic.heading}</summary>
-                <div class="belief-details-body">
-                  {topic.intro && <p class="belief-ord-intro">{topic.intro}</p>}
-                  {topic.pairs?.map((pair) => (
-                    <div class="belief-ad-grid">
-                      <p class="belief-ad belief-ad--yes">
-                        <span class="belief-ad-tag">Affirm</span>
-                        {pair.affirm}
-                      </p>
-                      <p class="belief-ad belief-ad--no">
-                        <span class="belief-ad-tag">Deny</span>
-                        {pair.deny}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </details>
-            )
-          )
-        }
-      </section>
     </section>
   </div>
 </BaseLayout>
