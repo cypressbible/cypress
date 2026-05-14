@@ -1959,6 +1959,29 @@ a.esv-crossref-link:focus-visible {
   margin-top: clamp(8px, 2vw, 16px);
 }
 
+/* Match accordion + video chrome to the selected tab card (soft vs strong). */
+.belief-pane--sof .belief-details {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(15, 23, 42, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.belief-pane--sof .belief-video-row {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.belief-pane--doctrine .belief-details {
+  background:
+    linear-gradient(145deg, rgba(74, 111, 143, 0.48), rgba(30, 41, 59, 0.92)),
+    #1e293b;
+  border: 1px solid rgba(148, 180, 204, 0.22);
+}
+
+.belief-pane--doctrine .belief-video-row {
+  background: rgba(30, 41, 59, 0.65);
+  border-color: rgba(148, 180, 204, 0.22);
+}
+
 .belief-panel-h2 {
   margin: 0 0 10px;
   font-size: 1rem;
