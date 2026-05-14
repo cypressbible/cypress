@@ -142,38 +142,38 @@ if (!homePage) {
         </a>
       </p>
       <p class="belief-scan-hint">
-        Each heading matches our published doctrinal statement; Scripture citations follow the prose. The watch links above each heading mirror the teaching videos from our legacy What We Believe page.
+        Each heading matches our published doctrinal statement; Scripture citations follow the prose. The watch link on each heading row mirrors the teaching videos from our legacy What We Believe page.
       </p>
 
       <div class="belief-details-stack">
         {
           doctrineSections.map((d) => (
-            <div class="belief-acc-item">
-              <div class="belief-video-row">
+            <details id={d.id} class="belief-details belief-details--doctrine">
+              <summary>
+                <span class="belief-summary-main">
+                  <span class="belief-details-label">{d.label}</span>
+                  <span class="belief-details-title">{d.title}</span>
+                </span>
                 <a
-                  class="belief-video-link"
+                  class="belief-summary-video-link belief-video-link"
                   href={d.videoUrl}
                   rel="noopener noreferrer"
                   target="_blank"
+                  onclick="event.stopPropagation()"
                 >
                   <i class="fa-solid fa-circle-play belief-video-icon" aria-hidden="true" />
-                  <span>Watch teaching video</span>
+                  <span>Watch video</span>
                 </a>
+                <span class="belief-details-expand" aria-hidden="true"></span>
+              </summary>
+              <div class="belief-details-body">
+                <p>{d.teaching}</p>
+                <p class="belief-refs">
+                  <strong>References:</strong>
+                  {" "}{d.references}
+                </p>
               </div>
-              <details id={d.id} class="belief-details">
-                <summary>
-                  <span class="belief-details-label">{d.label}</span>
-                  <span class="belief-details-title">{d.title}</span>
-                </summary>
-                <div class="belief-details-body">
-                  <p>{d.teaching}</p>
-                  <p class="belief-refs">
-                    <strong>References:</strong>
-                    {" "}{d.references}
-                  </p>
-                </div>
-              </details>
-            </div>
+            </details>
           ))
         }
       </div>
