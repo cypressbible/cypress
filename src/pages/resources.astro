@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+import { churchResources, resourceDisclaimer } from "../data/resources";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+const linkRel = "noopener noreferrer";
+---
+
+<BaseLayout
+  title="Study Resources | Cypress Bible Church"
+  description="Downloadable Bible studies and tools from Cypress Bible Church—guides for growing in Scripture, prayer, and following Christ."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <a class="resources-skip" href="#resources-main">Skip to resources</a>
+
+  <div class="resources-page">
+    <header class="resources-hero" aria-labelledby="resources-heading">
+      <div class="resources-hero-inner">
+        <p class="resources-hero-eyebrow">Media</p>
+        <h1 id="resources-heading" class="resources-hero-title">Study resources</h1>
+        <p class="resources-hero-lede">
+          Printable guides and studies we&apos;ve prepared for anyone who wants to dig into Scripture—with Christ at the center
+          and the local church in view. Pick one resource, read the short summary, then open it when you&apos;re ready.
+        </p>
+      </div>
+    </header>
+
+    <div id="resources-main" class="resources-body">
+      <div class="resources-body-inner">
+        <ul class="resources-list">
+          {
+            churchResources.map((item) => (
+              <li class="resources-card">
+                <h2 class="resources-card-title">{item.title}</h2>
+                <p class="resources-card-desc">{item.description}</p>
+                <a
+                  class="resources-card-cta"
+                  href={item.href}
+                  target="_blank"
+                  rel={linkRel}
+                  aria-label={`${item.action}: ${item.title} (opens in new tab)`}
+                >
+                  <span>{item.action}</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square resources-card-cta-icon" aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <section class="resources-meta" aria-label="Sharing policy and bulletin">
+          <p class="resources-meta-disclaimer">{resourceDisclaimer}</p>
+          <p class="resources-meta-bulletin">
+            <a href="/bulletin">This week&apos;s bulletin</a>
+            <span aria-hidden="true">·</span>
+            Updates on campus life this Sunday and beyond.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
