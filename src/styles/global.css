@@ -1408,6 +1408,10 @@ body.has-modal-open {
   padding: 18px;
 }
 
+.newsletter-modal[hidden] {
+  display: none !important;
+}
+
 .newsletter-modal-backdrop {
   position: absolute;
   inset: 0;
