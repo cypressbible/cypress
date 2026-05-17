@@ -560,18 +560,16 @@ body.has-menu-open {
   border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 24px;
   padding: clamp(24px, 4vw, 38px);
-  min-height: 420px;
+  min-height: 640px;
   overflow: hidden;
 }
 
 .discipleship-pillar {
   position: absolute;
-  inset: clamp(24px, 4vw, 38px) clamp(24px, 4vw, 38px) clamp(24px, 4vw, 38px)
-    clamp(24px, 4vw, 38px);
-  display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  gap: clamp(24px, 3vw, 38px);
-  align-items: center;
+  inset: clamp(24px, 4vw, 38px) clamp(24px, 4vw, 38px) 112px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
   opacity: 0;
   transform: translateY(14px);
   pointer-events: none;
@@ -584,67 +582,59 @@ body.has-menu-open {
   pointer-events: auto;
 }
 
-.pillar-circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
+.pillar-hero {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background-image:
+    linear-gradient(180deg, rgba(10, 20, 36, 0.1), rgba(10, 20, 36, 0.84)),
+    var(--pillar-image);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 22px;
-  flex-shrink: 0;
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  align-items: flex-end;
 }
 
-.pillar-circle--light {
-  color: #0f172a;
+.pillar-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.72));
 }
 
-.pillar-circle :global(.pillar-fa) {
-  font-size: clamp(4.1rem, 9vw, 5.5rem);
-  line-height: 1;
+.pillar-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: clamp(20px, 3.2vw, 32px);
 }
 
 .pillar-badge {
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  margin: 0 0 8px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  opacity: 0.92;
-  text-align: center;
-  line-height: 1.25;
-  max-width: 110px;
-}
-
-.pillar-title-slot {
-  font-size: 0.82rem;
-  line-height: 1.35;
-  min-height: calc(2 * 1em * 1.35);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  flex-shrink: 0;
+  color: rgba(226, 232, 240, 0.92);
 }
 
 .pillar-title {
   margin: 0;
-  font-size: inherit;
+  font-size: clamp(1.05rem, 2.1vw, 1.5rem);
   font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: inherit;
+  letter-spacing: 0.05em;
+  line-height: 1.22;
   text-transform: uppercase;
   color: #f8fafc;
 }
 
 .pillar-body {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: rgba(226, 232, 240, 0.9);
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: rgba(241, 245, 249, 0.94);
 }
 
 .pillar-nav {
@@ -890,17 +880,11 @@ body.has-menu-open {
   }
 
   .discipleship-rotator {
-    min-height: 520px;
+    min-height: 620px;
   }
 
   .discipleship-pillar {
-    inset: 24px 24px 128px;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .pillar-circle {
-    margin-bottom: 0;
+    inset: 24px 24px 132px;
   }
 
   .pillar-nav {
@@ -926,11 +910,24 @@ body.has-menu-open {
 
 @media (max-width: 520px) {
   .discipleship-rotator {
-    min-height: 560px;
+    min-height: 600px;
   }
 
   .discipleship-pillar {
-    inset: 20px 20px 196px;
+    inset: 20px 20px 204px;
+  }
+
+  .pillar-hero-content {
+    padding: 18px;
+  }
+
+  .pillar-title {
+    font-size: 1rem;
+  }
+
+  .pillar-body {
+    font-size: 0.89rem;
+    line-height: 1.5;
   }
 
   .pillar-nav {

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
-import PillarIcon from "../components/PillarIcon.astro";
 import { getCollection } from "astro:content";
 import type { PillarIconKey } from "../components/PillarIcon.astro";
 
@@ -16,6 +15,13 @@ const slides = homePage.data.heroSlides;
 const discipleshipPillars = homePage.data.discipleshipPillars;
 const featuredStory = homePage.data.storiesFeatured;
 const storyCards = homePage.data.storiesItems;
+
+const pillarStockImages: Record<PillarIconKey, string> = {
+  worship: "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1000&q=80",
+  community: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80",
+  proclaim: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&q=80",
+  serve: "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1000&q=80"
+};
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
@@ -126,19 +132,16 @@ const storyCards = homePage.data.storiesItems;
               aria-hidden={index === 0 ? "false" : "true"}
             >
               <div
-                class:list={[
-                  "pillar-circle",
-                  pillar.lightCircle && "pillar-circle--light"
-                ]}
-                style={`background-color: ${pillar.circleColor}`}
+                class="pillar-hero"
+                style={`--pillar-image: url('${pillarStockImages[pillar.iconKey as PillarIconKey]}')`}
               >
-                <PillarIcon variant={pillar.iconKey as PillarIconKey} />
-                <span class="pillar-badge">{pillar.badge}</span>
+                <div class="pillar-hero-overlay"></div>
+                <div class="pillar-hero-content">
+                  <p class="pillar-badge">{pillar.badge}</p>
+                  <h3 class="pillar-title">{pillar.title}</h3>
+                  <p class="pillar-body">{pillar.body}</p>
+                </div>
               </div>
-              <div class="pillar-title-slot">
-                <h3 class="pillar-title">{pillar.title}</h3>
-              </div>
-              <p class="pillar-body">{pillar.body}</p>
             </article>
           ))
         }
