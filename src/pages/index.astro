@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { getCollection } from "astro:content";
-import type { PillarIconKey } from "../components/PillarIcon.astro";
 
 const pages = await getCollection("pages");
 const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
@@ -16,31 +15,24 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
 const featuredStory = homePage.data.storiesFeatured;
 const storyCards = homePage.data.storiesItems;
 
-const pillarStockImages: Record<PillarIconKey, string> = {
-  worship: "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1000&q=80",
-  community: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80",
-  proclaim: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&q=80",
-  serve: "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1000&q=80"
-};
-
 const marinersLoopSlides = [
   {
-    title: "Follow Jesus",
+    title: discipleshipPillars[0]?.badge || "Worship",
     image:
       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Grow Together",
+    title: discipleshipPillars[1]?.badge || "Community",
     image:
       "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Serve One Another",
+    title: discipleshipPillars[2]?.badge || "Proclaim",
     image:
       "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Change The World",
+    title: discipleshipPillars[3]?.badge || "Serve",
     image:
       "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1400&q=80"
   }
@@ -136,60 +128,6 @@ const marinersLoopSlides = [
     </div>
   </section>
 
-  <section class="discipleship-section" aria-labelledby="discipleship-heading">
-    <div class="discipleship-inner">
-      <div class="discipleship-intro">
-        <h2 id="discipleship-heading" class="discipleship-heading">
-          {homePage.data.discipleshipHeading}
-        </h2>
-        <p class="discipleship-lede">{homePage.data.discipleshipIntro}</p>
-      </div>
-      <div class="discipleship-rotator" data-pillars-rotator>
-        {
-          discipleshipPillars.map((pillar, index) => (
-            <article
-              class={`discipleship-pillar ${index === 0 ? "is-active" : ""}`}
-              data-pillar-slide={index}
-              id={`pillar-panel-${index}`}
-              role="tabpanel"
-              aria-hidden={index === 0 ? "false" : "true"}
-            >
-              <div
-                class="pillar-hero"
-                style={`--pillar-image: url('${pillarStockImages[pillar.iconKey as PillarIconKey]}')`}
-              >
-                <div class="pillar-hero-overlay"></div>
-                <div class="pillar-hero-content">
-                  <h3 class="pillar-title">{pillar.title}</h3>
-                  <p class="pillar-body">{pillar.body}</p>
-                </div>
-              </div>
-            </article>
-          ))
-        }
-        <div class="pillar-nav" role="tablist" aria-label="Discipleship pillar controls">
-          {
-            discipleshipPillars.map((pillar, index) => (
-              <button
-                type="button"
-                role="tab"
-                class={`pillar-nav-btn ${index === 0 ? "is-active" : ""}`}
-                data-pillar-tab={index}
-                aria-selected={index === 0 ? "true" : "false"}
-                aria-controls={`pillar-panel-${index}`}
-              >
-                <span class="pillar-nav-badge">{pillar.badge}</span>
-              </button>
-            ))
-          }
-        </div>
-        <div class="pillar-progress" aria-hidden="true">
-          <span class="pillar-progress-bar" data-pillar-progress></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
     <div class="loop-experiment-inner">
       <div class="loop-visual" data-loop-rotator style="--loop-angle: -90deg;">
@@ -207,11 +145,10 @@ const marinersLoopSlides = [
           }
 
           <div class="loop-orbit" aria-hidden="true">
-            <span class="loop-orbit-node loop-orbit-node--top"></span>
-            <span class="loop-orbit-node loop-orbit-node--right"></span>
-            <span class="loop-orbit-node loop-orbit-node--bottom"></span>
-            <span class="loop-orbit-node loop-orbit-node--left"></span>
-            <span class="loop-orbit-dot"></span>
+            <span class="loop-orbit-node loop-orbit-node--top is-active" data-loop-node="0"></span>
+            <span class="loop-orbit-node loop-orbit-node--right" data-loop-node="1"></span>
+            <span class="loop-orbit-node loop-orbit-node--bottom" data-loop-node="2"></span>
+            <span class="loop-orbit-node loop-orbit-node--left" data-loop-node="3"></span>
           </div>
 
           <div class="loop-center">
@@ -238,12 +175,10 @@ const marinersLoopSlides = [
       <div class="loop-copy">
         <h2 id="loop-experiment-heading" class="loop-copy-heading">Get Involved</h2>
         <p class="loop-copy-body">
-          At Mariners, we refer to the discipleship journey as the Transformational Loop - becoming
-          more like Jesus as we grow in faith. We want to help you Follow Jesus with your life, Grow
-          Together in community, Serve One Another with your unique gifts, and Change the World with
-          the love of Christ. If you're ready to take your next step of faith, we are here to help.
+          Growing into a disciple of Christ is a lifelong process. Four pillars of discipleship
+          support our spiritual growth at CBC.
         </p>
-        <a class="loop-copy-cta" href="/plan-a-visit">Experience The Loop</a>
+        <a class="loop-copy-cta" href="/plan-a-visit">Take a Step</a>
       </div>
     </div>
   </section>
@@ -367,116 +302,10 @@ const marinersLoopSlides = [
     });
   });
 
-  document.querySelectorAll("[data-pillars-rotator]").forEach((rotator) => {
-    const slides = Array.from(rotator.querySelectorAll("[data-pillar-slide]"));
-    const tabs = Array.from(rotator.querySelectorAll("[data-pillar-tab]"));
-    const progressBar = rotator.querySelector("[data-pillar-progress]");
-    if (!slides.length || !tabs.length) return;
-
-    let activeIndex = 0;
-    let timer;
-    const autoplayMs = 4800;
-
-    const restartProgress = () => {
-      if (!(progressBar instanceof HTMLElement)) return;
-      progressBar.style.animation = "none";
-      progressBar.getBoundingClientRect();
-      progressBar.style.animation = `pillar-progress ${autoplayMs}ms linear forwards`;
-    };
-
-    const showPillar = (index) => {
-      activeIndex = index;
-
-      slides.forEach((slide, i) => {
-        const isActive = i === activeIndex;
-        slide.classList.toggle("is-active", isActive);
-        slide.setAttribute("aria-hidden", String(!isActive));
-      });
-
-      tabs.forEach((tab, i) => {
-        const isActive = i === activeIndex;
-        tab.classList.toggle("is-active", isActive);
-        tab.setAttribute("aria-selected", String(isActive));
-      });
-
-      restartProgress();
-    };
-
-    const startAutoplay = () => {
-      if (slides.length < 2) return;
-      if (timer) return;
-      timer = window.setInterval(() => {
-        const next = (activeIndex + 1) % slides.length;
-        showPillar(next);
-      }, autoplayMs);
-    };
-
-    const stopAutoplay = () => {
-      if (timer) {
-        window.clearInterval(timer);
-        timer = undefined;
-      }
-    };
-
-    const restartAutoplay = () => {
-      stopAutoplay();
-      startAutoplay();
-    };
-
-    tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => {
-        showPillar(index);
-        restartAutoplay();
-      });
-
-      tab.addEventListener("keydown", (event) => {
-        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
-        event.preventDefault();
-        const step = event.key === "ArrowRight" ? 1 : -1;
-        const next = (index + step + tabs.length) % tabs.length;
-        const target = tabs[next];
-        if (!(target instanceof HTMLButtonElement)) return;
-        showPillar(next);
-        target.focus();
-        restartAutoplay();
-      });
-    });
-
-    rotator.addEventListener("mouseenter", () => {
-      stopAutoplay();
-      if (progressBar instanceof HTMLElement) {
-        progressBar.style.animationPlayState = "paused";
-      }
-    });
-    rotator.addEventListener("mouseleave", () => {
-      startAutoplay();
-      if (progressBar instanceof HTMLElement) {
-        progressBar.style.animationPlayState = "running";
-      }
-    });
-    rotator.addEventListener("focusin", () => {
-      stopAutoplay();
-      if (progressBar instanceof HTMLElement) {
-        progressBar.style.animationPlayState = "paused";
-      }
-    });
-    rotator.addEventListener("focusout", (event) => {
-      const destination = event.relatedTarget;
-      if (!(destination instanceof HTMLElement) || !rotator.contains(destination)) {
-        startAutoplay();
-        if (progressBar instanceof HTMLElement) {
-          progressBar.style.animationPlayState = "running";
-        }
-      }
-    });
-
-    showPillar(0);
-    startAutoplay();
-  });
-
   document.querySelectorAll("[data-loop-rotator]").forEach((rotator) => {
     const slides = Array.from(rotator.querySelectorAll("[data-loop-slide]"));
     const controls = Array.from(rotator.querySelectorAll("[data-loop-control]"));
+    const orbitNodes = Array.from(rotator.querySelectorAll("[data-loop-node]"));
     const title = rotator.querySelector("[data-loop-title]");
     if (!slides.length) return;
 
@@ -500,6 +329,10 @@ const marinersLoopSlides = [
         const isActive = i === activeIndex;
         control.classList.toggle("is-active", isActive);
         control.setAttribute("aria-selected", String(isActive));
+      });
+
+      orbitNodes.forEach((node, i) => {
+        node.classList.toggle("is-active", i === activeIndex);
       });
 
       const activeSlide = slides[activeIndex];

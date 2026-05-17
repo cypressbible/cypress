@@ -24,6 +24,7 @@
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 14px;
+  --cbc-heading-font: "Libre Baskerville", Georgia, "Times New Roman", serif;
 
   font-synthesis-weight: none;
 }
@@ -36,6 +37,15 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--cbc-heading-font);
 }
 
 main {
@@ -767,9 +777,11 @@ body.has-menu-open {
 
 .loop-orbit-node {
   position: absolute;
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  transform: scale(1);
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
 }
 
 .loop-orbit-node--top {
@@ -796,19 +808,9 @@ body.has-menu-open {
   background: #06b6d4;
 }
 
-.loop-orbit-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 11px;
-  height: 11px;
-  margin-left: -5.5px;
-  margin-top: -5.5px;
-  border-radius: 50%;
-  background: #2ca8bc;
-  box-shadow: 0 0 0 3px rgba(44, 168, 188, 0.2);
-  transform: rotate(var(--loop-angle, -90deg)) translateX(calc(50% - 6px));
-  transition: transform 0.65s ease;
+.loop-orbit-node.is-active {
+  transform: scale(1.85);
+  box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.22);
 }
 
 .loop-center {
