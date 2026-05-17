@@ -113,10 +113,16 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
         </h2>
         <p class="discipleship-lede">{homePage.data.discipleshipIntro}</p>
       </div>
-      <div class="discipleship-pillars">
+      <div class="discipleship-rotator" data-pillars-rotator>
         {
-          discipleshipPillars.map((pillar) => (
-            <article class="discipleship-pillar">
+          discipleshipPillars.map((pillar, index) => (
+            <article
+              class={`discipleship-pillar ${index === 0 ? "is-active" : ""}`}
+              data-pillar-slide={index}
+              id={`pillar-panel-${index}`}
+              role="tabpanel"
+              aria-hidden={index === 0 ? "false" : "true"}
+            >
               <div
                 class:list={[
                   "pillar-circle",
@@ -134,6 +140,26 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
             </article>
           ))
         }
+        <div class="pillar-nav" role="tablist" aria-label="Discipleship pillar controls">
+          {
+            discipleshipPillars.map((pillar, index) => (
+              <button
+                type="button"
+                role="tab"
+                class={`pillar-nav-btn ${index === 0 ? "is-active" : ""}`}
+                data-pillar-tab={index}
+                aria-selected={index === 0 ? "true" : "false"}
+                aria-controls={`pillar-panel-${index}`}
+              >
+                <span class="pillar-nav-badge">{pillar.badge}</span>
+                <span class="pillar-nav-title">{pillar.title}</span>
+              </button>
+            ))
+          }
+        </div>
+        <div class="pillar-progress" aria-hidden="true">
+          <span class="pillar-progress-bar" data-pillar-progress></span>
+        </div>
       </div>
     </div>
   </section>
@@ -214,6 +240,113 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
       video.removeAttribute("controls");
       video.muted = false;
     });
+  });
+
+  document.querySelectorAll("[data-pillars-rotator]").forEach((rotator) => {
+    const slides = Array.from(rotator.querySelectorAll("[data-pillar-slide]"));
+    const tabs = Array.from(rotator.querySelectorAll("[data-pillar-tab]"));
+    const progressBar = rotator.querySelector("[data-pillar-progress]");
+    if (!slides.length || !tabs.length) return;
+
+    let activeIndex = 0;
+    let timer;
+    const autoplayMs = 4800;
+
+    const restartProgress = () => {
+      if (!(progressBar instanceof HTMLElement)) return;
+      progressBar.style.animation = "none";
+      progressBar.getBoundingClientRect();
+      progressBar.style.animation = `pillar-progress ${autoplayMs}ms linear forwards`;
+    };
+
+    const showPillar = (index) => {
+      activeIndex = index;
+
+      slides.forEach((slide, i) => {
+        const isActive = i === activeIndex;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      tabs.forEach((tab, i) => {
+        const isActive = i === activeIndex;
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      restartProgress();
+    };
+
+    const startAutoplay = () => {
+      if (slides.length < 2) return;
+      if (timer) return;
+      timer = window.setInterval(() => {
+        const next = (activeIndex + 1) % slides.length;
+        showPillar(next);
+      }, autoplayMs);
+    };
+
+    const stopAutoplay = () => {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = undefined;
+      }
+    };
+
+    const restartAutoplay = () => {
+      stopAutoplay();
+      startAutoplay();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        showPillar(index);
+        restartAutoplay();
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+        event.preventDefault();
+        const step = event.key === "ArrowRight" ? 1 : -1;
+        const next = (index + step + tabs.length) % tabs.length;
+        const target = tabs[next];
+        if (!(target instanceof HTMLButtonElement)) return;
+        showPillar(next);
+        target.focus();
+        restartAutoplay();
+      });
+    });
+
+    rotator.addEventListener("mouseenter", () => {
+      stopAutoplay();
+      if (progressBar instanceof HTMLElement) {
+        progressBar.style.animationPlayState = "paused";
+      }
+    });
+    rotator.addEventListener("mouseleave", () => {
+      startAutoplay();
+      if (progressBar instanceof HTMLElement) {
+        progressBar.style.animationPlayState = "running";
+      }
+    });
+    rotator.addEventListener("focusin", () => {
+      stopAutoplay();
+      if (progressBar instanceof HTMLElement) {
+        progressBar.style.animationPlayState = "paused";
+      }
+    });
+    rotator.addEventListener("focusout", (event) => {
+      const destination = event.relatedTarget;
+      if (!(destination instanceof HTMLElement) || !rotator.contains(destination)) {
+        startAutoplay();
+        if (progressBar instanceof HTMLElement) {
+          progressBar.style.animationPlayState = "running";
+        }
+      }
+    });
+
+    showPillar(0);
+    startAutoplay();
   });
   </script>
 </BaseLayout>
