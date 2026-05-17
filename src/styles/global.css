@@ -46,6 +46,7 @@ h4,
 h5,
 h6 {
   font-family: var(--cbc-heading-font);
+  font-weight: 400;
 }
 
 main {
@@ -318,8 +319,9 @@ body.has-menu-open {
   margin: 0 0 20px;
   font-size: clamp(2.2rem, 6vw, 5rem);
   line-height: 1.05;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-weight: 400;
 }
 
 .slide-headline-line {
@@ -341,9 +343,9 @@ body.has-menu-open {
   margin: -18px 0 22px;
   max-width: 550px;
   font-size: clamp(0.88rem, 1.5vw, 1.1rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
   opacity: 0.95;
 }
 
@@ -744,7 +746,7 @@ body.has-menu-open {
 
 .loop-frame {
   position: relative;
-  width: min(620px, 100%);
+  width: min(744px, 100%);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: visible;
@@ -1083,7 +1085,7 @@ body.has-menu-open {
   }
 
   .loop-frame {
-    width: min(560px, 100%);
+    width: min(672px, 100%);
     margin: 0 auto;
   }
 }
@@ -1156,6 +1158,10 @@ body.has-menu-open {
 
   .loop-center-title {
     font-size: 1.5rem;
+  }
+
+  .loop-frame {
+    width: min(490px, 100%);
   }
 
 }
@@ -1721,10 +1727,10 @@ body.has-modal-open {
 .plan-pav-heading {
   margin: 0 0 1.25rem;
   font-size: clamp(1.1rem, 2.4vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   line-height: 1.25;
-  text-transform: uppercase;
+  text-transform: none;
   text-align: center;
 }
 
@@ -1778,27 +1784,27 @@ body.has-modal-open {
 .plan-pav-service-kicker {
   margin: 0 0 10px;
   font-size: clamp(1.75rem, 4.5vw, 2.75rem);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #2c3e50;
 }
 
 .plan-pav-service-times {
   margin: 0 0 8px;
   font-size: clamp(1.2rem, 2.8vw, 1.65rem);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #2c3e50;
 }
 
 .plan-pav-service-note {
   margin: 0 0 20px;
   font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #2c3e50;
 }
 

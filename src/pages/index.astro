@@ -152,7 +152,7 @@ const marinersLoopSlides = [
           </div>
 
           <div class="loop-center">
-            <h3 class="loop-center-title" data-loop-title>{marinersLoopSlides[0].title}</h3>
+            <h3 class="loop-center-title" data-loop-center-title>{marinersLoopSlides[0].title}</h3>
           </div>
         </div>
 
@@ -306,7 +306,7 @@ const marinersLoopSlides = [
     const slides = Array.from(rotator.querySelectorAll("[data-loop-slide]"));
     const controls = Array.from(rotator.querySelectorAll("[data-loop-control]"));
     const orbitNodes = Array.from(rotator.querySelectorAll("[data-loop-node]"));
-    const title = rotator.querySelector("[data-loop-title]");
+    const title = rotator.querySelector("[data-loop-center-title]");
     if (!slides.length) return;
 
     let activeIndex = 0;
