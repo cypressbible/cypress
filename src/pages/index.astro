@@ -22,6 +22,29 @@ const pillarStockImages: Record<PillarIconKey, string> = {
   proclaim: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&q=80",
   serve: "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1000&q=80"
 };
+
+const marinersLoopSlides = [
+  {
+    title: "Follow Jesus",
+    image:
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1400&q=80"
+  },
+  {
+    title: "Grow Together",
+    image:
+      "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1400&q=80"
+  },
+  {
+    title: "Serve One Another",
+    image:
+      "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1400&q=80"
+  },
+  {
+    title: "Change The World",
+    image:
+      "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1400&q=80"
+  }
+];
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
@@ -137,7 +160,6 @@ const pillarStockImages: Record<PillarIconKey, string> = {
               >
                 <div class="pillar-hero-overlay"></div>
                 <div class="pillar-hero-content">
-                  <p class="pillar-badge">{pillar.badge}</p>
                   <h3 class="pillar-title">{pillar.title}</h3>
                   <p class="pillar-body">{pillar.body}</p>
                 </div>
@@ -157,7 +179,6 @@ const pillarStockImages: Record<PillarIconKey, string> = {
                 aria-controls={`pillar-panel-${index}`}
               >
                 <span class="pillar-nav-badge">{pillar.badge}</span>
-                <span class="pillar-nav-title">{pillar.title}</span>
               </button>
             ))
           }
@@ -165,6 +186,64 @@ const pillarStockImages: Record<PillarIconKey, string> = {
         <div class="pillar-progress" aria-hidden="true">
           <span class="pillar-progress-bar" data-pillar-progress></span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
+    <div class="loop-experiment-inner">
+      <div class="loop-visual" data-loop-rotator style="--loop-angle: -90deg;">
+        <div class="loop-frame">
+          {
+            marinersLoopSlides.map((slide, index) => (
+              <article
+                class={`loop-slide ${index === 0 ? "is-active" : ""}`}
+                data-loop-slide
+                data-loop-title={slide.title}
+                style={`--loop-image: url('${slide.image}')`}
+                aria-hidden={index === 0 ? "false" : "true"}
+              ></article>
+            ))
+          }
+
+          <div class="loop-orbit" aria-hidden="true">
+            <span class="loop-orbit-node loop-orbit-node--top"></span>
+            <span class="loop-orbit-node loop-orbit-node--right"></span>
+            <span class="loop-orbit-node loop-orbit-node--bottom"></span>
+            <span class="loop-orbit-node loop-orbit-node--left"></span>
+            <span class="loop-orbit-dot"></span>
+          </div>
+
+          <div class="loop-center">
+            <h3 class="loop-center-title" data-loop-title>{marinersLoopSlides[0].title}</h3>
+          </div>
+        </div>
+
+        <div class="loop-controls" role="tablist" aria-label="Transformational loop slides">
+          {
+            marinersLoopSlides.map((slide, index) => (
+              <button
+                type="button"
+                role="tab"
+                class={`loop-control ${index === 0 ? "is-active" : ""}`}
+                data-loop-control={index}
+                aria-selected={index === 0 ? "true" : "false"}
+                aria-label={`Show ${slide.title}`}
+              ></button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="loop-copy">
+        <h2 id="loop-experiment-heading" class="loop-copy-heading">Get Involved</h2>
+        <p class="loop-copy-body">
+          At Mariners, we refer to the discipleship journey as the Transformational Loop - becoming
+          more like Jesus as we grow in faith. We want to help you Follow Jesus with your life, Grow
+          Together in community, Serve One Another with your unique gifts, and Change the World with
+          the love of Christ. If you're ready to take your next step of faith, we are here to help.
+        </p>
+        <a class="loop-copy-cta" href="/plan-a-visit">Experience The Loop</a>
       </div>
     </div>
   </section>
@@ -392,6 +471,68 @@ const pillarStockImages: Record<PillarIconKey, string> = {
     });
 
     showPillar(0);
+    startAutoplay();
+  });
+
+  document.querySelectorAll("[data-loop-rotator]").forEach((rotator) => {
+    const slides = Array.from(rotator.querySelectorAll("[data-loop-slide]"));
+    const controls = Array.from(rotator.querySelectorAll("[data-loop-control]"));
+    const title = rotator.querySelector("[data-loop-title]");
+    if (!slides.length) return;
+
+    let activeIndex = 0;
+    let timer;
+    const autoplayMs = 4600;
+    const step = 360 / slides.length;
+
+    const showLoopSlide = (index) => {
+      activeIndex = index;
+      const angle = activeIndex * step - 90;
+      rotator.style.setProperty("--loop-angle", `${angle}deg`);
+
+      slides.forEach((slide, i) => {
+        const isActive = i === activeIndex;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      controls.forEach((control, i) => {
+        const isActive = i === activeIndex;
+        control.classList.toggle("is-active", isActive);
+        control.setAttribute("aria-selected", String(isActive));
+      });
+
+      const activeSlide = slides[activeIndex];
+      if (title instanceof HTMLElement && activeSlide instanceof HTMLElement) {
+        title.textContent = activeSlide.dataset.loopTitle || "";
+      }
+    };
+
+    const startAutoplay = () => {
+      if (slides.length < 2 || timer) return;
+      timer = window.setInterval(() => {
+        showLoopSlide((activeIndex + 1) % slides.length);
+      }, autoplayMs);
+    };
+
+    const stopAutoplay = () => {
+      if (!timer) return;
+      window.clearInterval(timer);
+      timer = undefined;
+    };
+
+    controls.forEach((control, index) => {
+      control.addEventListener("click", () => {
+        showLoopSlide(index);
+        stopAutoplay();
+        startAutoplay();
+      });
+    });
+
+    rotator.addEventListener("mouseenter", stopAutoplay);
+    rotator.addEventListener("mouseleave", startAutoplay);
+
+    showLoopSlide(0);
     startAutoplay();
   });
   </script>
