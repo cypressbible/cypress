@@ -14,6 +14,8 @@ if (!homePage) {
 
 const slides = homePage.data.heroSlides;
 const discipleshipPillars = homePage.data.discipleshipPillars;
+const featuredStory = homePage.data.storiesFeatured;
+const storyCards = homePage.data.storiesItems;
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
@@ -160,6 +162,47 @@ const discipleshipPillars = homePage.data.discipleshipPillars;
         <div class="pillar-progress" aria-hidden="true">
           <span class="pillar-progress-bar" data-pillar-progress></span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stories-section" aria-labelledby="stories-heading">
+    <div class="stories-inner">
+      <h2 id="stories-heading" class="stories-heading">{homePage.data.storiesHeading}</h2>
+
+      <div class="stories-featured">
+        <div class="stories-featured-copy">
+          <p class="stories-eyebrow">{featuredStory.eyebrow}</p>
+          <blockquote class="stories-quote">{featuredStory.quote}</blockquote>
+          <a class="stories-cta" href={featuredStory.ctaHref}>
+            {featuredStory.ctaText}
+          </a>
+        </div>
+
+        <a class="stories-media stories-media--featured" href={featuredStory.storyHref}>
+          <img src={featuredStory.imageSrc} alt={featuredStory.imageAlt} loading="lazy" />
+          <span class="stories-play">
+            <span class="stories-play-icon" aria-hidden="true"></span>
+            <span>{featuredStory.watchLabel}</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="stories-grid">
+        {
+          storyCards.map((story) => (
+            <article class="stories-card">
+              <a class="stories-media" href={story.storyHref}>
+                <img src={story.imageSrc} alt={story.imageAlt} loading="lazy" />
+                <span class="stories-play">
+                  <span class="stories-play-icon" aria-hidden="true"></span>
+                  <span>{story.watchLabel}</span>
+                </span>
+              </a>
+              <p class="stories-card-quote">{story.quote}</p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>

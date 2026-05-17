@@ -246,6 +246,107 @@ export default defineConfig({
             ]
           },
           {
+            type: "string",
+            name: "storiesHeading",
+            label: "Our Stories Heading",
+            required: true
+          },
+          {
+            type: "object",
+            name: "storiesFeatured",
+            label: "Featured Story",
+            fields: [
+              {
+                type: "string",
+                name: "eyebrow",
+                label: "Eyebrow Label",
+                required: true
+              },
+              {
+                type: "string",
+                name: "quote",
+                label: "Featured Quote",
+                ui: { component: "textarea" },
+                required: true
+              },
+              {
+                type: "string",
+                name: "imageSrc",
+                label: "Featured Image URL",
+                required: true
+              },
+              {
+                type: "string",
+                name: "imageAlt",
+                label: "Featured Image Alt Text",
+                required: true
+              },
+              {
+                type: "string",
+                name: "storyHref",
+                label: "Featured Story URL",
+                required: true
+              },
+              {
+                type: "string",
+                name: "watchLabel",
+                label: "Featured Watch Label",
+                required: true
+              },
+              {
+                type: "string",
+                name: "ctaText",
+                label: "Featured CTA Label",
+                required: true
+              },
+              {
+                type: "string",
+                name: "ctaHref",
+                label: "Featured CTA URL",
+                required: true
+              }
+            ]
+          },
+          {
+            type: "object",
+            name: "storiesItems",
+            label: "Story Cards",
+            list: true,
+            fields: [
+              {
+                type: "string",
+                name: "quote",
+                label: "Story Quote",
+                ui: { component: "textarea" },
+                required: true
+              },
+              {
+                type: "string",
+                name: "imageSrc",
+                label: "Story Image URL",
+                required: true
+              },
+              {
+                type: "string",
+                name: "imageAlt",
+                label: "Story Image Alt Text",
+                required: true
+              },
+              {
+                type: "string",
+                name: "storyHref",
+                label: "Story URL",
+                required: true
+              },
+              {
+                type: "string",
+                name: "watchLabel",
+                label: "Watch Label",
+                required: true
+              }
+            ]
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
