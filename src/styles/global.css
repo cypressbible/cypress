@@ -184,34 +184,35 @@ a.esv-crossref-link:focus-visible {
 }
 
 .mini-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 18px;
-  width: min(420px, calc(100vw - 36px));
-  max-height: min(74vh, 640px);
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(248, 250, 252, 0.98);
   overflow-y: auto;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  background: #fff;
-  box-shadow: 0 22px 54px rgba(2, 6, 23, 0.22);
-  padding: 16px;
+  padding: clamp(22px, 3vw, 36px) clamp(18px, 4vw, 46px) 34px;
+}
+
+.mini-menu[hidden] {
+  display: none !important;
 }
 
 .mini-menu-header {
+  max-width: 1240px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .mini-menu-title {
   margin: 0;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: clamp(1.2rem, 2.7vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #0f172a;
 }
 
@@ -231,22 +232,24 @@ a.esv-crossref-link:focus-visible {
 }
 
 .mini-menu-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 32px);
 }
 
 .mini-menu-group {
   border-bottom: 1px solid rgba(226, 232, 240, 0.9);
-  padding-bottom: 10px;
+  padding-bottom: 14px;
 }
 
 .mini-menu-link {
   display: block;
   color: #334155;
-  font-size: 0.92rem;
+  font-size: 1rem;
   line-height: 1.5;
-  padding: 4px 0;
+  padding: 5px 0;
 }
 
 .mini-menu-link:hover,
@@ -256,15 +259,15 @@ a.esv-crossref-link:focus-visible {
 
 .mini-menu-link--parent {
   color: #0f172a;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 .mini-menu-children {
-  margin-top: 4px;
-  padding-left: 10px;
+  margin-top: 8px;
+  padding-left: 12px;
 }
 
 .mini-menu-link.is-current {
@@ -1210,10 +1213,8 @@ body.has-menu-open {
     letter-spacing: 0.04em;
   }
 
-  .mini-menu {
-    top: calc(100% + 6px);
-    right: 10px;
-    width: min(400px, calc(100vw - 20px));
+  .mini-menu-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .rotator {
@@ -1241,6 +1242,15 @@ body.has-menu-open {
   .main-menu .nav-top-link:nth-child(2),
   .main-menu .nav-top-link:nth-child(3) {
     display: none;
+  }
+
+  .mini-menu {
+    padding: 16px 14px 24px;
+  }
+
+  .mini-menu-nav {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 
