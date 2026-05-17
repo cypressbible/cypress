@@ -4,22 +4,22 @@
 
 :root {
   /* Canonical tokens — DESIGN_SYSTEM.md */
-  --cbc-bg-deep: #050915;
-  --cbc-bg-main: #0b1220;
-  --cbc-bg-overlay: rgba(5, 9, 21, 0.92);
+  --cbc-bg-deep: #ffffff;
+  --cbc-bg-main: #ffffff;
+  --cbc-bg-overlay: rgba(255, 255, 255, 0.96);
 
-  --cbc-accent-slate: #294a62;
-  --cbc-accent-soft: #4a6f8f;
+  --cbc-accent-slate: #234f78;
+  --cbc-accent-soft: #3f6fa9;
   --cbc-accent-teal: #2d6a6a;
   --cbc-accent-muted: rgba(74, 111, 143, 0.35);
 
-  --cbc-light-surface: #f4f7fb;
+  --cbc-light-surface: #f8fafc;
   --cbc-card: #ffffff;
-  --cbc-line: rgba(255, 255, 255, 0.08);
+  --cbc-line: rgba(15, 23, 42, 0.12);
   --cbc-line-dark: #e2e8f0;
 
-  --cbc-heading: #f8fafc;
-  --cbc-text: rgba(226, 232, 240, 0.92);
+  --cbc-heading: #0f172a;
+  --cbc-text: #334155;
 
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -30,9 +30,9 @@
 
 body {
   margin: 0;
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", "Arial", sans-serif;
   background: var(--cbc-bg-main);
-  color: #e2e8f0;
+  color: #1e293b;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -97,17 +97,15 @@ a.esv-crossref-link:focus-visible {
 .top-nav {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 300;
   left: 0;
   width: 100%;
-  padding: 14px 28px;
+  padding: 18px 26px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  background: rgba(5, 9, 21, 0.92);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  gap: 22px;
+  background: #fff;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .brand {
@@ -118,10 +116,11 @@ a.esv-crossref-link:focus-visible {
 
 .brand-logo {
   display: block;
-  height: 42px;
+  height: 36px;
   width: auto;
-  max-width: min(240px, 42vw);
+  max-width: min(220px, 34vw);
   object-fit: contain;
+  filter: brightness(0);
 }
 
 .main-menu {
@@ -129,115 +128,142 @@ a.esv-crossref-link:focus-visible {
   align-items: center;
   justify-content: center;
   flex: 1;
-  gap: 22px;
+  gap: clamp(14px, 2.2vw, 34px);
 }
 
-.main-menu > a.nav-top-link,
-.main-menu > .nav-item--dropdown > .nav-top-link {
-  font-size: 0.82rem;
+.nav-top-link {
+  font-size: clamp(0.86rem, 1.4vw, 0.96rem);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-
-.nav-item {
-  position: relative;
-}
-
-.nav-item--dropdown .nav-top-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Invisible hit area so the pointer can move from the label to the menu
-   without leaving the dropdown parent (avoids hover gap flicker).
-   Keep width limited to this nav column only — a wide centered strip would sit
-   under the next menu item and open the wrong dropdown. */
-.nav-item--dropdown::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  width: 100%;
-  height: 18px;
-  z-index: 119;
-}
-
-.nav-chevron {
-  font-size: 0.55rem;
-  opacity: 0.85;
-  margin-top: 2px;
-}
-
-.nav-dropdown {
-  position: absolute;
-  top: calc(100% + 18px);
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 240px;
-  padding: 8px 0;
-  background: #fff;
-  color: #1e293b;
-  border-radius: 2px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 0.18s ease,
-    visibility 0.18s ease;
-  z-index: 120;
-}
-
-.nav-item--dropdown:hover .nav-dropdown,
-.nav-item--dropdown:focus-within .nav-dropdown {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.nav-item--dropdown:hover,
-.nav-item--dropdown:focus-within {
-  z-index: 125;
-}
-
-.nav-dropdown-link {
-  display: block;
-  padding: 11px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  color: #64748b;
-}
-
-.nav-dropdown-link:hover,
-.nav-dropdown-link:focus-visible {
-  background: #f1f5f9;
-  color: #4a6f8f;
-}
-
-.nav-dropdown-link.is-current {
-  color: #4a6f8f;
-  text-decoration: none;
+  color: #0b1220;
+  white-space: nowrap;
 }
 
 .nav-top-link.is-current {
-  text-decoration: underline;
+  text-decoration: underline solid #0b1220 2px;
   text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
 }
 
-.search-btn {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.03);
-  color: #fff;
-  border-radius: 999px;
-  width: 38px;
-  height: 38px;
+.menu-toggle {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: #0b1220;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+}
+
+.menu-toggle-bars {
+  width: 34px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.menu-toggle-bars span {
+  display: block;
+  height: 3px;
+  border-radius: 999px;
+  background: #0b1220;
+}
+
+.mini-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 18px;
+  width: min(420px, calc(100vw - 36px));
+  max-height: min(74vh, 640px);
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: #fff;
+  box-shadow: 0 22px 54px rgba(2, 6, 23, 0.22);
+  padding: 16px;
+}
+
+.mini-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.mini-menu-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.mini-menu-close {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.4rem;
+  color: #334155;
+  cursor: pointer;
+}
+
+.mini-menu-close:hover {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.mini-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mini-menu-group {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  padding-bottom: 10px;
+}
+
+.mini-menu-link {
+  display: block;
+  color: #334155;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  padding: 4px 0;
+}
+
+.mini-menu-link:hover,
+.mini-menu-link:focus-visible {
+  color: #1d4d75;
+}
+
+.mini-menu-link--parent {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mini-menu-children {
+  margin-top: 4px;
+  padding-left: 10px;
+}
+
+.mini-menu-link.is-current {
+  color: #1d4d75;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body.has-menu-open {
+  overflow: hidden;
 }
 
 .rotator {
@@ -963,20 +989,33 @@ a.esv-crossref-link:focus-visible {
 
 @media (max-width: 900px) {
   .top-nav {
-    flex-wrap: wrap;
-    row-gap: 12px;
+    padding: 14px 16px;
+    gap: 12px;
   }
 
   .brand {
-    min-width: 0;
+    min-width: 120px;
   }
 
   .main-menu {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 12px 16px;
+    justify-content: flex-end;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .main-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-top-link {
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+  }
+
+  .mini-menu {
+    top: calc(100% + 6px);
+    right: 10px;
+    width: min(400px, calc(100vw - 20px));
   }
 
   .rotator {
@@ -989,6 +1028,21 @@ a.esv-crossref-link:focus-visible {
 
   .dot-nav {
     right: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand {
+    display: none;
+  }
+
+  .main-menu {
+    justify-content: flex-start;
+  }
+
+  .main-menu .nav-top-link:nth-child(2),
+  .main-menu .nav-top-link:nth-child(3) {
+    display: none;
   }
 }
 
@@ -1009,72 +1063,27 @@ a.esv-crossref-link:focus-visible {
   width: 100%;
 }
 
-.newsletter-bar {
-  background: #222;
-  color: #fff;
-  padding: clamp(40px, 6vw, 56px) 24px;
-}
-
-.newsletter-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 48px);
-  align-items: start;
-}
-
 .newsletter-heading {
-  margin: 0 0 22px;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  margin: 0 0 14px;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.45;
-  text-transform: uppercase;
-}
-
-.btn-foot {
-  display: inline-block;
-  padding: 14px 22px;
-  background: #5b7a8c;
-  color: #fff !important;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  border-radius: 2px;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.btn-foot:hover {
-  background: #4d6a7a;
-}
-
-.btn-foot--wide {
-  width: 100%;
-  max-width: 320px;
-}
-
-.btn-foot--submit {
-  width: 100%;
-  margin-top: 4px;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  color: #0f172a;
 }
 
 .newsletter-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .newsletter-form .field label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   margin-bottom: 6px;
+  color: #334155;
 }
 
 .newsletter-form .req {
@@ -1084,12 +1093,19 @@ a.esv-crossref-link:focus-visible {
 .newsletter-form input[type="email"],
 .newsletter-form input[type="text"] {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #ccc;
-  border-radius: 2px;
+  padding: 11px 13px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: 6px;
   font: inherit;
   color: #0f172a;
   background: #fff;
+}
+
+.newsletter-form input[type="email"]:focus,
+.newsletter-form input[type="text"]:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.35);
+  border-color: rgba(59, 130, 246, 0.75);
+  outline-offset: 1px;
 }
 
 .field--split {
@@ -1113,7 +1129,29 @@ a.esv-crossref-link:focus-visible {
   display: block;
   margin-top: 4px;
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: #64748b;
+}
+
+.newsletter-submit {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  min-height: 42px;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: #3d6687;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.newsletter-submit:hover {
+  background: #2f5472;
 }
 
 .footer-main {
@@ -1334,6 +1372,89 @@ a.esv-crossref-link:focus-visible {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.footer-newsletter-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.footer-newsletter-open:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+body.has-modal-open {
+  overflow: hidden;
+}
+
+.newsletter-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.newsletter-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(2, 6, 23, 0.6);
+}
+
+.newsletter-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 12px;
+  padding: clamp(22px, 3.8vw, 30px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+}
+
+.newsletter-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #334155;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.newsletter-close:hover {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.newsletter-bulletin-link {
+  display: inline-flex;
+  margin: 0 0 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .to-top {
@@ -2093,12 +2214,8 @@ a.esv-crossref-link:focus-visible {
     padding-right: 0;
   }
 
-  .newsletter-inner {
-    grid-template-columns: 1fr;
-  }
-
-  .btn-foot--wide {
-    max-width: none;
+  .newsletter-dialog {
+    width: min(560px, 100%);
   }
 
   .footer-grid {
@@ -2113,6 +2230,11 @@ a.esv-crossref-link:focus-visible {
 @media (max-width: 560px) {
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer-legal-right {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .field--split {

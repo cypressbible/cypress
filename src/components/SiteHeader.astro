@@ -25,6 +25,24 @@ function linkIsCurrent(href: string): boolean {
   if (!here || href.startsWith("http")) return false;
   return normPath(href) === here;
 }
+
+const mediaItem = menuItems.find((item) => item.label.toLowerCase().includes("media"));
+const ministriesItem = menuItems.find((item) => item.label.toLowerCase().includes("ministries"));
+const planItem = menuItems.find((item) => item.href === "/plan-a-visit");
+const giveItem = menuItems.find((item) => item.href === "/give");
+
+const watchHref =
+  mediaItem?.children?.find((child) => child.label.toLowerCase().includes("livestream"))?.href ||
+  mediaItem?.href ||
+  "/livestream";
+
+const joinGroupHref =
+  ministriesItem?.children?.find((child) => child.label.toLowerCase().includes("life groups"))?.href ||
+  ministriesItem?.href ||
+  "/life-groups";
+
+const planVisitHref = planItem?.href || "/plan-a-visit";
+const giveHref = giveItem?.href || "/give";
 ---
 
 <header class="top-nav">
@@ -39,43 +57,117 @@ function linkIsCurrent(href: string): boolean {
       decoding="async"
     />
   </a>
-  <nav class="main-menu" aria-label="Main navigation">
-    {
-      menuItems.map((item) =>
-        item.children && item.children.length > 0 ? (
-          <div
-            class:list={["nav-item", "nav-item--dropdown"]}
-          >
-            <a class="nav-top-link" href={item.href}>
-              {item.label}
-              <i class="fa-solid fa-chevron-down nav-chevron" aria-hidden="true"></i>
-            </a>
-            <div class="nav-dropdown" role="menu">
-              {item.children.map((child) => (
-                <a
-                  role="menuitem"
-                  class:list={["nav-dropdown-link", linkIsCurrent(child.href) && "is-current"]}
-                  href={child.href}
-                  aria-current={linkIsCurrent(child.href) ? "page" : undefined}
-                >
-                  {child.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <a
-            class:list={["nav-top-link", "nav-item", linkIsCurrent(item.href) && "is-current"]}
-            href={item.href}
-            aria-current={linkIsCurrent(item.href) ? "page" : undefined}
-          >
-            {item.label}
-          </a>
-        )
-      )
-    }
+  <nav class="main-menu main-menu--primary" aria-label="Main navigation">
+    <a class:list={["nav-top-link", linkIsCurrent(watchHref) && "is-current"]} href={watchHref}>Watch</a>
+    <a class:list={["nav-top-link", linkIsCurrent(joinGroupHref) && "is-current"]} href={joinGroupHref}>
+      Join A Group
+    </a>
+    <a class:list={["nav-top-link", linkIsCurrent(planVisitHref) && "is-current"]} href={planVisitHref}>
+      Plan A Visit
+    </a>
+    <a class:list={["nav-top-link", linkIsCurrent(giveHref) && "is-current"]} href={giveHref}>Give</a>
   </nav>
-  <button class="search-btn" type="button" aria-label="Search site">
-    <span aria-hidden="true">&#128269;</span>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="site-mini-menu"
+    data-menu-toggle
+  >
+    <span class="menu-toggle-bars" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
   </button>
+
+  <div class="mini-menu" id="site-mini-menu" data-mini-menu hidden>
+    <div class="mini-menu-header">
+      <p class="mini-menu-title">Menu</p>
+      <button type="button" class="mini-menu-close" aria-label="Close menu" data-menu-close>
+        ×
+      </button>
+    </div>
+    <nav class="mini-menu-nav" aria-label="Expanded site navigation">
+      {
+        menuItems.map((item) => (
+          <div class="mini-menu-group">
+            <a
+              class:list={["mini-menu-link", "mini-menu-link--parent", linkIsCurrent(item.href) && "is-current"]}
+              href={item.href}
+              aria-current={linkIsCurrent(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+            {item.children && item.children.length > 0 && (
+              <div class="mini-menu-children">
+                {item.children.map((child) => (
+                  <a
+                    class:list={["mini-menu-link", linkIsCurrent(child.href) && "is-current"]}
+                    href={child.href}
+                    aria-current={linkIsCurrent(child.href) ? "page" : undefined}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </nav>
+  </div>
 </header>
+
+<script is:inline>
+  const header = document.querySelector(".top-nav");
+  const toggleButton = header?.querySelector("[data-menu-toggle]");
+  const closeButton = header?.querySelector("[data-menu-close]");
+  const miniMenu = header?.querySelector("[data-mini-menu]");
+
+  if (toggleButton instanceof HTMLButtonElement && miniMenu instanceof HTMLElement) {
+    const openMenu = () => {
+      miniMenu.hidden = false;
+      toggleButton.setAttribute("aria-expanded", "true");
+      document.body.classList.add("has-menu-open");
+    };
+
+    const closeMenu = () => {
+      miniMenu.hidden = true;
+      toggleButton.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("has-menu-open");
+    };
+
+    toggleButton.addEventListener("click", () => {
+      if (miniMenu.hidden) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+
+    if (closeButton instanceof HTMLButtonElement) {
+      closeButton.addEventListener("click", closeMenu);
+    }
+
+    miniMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (miniMenu.hidden) return;
+      if (miniMenu.contains(target) || toggleButton.contains(target)) return;
+      closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !miniMenu.hidden) {
+        closeMenu();
+      }
+    });
+  }
+</script>
