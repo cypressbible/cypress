@@ -47,6 +47,7 @@ h5,
 h6 {
   font-family: var(--cbc-heading-font);
   font-weight: 400;
+  text-transform: capitalize;
 }
 
 main {
@@ -323,7 +324,7 @@ body.has-menu-open {
   font-size: clamp(2.2rem, 6vw, 5rem);
   line-height: 1.05;
   letter-spacing: 0.01em;
-  text-transform: none;
+  text-transform: capitalize;
   font-weight: 400;
 }
 
@@ -510,10 +511,10 @@ body.has-menu-open {
 .welcome-title {
   margin: 0 0 20px;
   font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   line-height: 1.2;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: #0f172a;
 }
 
@@ -732,6 +733,7 @@ body.has-menu-open {
   background: #f3f4f6;
   color: #0f172a;
   padding: clamp(56px, 8vw, 94px) 24px;
+  overflow: hidden;
 }
 
 .loop-experiment-inner {
@@ -745,6 +747,7 @@ body.has-menu-open {
 
 .loop-visual {
   position: relative;
+  margin-left: clamp(-160px, -11vw, -64px);
 }
 
 .loop-frame {
@@ -829,16 +832,23 @@ body.has-menu-open {
   justify-content: center;
   z-index: 4;
   text-align: center;
-  padding: 28px;
+  padding: 24px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loop-center-icon {
+  font-size: clamp(1rem, 2vw, 1.35rem);
 }
 
 .loop-center-title {
   margin: 0;
   font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
-  font-size: clamp(1.8rem, 3.3vw, 3rem);
+  font-size: clamp(1.45rem, 2.8vw, 2.35rem);
   line-height: 1.08;
   font-weight: 400;
   color: #1f2937;
+  text-transform: capitalize;
 }
 
 .loop-controls {
@@ -901,6 +911,7 @@ body.has-menu-open {
   background: #3f6fa9;
   color: #fff;
   padding: clamp(56px, 8vw, 92px) 16px;
+  overflow: hidden;
 }
 
 .stories-inner {
@@ -997,6 +1008,10 @@ body.has-menu-open {
   aspect-ratio: 16 / 10;
 }
 
+.stories-media--featured {
+  margin-right: clamp(-140px, -10vw, -56px);
+}
+
 .stories-media:hover img {
   transform: scale(1.03);
 }
@@ -1087,9 +1102,17 @@ body.has-menu-open {
     grid-template-columns: 1fr;
   }
 
+  .loop-visual {
+    margin-left: 0;
+  }
+
   .loop-frame {
     width: min(672px, 100%);
     margin: 0 auto;
+  }
+
+  .stories-media--featured {
+    margin-right: 0;
   }
 }
 
@@ -1160,7 +1183,7 @@ body.has-menu-open {
   }
 
   .loop-center-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .loop-frame {
@@ -1586,21 +1609,30 @@ body.has-menu-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
-  padding: 7px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid rgba(125, 211, 252, 0.7);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: linear-gradient(135deg, #22c1dc, #1d8fbf);
   color: #f8fafc;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
+  box-shadow: 0 8px 20px rgba(34, 193, 220, 0.3);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .footer-newsletter-open:hover {
-  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(34, 193, 220, 0.36);
+  filter: brightness(1.06);
+}
+
+.footer-newsletter-open:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.9);
+  outline-offset: 2px;
 }
 
 body.has-modal-open {
@@ -1740,7 +1772,7 @@ body.has-modal-open {
   font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1.25;
-  text-transform: none;
+  text-transform: capitalize;
   text-align: center;
 }
 
@@ -1937,8 +1969,9 @@ body.has-modal-open {
 .plan-pav--paper.plan-visit-wrap h2 {
   margin: 48px 0 16px;
   font-size: clamp(1.35rem, 3vw, 1.85rem);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  font-weight: 400;
   color: #1e293b;
 }
 
@@ -1949,8 +1982,9 @@ body.has-modal-open {
 .plan-pav--paper.plan-visit-wrap h3 {
   margin: 32px 0 12px;
   font-size: 1.05rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  font-weight: 400;
   color: #334155;
 }
 
@@ -1976,9 +2010,9 @@ body.has-modal-open {
 
 .plan-pav--paper .plan-visit-faq summary {
   cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #1e293b;
 }
 
@@ -2014,18 +2048,18 @@ body.has-modal-open {
   margin: 0 0 10px;
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
   color: #64748b;
 }
 
 .plan-pav-touch-title {
   margin: 0 0 14px;
   font-size: clamp(1.85rem, 4.5vw, 2.65rem);
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   line-height: 1.1;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: #2c3e50;
 }
 
@@ -2061,8 +2095,8 @@ body.has-modal-open {
 .plan-pav-touch-label {
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
   color: #2c3e50;
   margin-bottom: 6px;
 }

@@ -17,22 +17,30 @@ const storyCards = homePage.data.storiesItems;
 
 const marinersLoopSlides = [
   {
-    title: "Worship in services",
+    title: "Worship In Services",
+    icon: "fa-music",
+    color: "#ef4444",
     image:
       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Transform in community",
+    title: "Transform In Community",
+    icon: "fa-people-group",
+    color: "#3b82f6",
     image:
       "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Serve on teams",
+    title: "Serve On Teams",
+    icon: "fa-handshake-angle",
+    color: "#84cc16",
     image:
       "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1400&q=80"
   },
   {
-    title: "Proclaim to nations",
+    title: "Proclaim To Nations",
+    icon: "fa-bullhorn",
+    color: "#06b6d4",
     image:
       "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1400&q=80"
   }
@@ -138,6 +146,8 @@ const marinersLoopSlides = [
                 class={`loop-slide ${index === 0 ? "is-active" : ""}`}
                 data-loop-slide
                 data-loop-title={slide.title}
+                data-loop-icon={slide.icon}
+                data-loop-color={slide.color}
                 style={`--loop-image: url('${slide.image}')`}
                 aria-hidden={index === 0 ? "false" : "true"}
               ></article>
@@ -152,6 +162,12 @@ const marinersLoopSlides = [
           </div>
 
           <div class="loop-center">
+            <i
+              class={`loop-center-icon fa-solid ${marinersLoopSlides[0].icon}`}
+              data-loop-center-icon
+              style={`color: ${marinersLoopSlides[0].color}`}
+              aria-hidden="true"
+            ></i>
             <h3 class="loop-center-title" data-loop-center-title>{marinersLoopSlides[0].title}</h3>
           </div>
         </div>
@@ -307,6 +323,7 @@ const marinersLoopSlides = [
     const controls = Array.from(rotator.querySelectorAll("[data-loop-control]"));
     const orbitNodes = Array.from(rotator.querySelectorAll("[data-loop-node]"));
     const title = rotator.querySelector("[data-loop-center-title]");
+    const icon = rotator.querySelector("[data-loop-center-icon]");
     if (!slides.length) return;
 
     let activeIndex = 0;
@@ -338,6 +355,11 @@ const marinersLoopSlides = [
       const activeSlide = slides[activeIndex];
       if (title instanceof HTMLElement && activeSlide instanceof HTMLElement) {
         title.textContent = activeSlide.dataset.loopTitle || "";
+      }
+
+      if (icon instanceof HTMLElement && activeSlide instanceof HTMLElement) {
+        icon.className = `loop-center-icon fa-solid ${activeSlide.dataset.loopIcon || "fa-circle"}`;
+        icon.style.color = activeSlide.dataset.loopColor || "#334155";
       }
     };
 
