@@ -41,23 +41,17 @@ if (!homePage) {
 
   <section class="pillar-page-commitments" aria-labelledby="pillar-commitments-heading">
     <div class="pillar-page-commitments-inner">
-      <h2 id="pillar-commitments-heading" class="pillar-page-commitments-title">Values And Commitments</h2>
-      <p class="pillar-page-commitments-lede">
-        These commitments give practical shape to how we live this pillar together as a church family.
-      </p>
-      <div class="pillar-page-grid">
+      <h2 id="pillar-commitments-heading" class="pillar-page-commitments-title">{pillar.title}</h2>
+      <ul class="pillar-page-list">
         {
           pillar.commitments.map((commitment) => (
-            <article class="pillar-page-card">
-              <i class={`fa-solid ${pillar.icon} pillar-page-card-icon`} style={`color: ${pillar.color}`} aria-hidden="true"></i>
-              <h3 class="pillar-page-card-title">{commitment}</h3>
-              <p class="pillar-page-card-body">
-                We pursue this commitment intentionally in our homes, groups, and gathered church life.
-              </p>
-            </article>
+            <li class="pillar-page-list-item">
+              <i class={`fa-solid ${pillar.icon} pillar-page-list-icon`} style={`color: ${pillar.color}`} aria-hidden="true"></i>
+              <p class="pillar-page-list-text">{commitment}</p>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 </BaseLayout>
