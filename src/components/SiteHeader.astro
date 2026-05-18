@@ -26,15 +26,11 @@ function linkIsCurrent(href: string): boolean {
   return normPath(href) === here;
 }
 
-const mediaItem = menuItems.find((item) => item.label.toLowerCase().includes("media"));
 const ministriesItem = menuItems.find((item) => item.label.toLowerCase().includes("ministries"));
 const planItem = menuItems.find((item) => item.href === "/plan-a-visit");
 const giveItem = menuItems.find((item) => item.href === "/give");
 
-const watchHref =
-  mediaItem?.children?.find((child) => child.label.toLowerCase().includes("livestream"))?.href ||
-  mediaItem?.href ||
-  "/livestream";
+const watchHref = "/watch";
 
 const joinGroupHref =
   ministriesItem?.children?.find((child) => child.label.toLowerCase().includes("life groups"))?.href ||

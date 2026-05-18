@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+import { discipleshipPillarPages } from "../../data/discipleship-pillars";
+
+export function getStaticPaths() {
+  return discipleshipPillarPages.map((pillar) => ({
+    params: { slug: pillar.slug },
+    props: { pillar }
+  }));
+}
+
+const { pillar } = Astro.props;
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+---
+
+<BaseLayout
+  title={`${pillar.title} | Cypress Bible Church`}
+  description={`${pillar.title} discipleship commitments at Cypress Bible Church.`}
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <section class="pillar-page-hero">
+    <div class="pillar-page-hero-inner">
+      <p class="pillar-page-kicker">Four Pillars Of Discipleship</p>
+      <h1 class="pillar-page-title">{pillar.title}</h1>
+      <p class="pillar-page-lede">{pillar.summary}</p>
+      <a class="pillar-page-back" href="/">Back To Homepage</a>
+    </div>
+    <div class="pillar-page-image-wrap">
+      <img src={pillar.image} alt={pillar.title} class="pillar-page-image" loading="eager" />
+    </div>
+  </section>
+
+  <section class="pillar-page-commitments" aria-labelledby="pillar-commitments-heading">
+    <div class="pillar-page-commitments-inner">
+      <h2 id="pillar-commitments-heading" class="pillar-page-commitments-title">Values And Commitments</h2>
+      <p class="pillar-page-commitments-lede">
+        These commitments give practical shape to how we live this pillar together as a church family.
+      </p>
+      <div class="pillar-page-grid">
+        {
+          pillar.commitments.map((commitment) => (
+            <article class="pillar-page-card">
+              <i class={`fa-solid ${pillar.icon} pillar-page-card-icon`} style={`color: ${pillar.color}`} aria-hidden="true"></i>
+              <h3 class="pillar-page-card-title">{commitment}</h3>
+              <p class="pillar-page-card-body">
+                We pursue this commitment intentionally in our homes, groups, and gathered church life.
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

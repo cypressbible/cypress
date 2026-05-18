@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+import { getLiveStreamEmbedSrc, YOUTUBE_CHANNEL_URL } from "../data/livestream";
+import { CHURCH_TZ } from "../lib/calendar-display";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+const embedSrc = getLiveStreamEmbedSrc();
+const tzLabel = new Intl.DateTimeFormat("en-US", {
+  timeZone: CHURCH_TZ,
+  timeZoneName: "shortGeneric"
+})
+  .formatToParts(new Date())
+  .find((p) => p.type === "timeZoneName")?.value;
+
+const timeZoneNote = tzLabel ? `${tzLabel} (${CHURCH_TZ})` : CHURCH_TZ;
+---
+
+<BaseLayout
+  title="Watch | Cypress Bible Church"
+  description="Watch live Sunday services when active and browse recent sermon archives from Cypress Bible Church."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <a class="live-skip" href="#watch-main">Skip to watch content</a>
+
+  <div class="live-page">
+    <header class="live-hero" aria-labelledby="watch-heading">
+      <div class="live-hero-inner">
+        <p class="live-hero-eyebrow">Watch</p>
+        <h1 id="watch-heading" class="live-hero-title">Watch Services And Sermons</h1>
+        <p class="live-hero-lede">
+          If we are live, the player below is the central place to join the stream. If we are not live,
+          browse the sermon archives further down the page. Service times are in {timeZoneNote}.
+        </p>
+      </div>
+    </header>
+
+    <div id="watch-main" class="live-body">
+      <div class="live-body-inner">
+        <section class="live-panel" aria-label="Live video player">
+          <div class="watch-live-kicker">
+            <span class="watch-live-dot" aria-hidden="true"></span>
+            Live when active
+          </div>
+          <div class="live-embed-wrap">
+            <iframe
+              class="live-embed-iframe"
+              title="Cypress Bible Church live stream (when active)"
+              src={embedSrc}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            />
+          </div>
+          <p class="live-player-note">
+            If no live stream appears, scroll down to watch recent messages or open our{" "}
+            <a href={YOUTUBE_CHANNEL_URL} rel="noopener noreferrer" target="_blank">YouTube channel</a>.
+          </p>
+        </section>
+
+        <section class="live-panel watch-archives-panel" aria-label="Sermon archives">
+          <h2 class="watch-archives-title">Recent Sermons</h2>
+          <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
+          <bibleslides-sermon-list
+            church="cypressbible"
+            services="Sunday Morning"
+            page-size="12"
+            view="list"
+            api-base="https://bibleslides.app"
+            surface="white"
+            theme="light"
+            font-family="inherit"
+          ></bibleslides-sermon-list>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

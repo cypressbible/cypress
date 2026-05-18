@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { getCollection } from "astro:content";
+import { discipleshipPillarPages } from "../data/discipleship-pillars";
 
 const pages = await getCollection("pages");
 const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
@@ -11,40 +12,10 @@ if (!homePage) {
 }
 
 const slides = homePage.data.heroSlides;
-const discipleshipPillars = homePage.data.discipleshipPillars;
 const featuredStory = homePage.data.storiesFeatured;
 const storyCards = homePage.data.storiesItems;
 
-const marinersLoopSlides = [
-  {
-    title: "Worship In Services",
-    icon: "fa-music",
-    color: "#ef4444",
-    image:
-      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1400&q=80"
-  },
-  {
-    title: "Transform In Community",
-    icon: "fa-people-group",
-    color: "#3b82f6",
-    image:
-      "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1400&q=80"
-  },
-  {
-    title: "Serve On Teams",
-    icon: "fa-handshake-angle",
-    color: "#84cc16",
-    image:
-      "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1400&q=80"
-  },
-  {
-    title: "Proclaim To Nations",
-    icon: "fa-bullhorn",
-    color: "#06b6d4",
-    image:
-      "https://images.unsplash.com/photo-1469571486292-b53601020ef5?auto=format&fit=crop&w=1400&q=80"
-  }
-];
+const marinersLoopSlides = discipleshipPillarPages;
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
@@ -102,9 +73,11 @@ const marinersLoopSlides = [
       <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
       <bibleslides-recent-sermon
         church="cypressbible"
+        service="Sunday Morning"
         api-base="https://bibleslides.app"
         surface="white"
         theme="light"
+        font-family="inherit"
       ></bibleslides-recent-sermon>
     </div>
   </section>
@@ -139,15 +112,18 @@ const marinersLoopSlides = [
   <section class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
     <div class="loop-experiment-inner">
       <div class="loop-visual" data-loop-rotator style="--loop-angle: -90deg;">
-        <div class="loop-frame">
+        <a class="loop-frame-link" data-loop-link href={`/pillars/${marinersLoopSlides[0].slug}`}>
+          <div class="loop-frame">
           {
             marinersLoopSlides.map((slide, index) => (
               <article
                 class={`loop-slide ${index === 0 ? "is-active" : ""}`}
                 data-loop-slide
                 data-loop-title={slide.title}
+                data-loop-slug={slide.slug}
                 data-loop-icon={slide.icon}
                 data-loop-color={slide.color}
+                data-loop-summary={slide.summary}
                 style={`--loop-image: url('${slide.image}')`}
                 aria-hidden={index === 0 ? "false" : "true"}
               ></article>
@@ -170,7 +146,8 @@ const marinersLoopSlides = [
             ></i>
             <h3 class="loop-center-title" data-loop-center-title>{marinersLoopSlides[0].title}</h3>
           </div>
-        </div>
+          </div>
+        </a>
 
         <div class="loop-controls" role="tablist" aria-label="Transformational loop slides">
           {
@@ -194,7 +171,8 @@ const marinersLoopSlides = [
           Growing into a disciple of Christ is a lifelong process. Four pillars of discipleship
           support our spiritual growth at CBC.
         </p>
-        <a class="loop-copy-cta" href="/plan-a-visit">Take a Step</a>
+        <a class="loop-copy-cta" href={`/pillars/${marinersLoopSlides[0].slug}`} data-loop-cta>Take a Step</a>
+        <p class="loop-copy-support" data-loop-support>{marinersLoopSlides[0].summary}</p>
       </div>
     </div>
   </section>
@@ -324,6 +302,9 @@ const marinersLoopSlides = [
     const orbitNodes = Array.from(rotator.querySelectorAll("[data-loop-node]"));
     const title = rotator.querySelector("[data-loop-center-title]");
     const icon = rotator.querySelector("[data-loop-center-icon]");
+    const deepLink = rotator.querySelector("[data-loop-link]");
+    const cta = document.querySelector("[data-loop-cta]");
+    const support = document.querySelector("[data-loop-support]");
     if (!slides.length) return;
 
     let activeIndex = 0;
@@ -360,6 +341,22 @@ const marinersLoopSlides = [
       if (icon instanceof HTMLElement && activeSlide instanceof HTMLElement) {
         icon.className = `loop-center-icon fa-solid ${activeSlide.dataset.loopIcon || "fa-circle"}`;
         icon.style.color = activeSlide.dataset.loopColor || "#334155";
+      }
+
+      const slug = activeSlide instanceof HTMLElement ? activeSlide.dataset.loopSlug : undefined;
+      const summary = activeSlide instanceof HTMLElement ? activeSlide.dataset.loopSummary : undefined;
+      const href = slug ? `/pillars/${slug}` : "/plan-a-visit";
+
+      if (deepLink instanceof HTMLAnchorElement) {
+        deepLink.href = href;
+      }
+
+      if (cta instanceof HTMLAnchorElement) {
+        cta.href = href;
+      }
+
+      if (support instanceof HTMLElement && summary) {
+        support.textContent = summary;
       }
     };
 
