@@ -14,6 +14,8 @@ if (!homePage) {
 const slides = homePage.data.heroSlides;
 const featuredStory = homePage.data.storiesFeatured;
 const storyCards = homePage.data.storiesItems;
+const welcomeVideoPoster =
+  "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80";
 
 const marinersLoopSlides = discipleshipPillarPages;
 ---
@@ -88,6 +90,7 @@ const marinersLoopSlides = discipleshipPillarPages;
         <video
           class="welcome-video-el"
           src={homePage.data.welcomeVideoSrc}
+          poster={welcomeVideoPoster}
           playsinline
           preload="metadata"
         >
@@ -181,8 +184,9 @@ const marinersLoopSlides = discipleshipPillarPages;
           Growing into a disciple of Christ is a lifelong process. Four pillars of discipleship
           support our spiritual growth at CBC.
         </p>
-        <a class="loop-copy-cta" href={`/pillars/${marinersLoopSlides[0].slug}`} data-loop-cta>Take a Step</a>
-        <p class="loop-copy-current" data-loop-current-heading>{marinersLoopSlides[0].title}</p>
+        <a class="loop-copy-cta" href={`/pillars/${marinersLoopSlides[0].slug}`} data-loop-cta>
+          {marinersLoopSlides[0].title}
+        </a>
         <p class="loop-copy-support" data-loop-support>{marinersLoopSlides[0].summary}</p>
       </div>
     </div>
@@ -317,7 +321,6 @@ const marinersLoopSlides = discipleshipPillarPages;
     const nextButton = rotator.querySelector("[data-loop-next]");
     const deepLink = rotator.querySelector("[data-loop-link]");
     const cta = document.querySelector("[data-loop-cta]");
-    const currentHeading = document.querySelector("[data-loop-current-heading]");
     const support = document.querySelector("[data-loop-support]");
     if (!slides.length) return;
 
@@ -367,10 +370,7 @@ const marinersLoopSlides = discipleshipPillarPages;
 
       if (cta instanceof HTMLAnchorElement) {
         cta.href = href;
-      }
-
-      if (currentHeading instanceof HTMLElement && activeSlide instanceof HTMLElement) {
-        currentHeading.textContent = activeSlide.dataset.loopTitle || "";
+        cta.textContent = activeSlide instanceof HTMLElement ? activeSlide.dataset.loopTitle || "Take a Step" : "Take a Step";
       }
 
       if (support instanceof HTMLElement && summary) {
