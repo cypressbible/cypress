@@ -892,6 +892,31 @@ body.has-menu-open {
   gap: 8px;
 }
 
+.loop-nav-buttons {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loop-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.loop-nav-btn:hover {
+  background: #f8fafc;
+}
+
 .loop-control {
   width: 18px;
   height: 4px;
@@ -947,6 +972,12 @@ body.has-menu-open {
   font-size: 0.98rem;
   line-height: 1.6;
   color: #475569;
+}
+
+.loop-copy-current {
+  margin: 12px 0 0;
+  font-size: 1.05rem;
+  color: #0f172a;
 }
 
 .stories-section {
