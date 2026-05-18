@@ -51,8 +51,9 @@ const social = [
   }
 ];
 
-const mapEmbedSrc =
-  "https://www.google.com/maps?q=11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429&output=embed";
+const mapsHref =
+  "https://www.google.com/maps/search/?api=1&query=11711+Cypress+North+Houston+Rd,+Cypress,+TX+77429";
+
 ---
 
 <footer class="site-footer" id="site-footer">
@@ -75,19 +76,15 @@ const mapEmbedSrc =
           person of Jesus Christ.
         </p>
         <address class="footer-contact">
-          <span>11711 Cypress North Houston Rd, Cypress, TX 77429</span>
+          <span>
+            <a href={mapsHref} target="_blank" rel="noopener noreferrer">
+              11711 Cypress North Houston Rd, Cypress, TX 77429
+            </a>
+          </span>
           <span>Service Times: 9:30 am &amp; 11:00 am</span>
           <span><a href="tel:+18326841827">(832) 684-1827</a></span>
           <span><a href="mailto:info@cypressbible.org">info@cypressbible.org</a></span>
         </address>
-        <div class="footer-map">
-          <iframe
-            title="Cypress Bible Church on Google Maps"
-            src={mapEmbedSrc}
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
         <div class="footer-social">
           {
             social.map((s) => (
@@ -136,7 +133,32 @@ const mapEmbedSrc =
         </div>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-newsletter">
+        <h3 class="footer-heading">Sign Up For Updates</h3>
+        <form
+          class="footer-newsletter-form"
+          action="https://formsubmit.co/info@cypressbible.org"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="Newsletter signup" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+          <label class="visually-hidden" for="footer-newsletter-email">Email</label>
+          <input
+            id="footer-newsletter-email"
+            class="footer-newsletter-input"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="Your email address"
+          />
+          <button class="footer-newsletter-submit" type="submit">Sign Up</button>
+        </form>
+        <a class="footer-newsletter-bulletin" href={bulletinHref}>Read This Week's Bulletin</a>
+      </div>
+
+      <div class="footer-col footer-col--quick">
         <h3 class="footer-heading">Quick links</h3>
         <ul class="footer-list">
           {quickLinks.map((l) => (
@@ -147,7 +169,7 @@ const mapEmbedSrc =
         </ul>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col footer-col--other">
         <h3 class="footer-heading">Other pages</h3>
         <ul class="footer-list">
           {otherPages.map((l) => (
@@ -158,7 +180,7 @@ const mapEmbedSrc =
         </ul>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col footer-col--events">
         <h3 class="footer-heading">Events</h3>
         <div class="footer-calendar-panel">
           {
@@ -197,56 +219,11 @@ const mapEmbedSrc =
         &copy; {year} Cypress Bible Church. All Rights Reserved.
       </p>
       <div class="footer-legal-right">
-        <button type="button" class="footer-newsletter-open" data-newsletter-open>
-          Sign up for updates
-        </button>
         <a href={privacyHref}>Privacy policy</a>
         <button type="button" class="to-top" aria-label="Back to top" data-to-top>
           <span aria-hidden="true">↑</span>
         </button>
       </div>
-    </div>
-  </div>
-
-  <div class="newsletter-modal" data-newsletter-modal hidden>
-    <button
-      type="button"
-      class="newsletter-modal-backdrop"
-      data-newsletter-close
-      aria-label="Close newsletter signup"
-    ></button>
-    <div class="newsletter-dialog" role="dialog" aria-modal="true" aria-labelledby="newsletter-heading">
-      <button type="button" class="newsletter-close" data-newsletter-close aria-label="Close modal">
-        ×
-      </button>
-      <h2 id="newsletter-heading" class="newsletter-heading">
-        Subscribe to our newsletter for events and updates.
-      </h2>
-      <a class="newsletter-bulletin-link" href={bulletinHref}>Read This Week's Bulletin</a>
-      <form class="newsletter-form" action="https://formsubmit.co/info@cypressbible.org" method="POST">
-        <input type="hidden" name="_subject" value="Newsletter signup" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-        <div class="field">
-          <label for="nl-email">Email <span class="req">*</span></label>
-          <input id="nl-email" name="email" type="email" required autocomplete="email" />
-        </div>
-        <div class="field field-name">
-          <label for="nl-first">Name <span class="req">*</span></label>
-          <div class="field--split">
-            <div class="field-col">
-              <input id="nl-first" name="first_name" type="text" required autocomplete="given-name" />
-              <span class="field-hint">First</span>
-            </div>
-            <div class="field-col">
-              <label for="nl-last" class="visually-hidden">Last name</label>
-              <input id="nl-last" name="last_name" type="text" required autocomplete="family-name" />
-              <span class="field-hint">Last</span>
-            </div>
-          </div>
-        </div>
-        <button class="newsletter-submit" type="submit">Submit</button>
-      </form>
     </div>
   </div>
 </footer>
@@ -258,37 +235,4 @@ const mapEmbedSrc =
     });
   });
 
-  const newsletterModal = document.querySelector("[data-newsletter-modal]");
-  const newsletterOpenButtons = document.querySelectorAll("[data-newsletter-open]");
-  const newsletterCloseButtons = document.querySelectorAll("[data-newsletter-close]");
-
-  if (newsletterModal instanceof HTMLElement) {
-    const openModal = () => {
-      newsletterModal.hidden = false;
-      document.body.classList.add("has-modal-open");
-      const firstInput = newsletterModal.querySelector("#nl-email");
-      if (firstInput instanceof HTMLElement) {
-        firstInput.focus();
-      }
-    };
-
-    const closeModal = () => {
-      newsletterModal.hidden = true;
-      document.body.classList.remove("has-modal-open");
-    };
-
-    newsletterOpenButtons.forEach((button) => {
-      button.addEventListener("click", openModal);
-    });
-
-    newsletterCloseButtons.forEach((button) => {
-      button.addEventListener("click", closeModal);
-    });
-
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !newsletterModal.hidden) {
-        closeModal();
-      }
-    });
-  }
 </script>
