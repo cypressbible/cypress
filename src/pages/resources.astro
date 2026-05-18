@@ -40,18 +40,37 @@ const linkRel = "noopener noreferrer";
           {
             churchResources.map((item) => (
               <li class="resources-card">
-                <h2 class="resources-card-title">{item.title}</h2>
-                <p class="resources-card-desc">{item.description}</p>
                 <a
-                  class="resources-card-cta"
+                  class="resources-card-poster"
                   href={item.href}
                   target="_blank"
                   rel={linkRel}
                   aria-label={`${item.action}: ${item.title} (opens in new tab)`}
                 >
-                  <span>{item.action}</span>
-                  <i class="fa-solid fa-arrow-up-right-from-square resources-card-cta-icon" aria-hidden="true" />
+                  {
+                    item.imageSrc ? (
+                      <img src={item.imageSrc} alt={item.imageAlt} loading="lazy" decoding="async" />
+                    ) : (
+                      <span class="resources-card-poster-fallback" aria-hidden="true">
+                        {item.title}
+                      </span>
+                    )
+                  }
                 </a>
+                <div class="resources-card-body">
+                  <h2 class="resources-card-title">{item.title}</h2>
+                  <p class="resources-card-desc">{item.description}</p>
+                  <a
+                    class="resources-card-cta"
+                    href={item.href}
+                    target="_blank"
+                    rel={linkRel}
+                    aria-label={`${item.action}: ${item.title} (opens in new tab)`}
+                  >
+                    <span>{item.action}</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square resources-card-cta-icon" aria-hidden="true" />
+                  </a>
+                </div>
               </li>
             ))
           }

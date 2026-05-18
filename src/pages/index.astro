@@ -177,7 +177,7 @@ const marinersLoopSlides = discipleshipPillarPages;
       </div>
 
       <div class="loop-copy">
-        <h2 id="loop-experiment-heading" class="loop-copy-heading">Get Involved</h2>
+        <h2 id="loop-experiment-heading" class="loop-copy-heading">Four Pillars Of Growth</h2>
         <p class="loop-copy-body">
           Growing into a disciple of Christ is a lifelong process. Four pillars of discipleship
           support our spiritual growth at CBC.
@@ -277,8 +277,18 @@ const marinersLoopSlides = discipleshipPillarPages;
       wrap.classList.add("has-error");
     });
 
-    btn.addEventListener("click", async () => {
+    const hidePlayButton = () => {
       wrap.classList.add("is-playing");
+      btn.hidden = true;
+    };
+
+    const showPlayButton = () => {
+      wrap.classList.remove("is-playing");
+      btn.hidden = false;
+    };
+
+    btn.addEventListener("click", async () => {
+      hidePlayButton();
       video.setAttribute("controls", "");
 
       const tryPlay = async (muted) => {
@@ -288,22 +298,21 @@ const marinersLoopSlides = discipleshipPillarPages;
 
       try {
         await tryPlay(false);
-        btn.hidden = true;
       } catch {
         try {
           await tryPlay(true);
-          btn.hidden = true;
         } catch {
-          wrap.classList.remove("is-playing");
+          showPlayButton();
           video.removeAttribute("controls");
           video.muted = false;
         }
       }
     });
 
+    video.addEventListener("play", hidePlayButton);
+
     video.addEventListener("ended", () => {
-      btn.hidden = false;
-      wrap.classList.remove("is-playing");
+      showPlayButton();
       video.removeAttribute("controls");
       video.muted = false;
     });
