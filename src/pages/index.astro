@@ -152,27 +152,25 @@ const marinersLoopSlides = discipleshipPillarPages;
           </div>
         </a>
 
-        <div class="loop-controls" role="tablist" aria-label="Transformational loop slides">
-          {
-            marinersLoopSlides.map((slide, index) => (
-              <button
-                type="button"
-                role="tab"
-                class={`loop-control ${index === 0 ? "is-active" : ""}`}
-                data-loop-control={index}
-                aria-selected={index === 0 ? "true" : "false"}
-                aria-label={`Show ${slide.title}`}
-              ></button>
-            ))
-          }
-        </div>
-        <div class="loop-nav-buttons">
-          <button type="button" class="loop-nav-btn" data-loop-prev aria-label="Previous pillar">
+        <div class="loop-controls-row">
+          <button type="button" class="loop-nav-icon" data-loop-prev aria-label="Previous pillar">
             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-            <span>Previous</span>
           </button>
-          <button type="button" class="loop-nav-btn" data-loop-next aria-label="Next pillar">
-            <span>Next</span>
+          <div class="loop-controls" role="tablist" aria-label="Transformational loop slides">
+            {
+              marinersLoopSlides.map((slide, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class={`loop-control ${index === 0 ? "is-active" : ""}`}
+                  data-loop-control={index}
+                  aria-selected={index === 0 ? "true" : "false"}
+                  aria-label={`Show ${slide.title}`}
+                ></button>
+              ))
+            }
+          </div>
+          <button type="button" class="loop-nav-icon" data-loop-next aria-label="Next pillar">
             <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
           </button>
         </div>

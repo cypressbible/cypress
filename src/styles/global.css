@@ -898,38 +898,38 @@ body.has-menu-open {
   text-transform: capitalize;
 }
 
+.loop-controls-row {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 .loop-controls {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 8px;
 }
 
-.loop-nav-buttons {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-}
-
-.loop-nav-btn {
+.loop-nav-icon {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 28px;
-  padding: 4px 8px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.5);
-  color: rgba(51, 65, 85, 0.72);
-  font-size: 0.74rem;
+  background: transparent;
+  color: rgba(51, 65, 85, 0.58);
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.loop-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(148, 163, 184, 0.5);
+.loop-nav-icon:hover {
+  background: rgba(255, 255, 255, 0.5);
   color: rgba(30, 41, 59, 0.88);
 }
 
@@ -3845,7 +3845,7 @@ body.has-modal-open {
 }
 
 .live-hero-inner {
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
@@ -3876,6 +3876,11 @@ body.has-modal-open {
   line-height: 1.65;
   color: var(--cbc-text);
   opacity: 0.92;
+}
+
+.live-hero bibleslides-recent-sermon {
+  display: block;
+  margin-top: 18px;
 }
 
 .live-body {

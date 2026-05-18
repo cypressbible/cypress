@@ -21,6 +21,7 @@ const tzLabel = new Intl.DateTimeFormat("en-US", {
   .find((p) => p.type === "timeZoneName")?.value;
 
 const timeZoneNote = tzLabel ? `${tzLabel} (${CHURCH_TZ})` : CHURCH_TZ;
+const noembedProbe = `https://noembed.com/embed?url=${encodeURIComponent(embedSrc)}`;
 ---
 
 <BaseLayout
@@ -35,20 +36,23 @@ const timeZoneNote = tzLabel ? `${tzLabel} (${CHURCH_TZ})` : CHURCH_TZ;
     <header class="live-hero" aria-labelledby="watch-heading">
       <div class="live-hero-inner">
         <p class="live-hero-eyebrow">Watch</p>
-        <h1 id="watch-heading" class="live-hero-title">Watch Services And Sermons</h1>
-        <p class="live-hero-lede">
-          If we are live, the player below is the central place to join the stream. If we are not live,
-          browse the sermon archives further down the page. Service times are in {timeZoneNote}.
-        </p>
+        <h1 id="watch-heading" class="live-hero-title">Latest Message</h1>
+        <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
+        <bibleslides-recent-sermon
+          church="cypressbible"
+          variant="header"
+          service="Sunday Morning"
+          api-base="https://bibleslides.app"
+        ></bibleslides-recent-sermon>
       </div>
     </header>
 
     <div id="watch-main" class="live-body">
       <div class="live-body-inner">
-        <section class="live-panel" aria-label="Live video player">
+        <section class="live-panel" aria-label="Live video player" data-live-panel hidden>
           <div class="watch-live-kicker">
             <span class="watch-live-dot" aria-hidden="true"></span>
-            Live when active
+            Live now
           </div>
           <div class="live-embed-wrap">
             <iframe
@@ -62,7 +66,7 @@ const timeZoneNote = tzLabel ? `${tzLabel} (${CHURCH_TZ})` : CHURCH_TZ;
             />
           </div>
           <p class="live-player-note">
-            If no live stream appears, scroll down to watch recent messages or open our{" "}
+            Service times are in {timeZoneNote}. If needed, open our{" "}
             <a href={YOUTUBE_CHANNEL_URL} rel="noopener noreferrer" target="_blank">YouTube channel</a>.
           </p>
         </section>
@@ -84,4 +88,19 @@ const timeZoneNote = tzLabel ? `${tzLabel} (${CHURCH_TZ})` : CHURCH_TZ;
       </div>
     </div>
   </div>
+  <script is:inline>
+    const livePanel = document.querySelector("[data-live-panel]");
+    if (livePanel instanceof HTMLElement) {
+      const noembedProbe = {JSON.stringify(noembedProbe)};
+      fetch(noembedProbe)
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data || data.error) return;
+          livePanel.hidden = false;
+        })
+        .catch(() => {
+          livePanel.hidden = true;
+        });
+    }
+  </script>
 </BaseLayout>
