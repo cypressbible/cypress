@@ -70,18 +70,17 @@ const marinersLoopSlides = discipleshipPillarPages;
     </div>
   </section>
 
-  <section class="sermon-widget-section" aria-label="Recent sermon">
-    <div class="sermon-widget-wrap">
-      <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
-      <bibleslides-recent-sermon
-        church="cypressbible"
-        service="Sunday Morning"
-        api-base="https://bibleslides.app"
-        surface="white"
-        theme="light"
-        font-family="inherit"
-      ></bibleslides-recent-sermon>
-    </div>
+  <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
+    <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
+    <bibleslides-recent-sermon
+      church="cypressbible"
+      variant="header"
+      service="Sunday Morning"
+      api-base="https://bibleslides.app"
+      surface="white"
+      theme="light"
+      font-family="inherit"
+    ></bibleslides-recent-sermon>
   </section>
 
   <section class="welcome-section" aria-labelledby="welcome-heading">
