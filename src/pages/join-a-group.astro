@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { joinGroupIntro, ministries } from "../data/ministries";
+import { getHomeMenuItems } from "../lib/ministry-page";
+
+const menuItems = await getHomeMenuItems();
+---
+
+<BaseLayout
+  title="Join a Group | Cypress Bible Church"
+  description="Find your place in community at Cypress Bible Church — Life Groups, Equipping Classes, Kids, Students, Men, Women, and Imago Dei special needs ministry."
+>
+  <SiteHeader menuItems={menuItems} currentPath={Astro.url.pathname} />
+
+  <div class="join-group-page">
+    <header class="join-group-page-head">
+      <h1 class="join-group-page-title">Join a Group</h1>
+    </header>
+
+    <section class="join-group-intro" aria-label="Introduction">
+      <div class="join-group-intro-inner">
+        <div class="join-group-intro-left">
+          <p class="join-group-tagline">{joinGroupIntro.tagline}</p>
+          <blockquote class="join-group-scripture">
+            <p>{joinGroupIntro.scripture}</p>
+            <cite>{joinGroupIntro.scriptureRef}</cite>
+          </blockquote>
+        </div>
+        <div class="join-group-intro-right">
+          <p class="join-group-intro-body">{joinGroupIntro.body}</p>
+        </div>
+      </div>
+
+      <nav class="join-group-jump" aria-label="Jump to ministry sections">
+        {
+          ministries.map((m) => (
+            <a class="join-group-jump-link" href={`#${m.id}`}>
+              {m.navLabel}
+            </a>
+          ))
+        }
+      </nav>
+    </section>
+
+    {
+      ministries.map((ministry, index) => (
+        <section
+          id={ministry.id}
+          class:list={["join-group-band", index % 2 === 1 && "join-group-band--alt"]}
+          aria-labelledby={`${ministry.id}-heading`}
+        >
+          <div class="join-group-band-inner">
+            {
+              ministry.logoSrc ? (
+                <img
+                  class="join-group-band-logo"
+                  src={ministry.logoSrc}
+                  alt=""
+                  width={320}
+                  height={140}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <p class="join-group-band-wordmark">{ministry.pageTitle}</p>
+              )
+            }
+
+            <div class="join-group-band-grid">
+              {
+                ministry.landingMedia && (
+                  <div class="join-group-band-media">
+                    <img
+                      src={ministry.landingMedia.src}
+                      alt={ministry.landingMedia.alt}
+                      width={640}
+                      height={480}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                )
+              }
+              <div class="join-group-band-copy">
+                <h2 id={`${ministry.id}-heading`} class="join-group-band-headline">
+                  {ministry.landingHeadline}
+                </h2>
+                <p class="join-group-band-body">{ministry.landingBody}</p>
+                <a class="join-group-learn-more" href={`/${ministry.slug}`}>
+                  Learn more
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

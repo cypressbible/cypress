@@ -1,0 +1,113 @@
+---
+import type { Ministry } from "../data/ministries";
+import MinistryHeroRotator from "./MinistryHeroRotator.astro";
+
+interface Props {
+  ministry: Ministry;
+}
+
+const { ministry } = Astro.props;
+---
+
+<article class="ministry-page">
+  <MinistryHeroRotator
+    slides={ministry.heroSlides}
+    eyebrow={ministry.heroEyebrow}
+    title={ministry.heroTitle}
+    subtitle={ministry.heroSubtitle}
+    isPageTitle
+    ariaLabel={`${ministry.pageTitle} hero`}
+  />
+
+  <div class="ministry-body">
+    {ministry.logoSrc && (
+      <div class="ministry-logo-wrap">
+        <img
+          class="ministry-logo"
+          src={ministry.logoSrc}
+          alt={ministry.logoAlt || ministry.pageTitle}
+          width={480}
+          height={200}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    )}
+
+    <p class="ministry-intro">{ministry.intro}</p>
+
+    {
+      ministry.sections.map((section) => (
+        <section class="ministry-section">
+          <h2 class="ministry-section-heading">{section.heading}</h2>
+          {section.body && <p class="ministry-section-body">{section.body}</p>}
+          {
+            section.items && (
+              <ul class="ministry-value-list">
+                {section.items.map((item) => (
+                  <li class="ministry-value-item">
+                    <h3 class="ministry-value-title">{item.title}</h3>
+                    <p class="ministry-value-body">{item.body}</p>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </section>
+      ))
+    }
+
+    <div class="ministry-cta-row">
+      {
+        ministry.primaryCta && (
+          <a
+            class="ministry-btn ministry-btn--primary"
+            href={ministry.primaryCta.href}
+            {...(ministry.primaryCta.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {ministry.primaryCta.label}
+          </a>
+        )
+      }
+      {
+        ministry.secondaryCta && (
+          <a
+            class="ministry-btn ministry-btn--secondary"
+            href={ministry.secondaryCta.href}
+            {...(ministry.secondaryCta.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {ministry.secondaryCta.label}
+          </a>
+        )
+      }
+      <a class="ministry-btn ministry-btn--ghost" href="/join-a-group">
+        All ministries
+      </a>
+    </div>
+
+    {
+      ministry.contact && (
+        <aside class="ministry-contact" aria-label="Ministry contact">
+          <h2 class="ministry-contact-heading">Questions?</h2>
+          <p class="ministry-contact-name">{ministry.contact.name}</p>
+          <p class="ministry-contact-title">{ministry.contact.title}</p>
+          {
+            ministry.contact.email ? (
+              <p class="ministry-contact-email">
+                <a href={`mailto:${ministry.contact.email}`}>{ministry.contact.email}</a>
+              </p>
+            ) : (
+              <p class="ministry-contact-email">
+                <a href="/contact">Contact the church office</a>
+              </p>
+            )
+          }
+        </aside>
+      )
+    }
+  </div>
+</article>

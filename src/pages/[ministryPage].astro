@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import MinistryPage from "../components/MinistryPage.astro";
+import { ministries, getMinistry } from "../data/ministries";
+import { getHomeMenuItems, ministryPageMeta } from "../lib/ministry-page";
+
+export function getStaticPaths() {
+  return ministries.map((ministry) => ({
+    params: { ministryPage: ministry.slug }
+  }));
+}
+
+const { ministryPage } = Astro.params;
+const ministry = getMinistry(ministryPage as string);
+
+if (!ministry) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
+}
+
+const menuItems = await getHomeMenuItems();
+const meta = ministryPageMeta(ministry);
+---
+
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteHeader menuItems={menuItems} currentPath={Astro.url.pathname} />
+  <MinistryPage ministry={ministry} />
+</BaseLayout>

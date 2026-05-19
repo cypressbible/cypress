@@ -73,7 +73,7 @@ heroSlides:
   - title: "Gather. Grow. Go."
     subtitle: "Find ministries, events, and resources to help you take your next step in faith."
     ctaText: "EXPLORE MINISTRIES"
-    ctaHref: "/ministries"
+    ctaHref: "/join-a-group"
     backgroundImage: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1800&q=80"
 welcomeEyebrow: "We are glad you are here!"
 welcomeTitle: "Welcome to Cypress Bible Church"

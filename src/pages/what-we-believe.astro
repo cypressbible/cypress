@@ -18,6 +18,30 @@ const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "h
 if (!homePage) {
   throw new Error("Missing content entry: src/content/pages/home.md");
 }
+
+const heroSlides = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1800&q=80",
+    eyebrow: "Our convictions",
+    title: "What we believe",
+    lede: "Compare our membership statement of faith with the full doctrinal statement—both rooted in Scripture."
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1507692049790-de58290a433d?auto=format&fit=crop&w=1800&q=80",
+    eyebrow: "Statement of faith",
+    title: "Unity in the essentials",
+    lede: "Seven doctrinal pillars every member affirms—the portable backbone of our church family."
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1800&q=80",
+    eyebrow: "Doctrinal statement",
+    title: "Faithful teaching",
+    lede: "Twelve theological headings—all who preach and teach align with these convictions."
+  }
+];
 ---
 
 <BaseLayout
@@ -28,10 +52,45 @@ if (!homePage) {
 
   <a class="belief-skip" href="#belief-main">Skip to belief content</a>
 
-  <div id="belief-main" class="belief-shell">
-    <header class="belief-page-head">
-      <h1 class="belief-page-title">What we believe</h1>
+  <div class="belief-page">
+    <header class="belief-hero">
+      <div class="belief-hero-rotator rotator" data-rotator>
+        {
+          heroSlides.map((slide, index) => (
+            <article
+              class:list={["slide", "belief-hero-slide", index === 0 && "is-active"]}
+              data-slide
+              style={`--bg-image: url('${slide.image}')`}
+            >
+              <div class="overlay" aria-hidden="true" />
+              <div class="belief-hero-inner">
+                <p class="belief-hero-eyebrow">{slide.eyebrow}</p>
+                {index === 0 ? (
+                  <h1 class="belief-hero-title">{slide.title}</h1>
+                ) : (
+                  <p class="belief-hero-title">{slide.title}</p>
+                )}
+                <p class="belief-hero-lede">{slide.lede}</p>
+              </div>
+            </article>
+          ))
+        }
+        <div class="dot-nav" aria-label="Belief page hero slide controls">
+          {
+            heroSlides.map((_, index) => (
+              <button
+                type="button"
+                class:list={["dot", index === 0 && "is-active"]}
+                data-dot={index}
+                aria-label={`Show slide ${index + 1}`}
+              />
+            ))
+          }
+        </div>
+      </div>
     </header>
+
+    <div id="belief-main" class="belief-shell">
 
     <div class="belief-intro-dual belief-choice-tablist" data-belief-tabs role="tablist" aria-label="Statement of faith or doctrinal statement">
       <button
@@ -205,11 +264,51 @@ if (!homePage) {
         }
       </div>
     </section>
+    </div>
   </div>
 </BaseLayout>
 
 <script is:inline>
   (function () {
+    var rotator = document.querySelector(".belief-hero [data-rotator]");
+    if (rotator) {
+      var slides = Array.from(rotator.querySelectorAll("[data-slide]"));
+      var dots = Array.from(rotator.querySelectorAll("[data-dot]"));
+      var activeIndex = 0;
+      var timer;
+
+      function showSlide(index) {
+        activeIndex = index;
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle("is-active", i === activeIndex);
+        });
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle("is-active", i === activeIndex);
+        });
+      }
+
+      function startAutoplay() {
+        if (slides.length < 2) return;
+        timer = window.setInterval(function () {
+          showSlide((activeIndex + 1) % slides.length);
+        }, 5500);
+      }
+
+      function restartAutoplay() {
+        if (timer) window.clearInterval(timer);
+        startAutoplay();
+      }
+
+      dots.forEach(function (dot, index) {
+        dot.addEventListener("click", function () {
+          showSlide(index);
+          restartAutoplay();
+        });
+      });
+
+      startAutoplay();
+    }
+
     var tabWrap = document.querySelector("[data-belief-tabs]");
     if (tabWrap) {
       var tabs = tabWrap.querySelectorAll('[role="tab"]');

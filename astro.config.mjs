@@ -1,5 +1,8 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://cypress-bse.pages.dev"
+  site: "https://cypress-bse.pages.dev",
+  redirects: {
+    "/lifegroups": "/life-groups"
+  }
 });

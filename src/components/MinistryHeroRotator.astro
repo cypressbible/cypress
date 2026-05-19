@@ -1,0 +1,100 @@
+---
+import type { MinistrySlide } from "../data/ministries";
+
+interface Props {
+  slides: MinistrySlide[];
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  /** When true, render title as h1 (detail pages) */
+  isPageTitle?: boolean;
+  ariaLabel?: string;
+}
+
+const { slides, eyebrow, title, subtitle, isPageTitle = false, ariaLabel = "Ministry hero" } = Astro.props;
+---
+
+<header class="ministry-hero" aria-label={ariaLabel}>
+  <div class="ministry-hero-rotator rotator" data-rotator data-ministry-rotator>
+    {
+      slides.map((slide, index) => (
+        <article
+          class:list={["slide", "ministry-hero-slide", index === 0 && "is-active"]}
+          data-slide
+          style={`--bg-image: url('${slide.image}')`}
+        >
+          <div class="overlay" aria-hidden="true" />
+          <div class="ministry-hero-inner">
+            {eyebrow && <p class="ministry-hero-eyebrow">{eyebrow}</p>}
+            {
+              isPageTitle ? (
+                <h1 class="ministry-hero-title">{title}</h1>
+              ) : (
+                <p class="ministry-hero-title">{title}</p>
+              )
+            }
+            {subtitle && <p class="ministry-hero-sub">{subtitle}</p>}
+          </div>
+        </article>
+      ))
+    }
+    {
+      slides.length > 1 && (
+        <div class="dot-nav" aria-label="Hero slide controls">
+          {
+            slides.map((_, index) => (
+              <button
+                type="button"
+                class:list={["dot", index === 0 && "is-active"]}
+                data-dot={index}
+                aria-label={`Show slide ${index + 1}`}
+              />
+            ))
+          }
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll("[data-ministry-rotator]").forEach(function (rotator) {
+      var slides = Array.from(rotator.querySelectorAll("[data-slide]"));
+      if (slides.length < 2) return;
+      var dots = Array.from(rotator.querySelectorAll("[data-dot]"));
+      var index = 0;
+      var timer;
+
+      function show(i) {
+        index = (i + slides.length) % slides.length;
+        slides.forEach(function (s, n) {
+          s.classList.toggle("is-active", n === index);
+        });
+        dots.forEach(function (d, n) {
+          d.classList.toggle("is-active", n === index);
+        });
+      }
+
+      function start() {
+        clearInterval(timer);
+        timer = setInterval(function () {
+          show(index + 1);
+        }, 5500);
+      }
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () {
+          show(i);
+          start();
+        });
+      });
+
+      rotator.addEventListener("mouseenter", function () {
+        clearInterval(timer);
+      });
+      rotator.addEventListener("mouseleave", start);
+      start();
+    });
+  })();
+</script>

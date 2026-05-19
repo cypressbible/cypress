@@ -3,6 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { getCollection } from "astro:content";
 import { discipleshipPillarPages } from "../data/discipleship-pillars";
+import SpotlightRotator from "../components/SpotlightRotator.astro";
+import { resolveSpotlightSlides, spotlightSectionEyebrow } from "../data/spotlight-events";
+import { loadCalendarEvents } from "../lib/calendar";
 
 const pages = await getCollection("pages");
 const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
@@ -18,6 +21,8 @@ const welcomeVideoPoster =
   "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80";
 
 const marinersLoopSlides = discipleshipPillarPages;
+const calendarEvents = await loadCalendarEvents();
+const spotlightSlides = resolveSpotlightSlides(calendarEvents);
 ---
 
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
@@ -98,6 +103,7 @@ const marinersLoopSlides = discipleshipPillarPages;
     </div>
   </section>
 
+  <SpotlightRotator slides={spotlightSlides} eyebrow={spotlightSectionEyebrow} />
 
   <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
     <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>

@@ -1,0 +1,155 @@
+---
+import type { SpotlightSlide } from "../data/spotlight-events";
+
+interface Props {
+  slides: SpotlightSlide[];
+  eyebrow?: string;
+}
+
+const { slides, eyebrow = "Don’t miss what’s ahead" } = Astro.props;
+
+if (slides.length === 0) {
+  return null;
+}
+---
+
+<section class="spotlight-section" aria-labelledby="spotlight-heading" data-spotlight data-active-index="0">
+  <div class="spotlight-inner">
+    <p id="spotlight-heading" class="spotlight-eyebrow visually-hidden">{eyebrow}</p>
+
+    <div class="spotlight-layout">
+      <div class="spotlight-copy" aria-live="polite">
+        {
+          slides.map((slide, index) => (
+            <article
+              class:list={["spotlight-copy-slide", index === 0 && "is-active"]}
+              data-spotlight-copy
+              data-index={index}
+              aria-hidden={index === 0 ? "false" : "true"}
+            >
+              <h2 class="spotlight-title">{slide.title}</h2>
+              <p class="spotlight-date">{slide.dateLine}</p>
+              <p class="spotlight-body">{slide.body}</p>
+              <a class="spotlight-cta" href={slide.ctaHref}>
+                {slide.ctaLabel}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="spotlight-mosaic" data-spotlight-mosaic role="tablist" aria-label="Featured events">
+        {
+          slides.map((slide, index) => (
+            <button
+              type="button"
+              class:list={["spotlight-tile", index === 0 && "is-active"]}
+              data-spotlight-tile={index}
+              role="tab"
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-label={`Show ${slide.tileLabel}`}
+              style={`--tile-image: url('${slide.imageSrc}')`}
+            >
+              <span class="spotlight-tile-media" aria-hidden="true" />
+              <span class="spotlight-tile-label">{slide.tileLabel}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      slides.length > 1 && (
+        <div class="spotlight-dashes" aria-label="Spotlight slide controls">
+          {
+            slides.map((_, index) => (
+              <button
+                type="button"
+                class:list={["spotlight-dash", index === 0 && "is-active"]}
+                data-spotlight-dash={index}
+                aria-label={`Show slide ${index + 1}`}
+              />
+            ))
+          }
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll("[data-spotlight]").forEach(function (root) {
+      var copySlides = Array.from(root.querySelectorAll("[data-spotlight-copy]"));
+      var tiles = Array.from(root.querySelectorAll("[data-spotlight-tile]"));
+      var dashes = Array.from(root.querySelectorAll("[data-spotlight-dash]"));
+      if (copySlides.length < 1) return;
+
+      var active = 0;
+      var timer;
+
+      function show(i) {
+        active = (i + copySlides.length) % copySlides.length;
+
+        copySlides.forEach(function (slide, n) {
+          var on = n === active;
+          slide.classList.toggle("is-active", on);
+          slide.setAttribute("aria-hidden", on ? "false" : "true");
+        });
+
+        tiles.forEach(function (tile, n) {
+          var on = n === active;
+          tile.classList.toggle("is-active", on);
+          tile.setAttribute("aria-selected", on ? "true" : "false");
+        });
+
+        dashes.forEach(function (dash, n) {
+          dash.classList.toggle("is-active", n === active);
+        });
+
+        root.setAttribute("data-active-index", String(active));
+      }
+
+      function start() {
+        if (copySlides.length < 2) return;
+        clearInterval(timer);
+        timer = setInterval(function () {
+          show(active + 1);
+        }, 6500);
+      }
+
+      function restart() {
+        clearInterval(timer);
+        start();
+      }
+
+      tiles.forEach(function (tile) {
+        tile.addEventListener("click", function () {
+          var idx = Number(tile.getAttribute("data-spotlight-tile"));
+          if (!Number.isNaN(idx)) {
+            show(idx);
+            restart();
+          }
+        });
+      });
+
+      dashes.forEach(function (dash) {
+        dash.addEventListener("click", function () {
+          var idx = Number(dash.getAttribute("data-spotlight-dash"));
+          if (!Number.isNaN(idx)) {
+            show(idx);
+            restart();
+          }
+        });
+      });
+
+      root.addEventListener("mouseenter", function () {
+        clearInterval(timer);
+      });
+      root.addEventListener("mouseleave", start);
+
+      show(0);
+      start();
+    });
+  })();
+</script>

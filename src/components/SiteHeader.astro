@@ -32,10 +32,16 @@ const giveItem = menuItems.find((item) => item.href === "/give");
 
 const watchHref = "/watch";
 
-const joinGroupHref =
-  ministriesItem?.children?.find((child) => child.label.toLowerCase().includes("life groups"))?.href ||
-  ministriesItem?.href ||
-  "/life-groups";
+const joinGroupHref = "/join-a-group";
+const joinGroupPaths = new Set([
+  joinGroupHref,
+  ...(ministriesItem?.children?.map((c) => c.href) ?? []),
+  ministriesItem?.href
+].filter(Boolean));
+
+function joinGroupIsCurrent(): boolean {
+  return joinGroupPaths.has(here);
+}
 
 const planVisitHref = planItem?.href || "/plan-a-visit";
 const eventsHref = menuItems.find((item) => item.href === "/events")?.href || "/events";
@@ -54,32 +60,35 @@ const giveHref = giveItem?.href || "/give";
       decoding="async"
     />
   </a>
-  <nav class="main-menu main-menu--primary" aria-label="Main navigation">
-    <a class:list={["nav-top-link", linkIsCurrent(watchHref) && "is-current"]} href={watchHref}>Watch</a>
-    <a class:list={["nav-top-link", linkIsCurrent(joinGroupHref) && "is-current"]} href={joinGroupHref}>
-      Join A Group
-    </a>
-    <a class:list={["nav-top-link", linkIsCurrent(planVisitHref) && "is-current"]} href={planVisitHref}>
-      Plan A Visit
-    </a>
-    <a class:list={["nav-top-link", linkIsCurrent(eventsHref) && "is-current"]} href={eventsHref}>Events</a>
-    <a class:list={["nav-top-link", linkIsCurrent(giveHref) && "is-current"]} href={giveHref}>Give</a>
-  </nav>
 
-  <button
-    class="menu-toggle"
-    type="button"
-    aria-label="Open menu"
-    aria-expanded="false"
-    aria-controls="site-mini-menu"
-    data-menu-toggle
-  >
-    <span class="menu-toggle-bars" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-  </button>
+  <div class="top-nav-end">
+    <nav class="main-menu main-menu--primary" aria-label="Main navigation">
+      <a class:list={["nav-top-link", linkIsCurrent(watchHref) && "is-current"]} href={watchHref}>Watch</a>
+      <a class:list={["nav-top-link", joinGroupIsCurrent() && "is-current"]} href={joinGroupHref}>
+        Join A Group
+      </a>
+      <a class:list={["nav-top-link", linkIsCurrent(planVisitHref) && "is-current"]} href={planVisitHref}>
+        Plan A Visit
+      </a>
+      <a class:list={["nav-top-link", linkIsCurrent(eventsHref) && "is-current"]} href={eventsHref}>Events</a>
+      <a class:list={["nav-top-link", linkIsCurrent(giveHref) && "is-current"]} href={giveHref}>Give</a>
+    </nav>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-mini-menu"
+      data-menu-toggle
+    >
+      <span class="menu-toggle-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+  </div>
 
   <div class="mini-menu" id="site-mini-menu" data-mini-menu hidden>
     <div class="mini-menu-header">
