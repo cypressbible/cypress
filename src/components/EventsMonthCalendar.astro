@@ -1,7 +1,5 @@
 ---
 import type { SerialCalendarEvent } from "../lib/calendar";
-import { CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
-import { CHURCH_TZ } from "../lib/calendar-display";
 
 interface Props {
   events: SerialCalendarEvent[];
@@ -79,11 +77,6 @@ const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 ---
 
 <div class="events-month-cal" role="region" aria-label="Church calendar by month">
-  <p class="events-month-cal-lede">
-    Month view from our public calendar feed ({CHURCH_TZ}). For filters, registration, and the full interactive calendar,{' '}
-    <a href={CHURCH_CALENDAR_WEB_URL} target="_blank" rel="noopener noreferrer">open CCB →</a>
-  </p>
-
   <div class="events-month-cal-grid">
     {
       months.map((month) => (

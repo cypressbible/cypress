@@ -4,7 +4,6 @@ import SiteHeader from "../components/SiteHeader.astro";
 import EventsMonthCalendar from "../components/EventsMonthCalendar.astro";
 import { getCollection } from "astro:content";
 import { getUpcomingSerializedEvents, loadCalendarEvents } from "../lib/calendar";
-import { CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
 import { formatEventRange, CHURCH_TZ } from "../lib/calendar-display";
 
 const pages = await getCollection("pages");
@@ -145,12 +144,6 @@ function excerpt(text: string | undefined, max = 220): string {
     <section id="full-calendar" class="events-embed-band" aria-labelledby="embed-cal-heading">
       <div class="events-embed-inner">
         <h2 id="embed-cal-heading" class="events-embed-heading">Full church calendar</h2>
-        <p class="events-embed-note">
-          Prefer the web app?{' '}
-          <a href={CHURCH_CALENDAR_WEB_URL} target="_blank" rel="noopener noreferrer">
-            Open the public calendar at CCB →
-          </a>
-        </p>
         <EventsMonthCalendar events={allCalendarEvents} monthCount={2} />
       </div>
     </section>

@@ -3851,32 +3851,6 @@ body.has-menu-open {
   color: var(--cbc-accent-slate);
 }
 
-.events-embed-note {
-  margin: 0 0 18px;
-  font-size: 0.9175rem;
-  line-height: 1.6;
-  color: #475569;
-}
-
-.events-embed-note a {
-  color: var(--cbc-accent-soft);
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-.events-month-cal-lede {
-  margin: 0 0 22px;
-  font-size: 0.9175rem;
-  line-height: 1.6;
-  color: #475569;
-}
-
-.events-month-cal-lede a {
-  color: var(--cbc-accent-soft);
-  text-decoration: underline;
-  font-weight: 600;
-}
-
 .events-month-cal-grid {
   display: grid;
   gap: clamp(24px, 4vw, 36px);
