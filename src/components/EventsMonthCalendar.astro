@@ -1,0 +1,132 @@
+---
+import type { SerialCalendarEvent } from "../lib/calendar";
+import { CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
+import { CHURCH_TZ } from "../lib/calendar-display";
+
+interface Props {
+  events: SerialCalendarEvent[];
+  /** How many months to show starting from the current month (build time). */
+  monthCount?: number;
+}
+
+const { events, monthCount = 2 } = Astro.props;
+
+const TZ = "America/Chicago";
+
+const monthYearFmt = new Intl.DateTimeFormat("en-US", { timeZone: TZ, month: "long", year: "numeric" });
+
+function dateKey(iso: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date(iso));
+}
+
+function timeLabel(iso: string, allDay: boolean): string {
+  if (allDay) return "All day";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TZ,
+    hour: "numeric",
+    minute: "2-digit"
+  }).format(new Date(iso));
+}
+
+const eventsByDay = new Map<string, SerialCalendarEvent[]>();
+for (const ev of events) {
+  const key = dateKey(ev.start);
+  const list = eventsByDay.get(key) ?? [];
+  list.push(ev);
+  eventsByDay.set(key, list);
+}
+
+const now = new Date();
+const startYear = now.getFullYear();
+const startMonth = now.getMonth();
+
+type MonthModel = {
+  label: string;
+  weeks: (null | { key: string; day: number; events: SerialCalendarEvent[] })[];
+};
+
+function buildMonth(year: number, month: number): MonthModel {
+  const first = new Date(Date.UTC(year, month, 1, 12, 0, 0));
+  const label = monthYearFmt.format(first);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const startWeekday = new Date(year, month, 1).getDay();
+
+  const cells: MonthModel["weeks"] = [];
+  for (let i = 0; i < startWeekday; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    cells.push({ key, day: d, events: eventsByDay.get(key) ?? [] });
+  }
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  return { label, weeks: cells };
+}
+
+const months: MonthModel[] = [];
+for (let i = 0; i < monthCount; i++) {
+  const m = startMonth + i;
+  const y = startYear + Math.floor(m / 12);
+  const mo = ((m % 12) + 12) % 12;
+  months.push(buildMonth(y, mo));
+}
+
+const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+---
+
+<div class="events-month-cal" role="region" aria-label="Church calendar by month">
+  <p class="events-month-cal-lede">
+    Month view from our public calendar feed ({CHURCH_TZ}). For filters, registration, and the full interactive calendar,{' '}
+    <a href={CHURCH_CALENDAR_WEB_URL} target="_blank" rel="noopener noreferrer">open CCB →</a>
+  </p>
+
+  <div class="events-month-cal-grid">
+    {
+      months.map((month) => (
+        <section class="events-month-panel" aria-label={month.label}>
+          <h3 class="events-month-title">{month.label}</h3>
+          <div class="events-month-weekdays" aria-hidden="true">
+            {weekdayLabels.map((name) => (
+              <span>{name}</span>
+            ))}
+          </div>
+          <div class="events-month-days">
+            {
+              month.weeks.map((cell) =>
+                cell ? (
+                  <div
+                    class:list={["events-month-day", cell.events.length > 0 && "has-events"]}
+                    data-date={cell.key}
+                  >
+                    <span class="events-month-day-num">{cell.day}</span>
+                    {
+                      cell.events.length > 0 && (
+                        <ul class="events-month-day-list">
+                          {cell.events.slice(0, 3).map((ev) => (
+                            <li>
+                              <span class="events-month-time">{timeLabel(ev.start, ev.allDay)}</span>
+                              <span class="events-month-event-title">{ev.title}</span>
+                            </li>
+                          ))}
+                          {cell.events.length > 3 && (
+                            <li class="events-month-more">+{cell.events.length - 3} more</li>
+                          )}
+                        </ul>
+                      )
+                    }
+                  </div>
+                ) : (
+                  <div class="events-month-day events-month-day--pad" aria-hidden="true" />
+                )
+              )
+            }
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</div>

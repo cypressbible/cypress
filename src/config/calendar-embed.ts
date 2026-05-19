@@ -8,7 +8,10 @@ export const CHURCH_CALENDAR_ICAL_SUBSCRIBE_URL =
 export const CHURCH_CALENDAR_ICAL_IMPORT_URL =
   "https://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics?strip_html=true";
 
-/** Embeddable public calendar (CCB). */
+/**
+ * Legacy CCB embed URL (SPA; often blank inside third-party iframes).
+ * The /events page uses a build-time month grid from ICS instead.
+ */
 export const CHURCH_CALENDAR_EMBED_SRC =
   "https://cypressbiblechurch.ccbchurch.com/goto/embed/calendar/public";
 

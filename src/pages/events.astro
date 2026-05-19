@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import EventsMonthCalendar from "../components/EventsMonthCalendar.astro";
 import { getCollection } from "astro:content";
-import { getUpcomingSerializedEvents } from "../lib/calendar";
-import { CHURCH_CALENDAR_EMBED_SRC, CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
+import { getUpcomingSerializedEvents, loadCalendarEvents } from "../lib/calendar";
+import { CHURCH_CALENDAR_WEB_URL } from "../config/calendar-embed";
 import { formatEventRange, CHURCH_TZ } from "../lib/calendar-display";
 
 const pages = await getCollection("pages");
@@ -14,6 +15,25 @@ if (!homePage) {
 }
 
 const eventsList = await getUpcomingSerializedEvents(48);
+const allCalendarEvents = await loadCalendarEvents();
+
+const heroSlides = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1800&q=80",
+    alt: "Worship gathering at church"
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1800&q=80",
+    alt: "Church community fellowship"
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1800&q=80",
+    alt: "People serving together at church"
+  }
+];
 
 function excerpt(text: string | undefined, max = 220): string {
   if (!text) return "";
@@ -30,13 +50,38 @@ function excerpt(text: string | undefined, max = 220): string {
 
   <div class="events-page">
     <header class="events-hero">
-      <div class="events-hero-inner">
-        <p class="events-hero-eyebrow">Plan ahead</p>
-        <h1 class="events-hero-title">Upcoming Events</h1>
-        <p class="events-hero-lede">
-          Times shown in Central Time (<span class="events-tz">{CHURCH_TZ}</span>). The embedded calendar below matches our
-          public Church Community Builder (CCB) calendar.
-        </p>
+      <div class="events-hero-rotator rotator" data-rotator>
+        {
+          heroSlides.map((slide, index) => (
+            <article
+              class:list={["slide", "events-hero-slide", index === 0 && "is-active"]}
+              data-slide
+              style={`--bg-image: url('${slide.image}')`}
+            >
+              <div class="overlay" aria-hidden="true" />
+              <div class="events-hero-inner">
+                <p class="events-hero-eyebrow">Plan ahead</p>
+                <h1 class="events-hero-title">Upcoming Events</h1>
+                <p class="events-hero-lede">
+                  Times shown in Central Time (<span class="events-tz">{CHURCH_TZ}</span>). Browse the list below or use the
+                  month view for the full schedule from our Church Community Builder calendar.
+                </p>
+              </div>
+            </article>
+          ))
+        }
+        <div class="dot-nav" aria-label="Events hero slide controls">
+          {
+            heroSlides.map((_, index) => (
+              <button
+                type="button"
+                class:list={["dot", index === 0 && "is-active"]}
+                data-dot={index}
+                aria-label={`Show slide ${index + 1}`}
+              />
+            ))
+          }
+        </div>
       </div>
     </header>
 
@@ -51,7 +96,7 @@ function excerpt(text: string | undefined, max = 220): string {
                 message appears, confirm the ICS feed still responds—or set <code class="events-empty-code">CALENDAR_ICAL_URL</code> explicitly (use <code class="events-empty-code">https://…</code> or <code class="events-empty-code">webcal://…</code>).
               </p>
               <p class="events-empty-body">
-                <a href="#full-calendar">Jump to embedded calendar →</a>
+                <a href="#full-calendar">Jump to month calendar →</a>
               </p>
             </div>
           ) : (
@@ -88,7 +133,7 @@ function excerpt(text: string | undefined, max = 220): string {
                       <p class="events-card-desc">{excerpt(ev.description)}</p>
                     )}
                   </div>
-                  <span class="events-card-accent-line" aria-hidden="true"></span>
+                  <span class="events-card-accent-line" aria-hidden="true" />
                 </li>
               ))}
             </ul>
@@ -106,15 +151,45 @@ function excerpt(text: string | undefined, max = 220): string {
             Open the public calendar at CCB →
           </a>
         </p>
-        <div class="events-iframe-shell">
-          <iframe
-            class="events-iframe"
-            title="Cypress Bible Church — public calendar"
-            src={CHURCH_CALENDAR_EMBED_SRC}
-            loading="lazy"
-          />
-        </div>
+        <EventsMonthCalendar events={allCalendarEvents} monthCount={2} />
       </div>
     </section>
   </div>
+
+  <script is:inline>
+    const rotator = document.querySelector(".events-hero [data-rotator]");
+    if (rotator) {
+      const slides = Array.from(rotator.querySelectorAll("[data-slide]"));
+      const dots = Array.from(rotator.querySelectorAll("[data-dot]"));
+      let activeIndex = 0;
+      let timer;
+
+      const showSlide = (index) => {
+        activeIndex = index;
+        slides.forEach((slide, i) => slide.classList.toggle("is-active", i === activeIndex));
+        dots.forEach((dot, i) => dot.classList.toggle("is-active", i === activeIndex));
+      };
+
+      const startAutoplay = () => {
+        if (slides.length < 2) return;
+        timer = window.setInterval(() => {
+          showSlide((activeIndex + 1) % slides.length);
+        }, 5500);
+      };
+
+      const restartAutoplay = () => {
+        if (timer) window.clearInterval(timer);
+        startAutoplay();
+      };
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          showSlide(index);
+          restartAutoplay();
+        });
+      });
+
+      startAutoplay();
+    }
+  </script>
 </BaseLayout>

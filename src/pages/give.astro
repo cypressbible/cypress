@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { getCollection } from "astro:content";
+import {
+  PUSHPAY_CRYPTO_URL,
+  PUSHPAY_EMBEDDED_WGC,
+  PUSHPAY_GIVING_HANDLE,
+  PUSHPAY_GIVING_URL,
+  PUSHPAY_HERO_IMAGE_URL,
+  PUSHPAY_STOCK_URL
+} from "../config/pushpay";
+
+const pages = await getCollection("pages");
+const homePage = pages.find((entry) => entry.id === "home.md" || entry.id === "home");
+
+if (!homePage) {
+  throw new Error("Missing content entry: src/content/pages/home.md");
+}
+
+const embeddedConfigJson = JSON.stringify(
+  PUSHPAY_EMBEDDED_WGC
+    ? { handle: PUSHPAY_GIVING_HANDLE, wgc: PUSHPAY_EMBEDDED_WGC }
+    : { handle: PUSHPAY_GIVING_HANDLE }
+);
+---
+
+<BaseLayout
+  title="Give | Cypress Bible Church"
+  description="Give online to Cypress Bible Church—one-time and recurring gifts through Pushpay."
+>
+  <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
+
+  <div class="give-page">
+    <section class="give-hero" aria-labelledby="give-heading">
+      <div
+        class="give-hero-bg"
+        style={`background-image: linear-gradient(105deg, rgba(8, 18, 32, 0.88) 0%, rgba(8, 18, 32, 0.72) 48%, rgba(8, 18, 32, 0.45) 100%), url('${PUSHPAY_HERO_IMAGE_URL}')`}
+        aria-hidden="true"
+      />
+      <div class="give-hero-inner">
+        <div class="give-hero-copy">
+          <p class="give-hero-eyebrow">Generosity</p>
+          <h1 id="give-heading" class="give-hero-title">Giving</h1>
+          <p class="give-hero-sub">At Cypress Bible Church</p>
+          <p class="give-hero-lede">
+            Your generosity helps us worship together, care for one another, and proclaim Christ in Cypress and
+            beyond. We also believe giving is worship—where your treasure is, there your heart will be also (
+            <a
+              class="give-hero-scripture"
+              href="https://www.esv.org/Matthew+6%3A21/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Matthew 6:21
+            </a>
+            ).
+          </p>
+          <p class="give-hero-note">
+            Prefer the full Pushpay experience?{' '}
+            <a href={PUSHPAY_GIVING_URL} target="_blank" rel="noopener noreferrer">
+              Open giving at Pushpay →
+            </a>
+          </p>
+        </div>
+
+        <div class="give-embed-panel">
+          <div id="pushpay-embedded-giving-fallback" class="give-embed-mount" />
+          <noscript>
+            <p class="give-embed-fallback">
+              Online giving requires JavaScript.{' '}
+              <a href={PUSHPAY_GIVING_URL} target="_blank" rel="noopener noreferrer">
+                Give at Pushpay →
+              </a>
+            </p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+    <section class="give-bank" aria-labelledby="give-bank-heading">
+      <div class="give-bank-inner">
+        <h2 id="give-bank-heading" class="give-bank-title">Give from your bank</h2>
+        <p class="give-bank-lede">
+          If you are able, we encourage you to give through your bank&apos;s bill pay or by choosing <strong>ACH</strong>{' '}
+          (bank account) in the form above. Those gifts do not carry the processing fees that credit and debit cards do,
+          so more of what you give goes directly to ministry here—not to banks and payment processors.
+        </p>
+        <p class="give-bank-lede">
+          You can set up a one-time or recurring payment from your bank&apos;s online bill pay to Cypress Bible Church.
+          Cards are always welcome when that is the best option for you; we are grateful for every gift.
+        </p>
+      </div>
+    </section>
+
+    <section class="give-alt" aria-labelledby="give-alt-heading">
+      <div class="give-alt-inner">
+        <h2 id="give-alt-heading" class="give-alt-title">Other ways to give</h2>
+        <p class="give-alt-lede">
+          Cryptocurrency and stock donations are processed through our partner and liquidated within a reasonable time
+          so we can steward your gift well.
+        </p>
+        <div class="give-alt-actions">
+          <a class="give-alt-btn" href={PUSHPAY_CRYPTO_URL} target="_blank" rel="noopener noreferrer">
+            Donate crypto
+          </a>
+          <a class="give-alt-btn" href={PUSHPAY_STOCK_URL} target="_blank" rel="noopener noreferrer">
+            Donate stock
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline define:vars={{ embeddedConfigJson, PUSHPAY_GIVING_URL }}>
+    (function () {
+      window.pushpayEmbeddedConfig = JSON.parse(embeddedConfigJson);
+
+      var script = document.createElement("script");
+      function reportFallback() {
+        if (window.pushpayEmbeddedFallbackDone) return;
+        window.pushpayEmbeddedFallbackDone = true;
+        var mount = document.getElementById("pushpay-embedded-giving-fallback");
+        if (!mount) return;
+        mount.innerHTML =
+          '<p class="give-embed-fallback">The giving form could not load here. <a href="' +
+          PUSHPAY_GIVING_URL +
+          '" target="_blank" rel="noopener noreferrer">Give securely at Pushpay →</a></p>';
+      }
+
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = "https://embedded.pushpay.com?version=1.0.0";
+      script.onerror = reportFallback;
+      setTimeout(reportFallback, 5000);
+      script.onload = function () {
+        window.pushpayEmbeddedFallbackDone = true;
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
+</BaseLayout>

@@ -38,6 +38,7 @@ const joinGroupHref =
   "/life-groups";
 
 const planVisitHref = planItem?.href || "/plan-a-visit";
+const eventsHref = menuItems.find((item) => item.href === "/events")?.href || "/events";
 const giveHref = giveItem?.href || "/give";
 ---
 
@@ -61,6 +62,7 @@ const giveHref = giveItem?.href || "/give";
     <a class:list={["nav-top-link", linkIsCurrent(planVisitHref) && "is-current"]} href={planVisitHref}>
       Plan A Visit
     </a>
+    <a class:list={["nav-top-link", linkIsCurrent(eventsHref) && "is-current"]} href={eventsHref}>Events</a>
     <a class:list={["nav-top-link", linkIsCurrent(giveHref) && "is-current"]} href={giveHref}>Give</a>
   </nav>
 
