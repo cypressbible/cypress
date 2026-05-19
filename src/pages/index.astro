@@ -70,19 +70,6 @@ const marinersLoopSlides = discipleshipPillarPages;
     </div>
   </section>
 
-  <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
-    <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
-    <bibleslides-recent-sermon
-      church="cypressbible"
-      variant="header"
-      service="Sunday Morning"
-      api-base="https://bibleslides.app"
-      surface="white"
-      theme="light"
-      font-family="inherit"
-    ></bibleslides-recent-sermon>
-  </section>
-
   <section class="welcome-section" aria-labelledby="welcome-heading">
     <div class="welcome-inner">
       <div class="welcome-video" data-video-wrap>
@@ -111,6 +98,20 @@ const marinersLoopSlides = discipleshipPillarPages;
     </div>
   </section>
 
+
+  <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
+    <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
+    <bibleslides-recent-sermon
+      church="cypressbible"
+      variant="header"
+      service="Sunday Morning"
+      api-base="https://bibleslides.app"
+      surface="white"
+      theme="light"
+      font-family="inherit"
+    ></bibleslides-recent-sermon>
+  </section>
+
   <section id="get-involved-loop" class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
     <div class="loop-experiment-inner">
       <div class="loop-visual" data-loop-rotator style="--loop-angle: -90deg;">
@@ -119,14 +120,18 @@ const marinersLoopSlides = discipleshipPillarPages;
           {
             marinersLoopSlides.map((slide, index) => (
               <article
-                class={`loop-slide ${index === 0 ? "is-active" : ""}`}
+                class:list={[
+                  "loop-slide",
+                  index === 0 && "is-active",
+                  !slide.image?.trim() && "loop-slide--no-image",
+                ]}
                 data-loop-slide
                 data-loop-title={slide.title}
                 data-loop-slug={slide.slug}
                 data-loop-icon={slide.icon}
                 data-loop-color={slide.color}
                 data-loop-summary={slide.summary}
-                style={`--loop-image: url('${slide.image}')`}
+                style={slide.image?.trim() ? `--loop-image: url('${slide.image}')` : undefined}
                 aria-hidden={index === 0 ? "false" : "true"}
               ></article>
             ))
