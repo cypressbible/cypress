@@ -36,6 +36,7 @@ const pages = defineCollection({
     welcomeCtaText: z.string(),
     welcomeCtaHref: z.string(),
     welcomeVideoSrc: z.string(),
+    welcomeVideoPoster: z.string(),
     discipleshipHeading: z.string(),
     discipleshipIntro: z.string(),
     discipleshipPillars: z.array(

@@ -189,6 +189,12 @@ export default defineConfig({
           },
           {
             type: "string",
+            name: "welcomeVideoPoster",
+            label: "Welcome Video Poster Image URL",
+            required: true
+          },
+          {
+            type: "string",
             name: "discipleshipHeading",
             label: "Discipleship Heading",
             required: true

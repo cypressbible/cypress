@@ -101,6 +101,51 @@ a.esv-crossref-link:focus-visible {
   color: #1a365d !important;
 }
 
+/* Homepage hero rotator + welcome video bar (one visual unit) */
+.home-hero {
+  position: relative;
+  background: #050915;
+  color: #fff;
+  overflow: hidden;
+}
+
+.home-hero .hero {
+  min-height: 0;
+  background: transparent;
+}
+
+.home-hero .rotator {
+  min-height: clamp(255px, 39vh, 420px);
+}
+
+.home-hero .rotator::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  height: min(42%, 165px);
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    #050915 0%,
+    rgba(5, 9, 21, 0.92) 38%,
+    rgba(5, 9, 21, 0) 100%
+  );
+}
+
+.home-hero .overlay {
+  background: linear-gradient(
+    0deg,
+    rgba(3, 6, 13, 0.82) 0%,
+    rgba(3, 6, 13, 0.35) 42%,
+    rgba(3, 6, 13, 0.12) 100%
+  );
+}
+
+.home-hero .dot-nav {
+  z-index: 4;
+}
+
 .hero {
   min-height: 63vh;
   background: #050915;
@@ -434,6 +479,82 @@ body.has-menu-open {
   background: #fff;
   color: #1e293b;
   padding: 72px 24px 88px;
+}
+
+.home-hero .hero-welcome {
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-88px, -10vw, -56px);
+  padding: clamp(56px, 7vw, 80px) clamp(20px, 3.5vw, 48px) clamp(40px, 5vw, 56px);
+  background: transparent;
+  color: #f8fafc;
+}
+
+.home-hero .hero-welcome::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(20px, 3.5vw, 48px);
+  right: clamp(20px, 3.5vw, 48px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22) 18%,
+    rgba(255, 255, 255, 0.22) 82%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.home-hero .welcome-inner {
+  max-width: 1240px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 4.5vw, 56px);
+  align-items: center;
+}
+
+.home-hero .welcome-eyebrow {
+  color: rgba(248, 250, 252, 0.78);
+  letter-spacing: 0.04em;
+}
+
+.home-hero .welcome-title {
+  color: #fff;
+  font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.28);
+}
+
+.home-hero .welcome-body {
+  color: rgba(241, 245, 249, 0.9);
+  font-size: clamp(0.95rem, 1.35vw, 1.05rem);
+  line-height: 1.62;
+}
+
+.home-hero .welcome-cta {
+  padding: 14px 26px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #4a6f8f;
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.home-hero .welcome-cta:hover {
+  background: #5a7f9f;
+}
+
+.home-hero .welcome-video {
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: #0f172a;
 }
 
 .welcome-inner {
@@ -1216,6 +1337,19 @@ body.has-menu-open {
 }
 
 @media (max-width: 900px) {
+  .home-hero .rotator {
+    min-height: clamp(225px, 36vh, 330px);
+  }
+
+  .home-hero .hero-welcome {
+    margin-top: -40px;
+    padding-top: 48px;
+  }
+
+  .home-hero .welcome-inner {
+    grid-template-columns: 1fr;
+  }
+
   .welcome-inner {
     grid-template-columns: 1fr;
   }
@@ -1223,6 +1357,11 @@ body.has-menu-open {
   .welcome-video {
     max-width: 560px;
     margin: 0 auto;
+  }
+
+  .home-hero .welcome-video {
+    max-width: none;
+    margin: 0;
   }
 
   .discipleship-inner {
@@ -1525,8 +1664,16 @@ body.has-menu-open {
     min-height: 52.5vh;
   }
 
+  .home-hero .rotator {
+    min-height: clamp(210px, 34.5vh, 300px);
+  }
+
   .slide-content {
     padding: 50px 24px 49px;
+  }
+
+  .home-hero .slide-content {
+    padding-bottom: clamp(54px, 9vw, 81px);
   }
 
   .dot-nav {

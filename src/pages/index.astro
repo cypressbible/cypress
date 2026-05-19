@@ -17,9 +17,6 @@ if (!homePage) {
 const slides = homePage.data.heroSlides;
 const featuredStory = homePage.data.storiesFeatured;
 const storyCards = homePage.data.storiesItems;
-const welcomeVideoPoster =
-  "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80";
-
 const marinersLoopSlides = discipleshipPillarPages;
 const calendarEvents = await loadCalendarEvents();
 const spotlightSlides = resolveSpotlightSlides(calendarEvents);
@@ -28,7 +25,8 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
 <BaseLayout title={homePage.data.title} description={homePage.data.description}>
   <SiteHeader menuItems={homePage.data.menuItems} currentPath={Astro.url.pathname} />
 
-  <section class="hero">
+  <div class="home-hero">
+  <section class="hero" aria-label="Homepage highlights">
     <div class="rotator" data-rotator>
       {
         slides.map((slide, index) => (
@@ -75,13 +73,13 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
     </div>
   </section>
 
-  <section class="welcome-section" aria-labelledby="welcome-heading">
+  <section class="welcome-section hero-welcome" aria-labelledby="welcome-heading">
     <div class="welcome-inner">
       <div class="welcome-video" data-video-wrap>
         <video
           class="welcome-video-el"
           src={homePage.data.welcomeVideoSrc}
-          poster={welcomeVideoPoster}
+          poster={homePage.data.welcomeVideoPoster}
           playsinline
           preload="metadata"
         >
@@ -102,8 +100,7 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
       </div>
     </div>
   </section>
-
-  <SpotlightRotator slides={spotlightSlides} eyebrow={spotlightSectionEyebrow} />
+  </div>
 
   <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
     <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
@@ -117,6 +114,8 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
       font-family="inherit"
     ></bibleslides-recent-sermon>
   </section>
+
+  <SpotlightRotator slides={spotlightSlides} eyebrow={spotlightSectionEyebrow} />
 
   <section id="get-involved-loop" class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
     <div class="loop-experiment-inner">
