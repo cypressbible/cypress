@@ -102,6 +102,8 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
   </section>
   </div>
 
+  <SpotlightRotator slides={spotlightSlides} eyebrow={spotlightSectionEyebrow} />
+
   <section class="sermon-widget-section bibleslides-embed-bleed" aria-label="Recent sermon">
     <script src="https://bibleslides.app/embed/v1/widgets.js" defer></script>
     <bibleslides-recent-sermon
@@ -114,8 +116,6 @@ const spotlightSlides = resolveSpotlightSlides(calendarEvents);
       font-family="inherit"
     ></bibleslides-recent-sermon>
   </section>
-
-  <SpotlightRotator slides={spotlightSlides} eyebrow={spotlightSectionEyebrow} />
 
   <section id="get-involved-loop" class="loop-experiment-section" aria-labelledby="loop-experiment-heading">
     <div class="loop-experiment-inner">

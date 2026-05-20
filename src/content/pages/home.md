@@ -77,7 +77,7 @@ heroSlides:
     backgroundImage: "https://cypressbible.org/wp-content/uploads/2024/09/Equip-Life-Groups-Guys-01-scaled.webp"
 welcomeEyebrow: "We are glad you are here!"
 welcomeTitle: "Welcome to Cypress Bible Church"
-welcomeBody: "As David said, in Psalms 16:11, \"You make known to me the path of life; in your presence there is fullness of joy; at your right hand are pleasures forevermore.\" We are born into this world loving the wrong things or the right things in the wrong order. Our services and ministries are designed to point our affections to the all-satisfying person of Jesus Christ. When we love properly we live properly! Come and see."
+welcomeBody: "As David said, in Psalms 16:11, \"You make known to me the path of life; in your presence there is fullness of joy; at your right hand are pleasures forevermore.\" Our services and ministries are designed to point our affections to the all-satisfying person of Jesus Christ. When we love properly we live properly! Come and see."
 welcomeCtaText: "Plan A Visit"
 welcomeCtaHref: "/plan-a-visit"
 welcomeVideoSrc: "/videos/welcome.mp4"

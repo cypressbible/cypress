@@ -516,7 +516,7 @@ body.has-menu-open {
   margin: 0 auto;
   grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
   gap: clamp(24px, 3.5vw, 44px);
-  align-items: center;
+  align-items: stretch;
 }
 
 .home-hero .welcome-eyebrow {
@@ -554,14 +554,19 @@ body.has-menu-open {
 }
 
 .home-hero .welcome-video {
-  aspect-ratio: 16 / 9;
-  max-height: min(240px, 28vh);
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 220px;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
     0 18px 48px rgba(0, 0, 0, 0.42),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   background: #0f172a;
+}
+
+.home-hero .welcome-video-el {
+  min-height: 100%;
 }
 
 /* Laptop / desktop: rotator leads; welcome bar stays compact beneath */
@@ -572,12 +577,12 @@ body.has-menu-open {
 
   .home-hero .hero-welcome {
     margin-top: -36px;
-    padding-top: 44px;
-    padding-bottom: 44px;
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
 
   .home-hero .welcome-video {
-    max-height: 220px;
+    min-height: 260px;
   }
 
   .home-hero .slide-content h1.slide-headline {
@@ -1379,11 +1384,14 @@ body.has-menu-open {
   }
 
   .home-hero .welcome-video {
-    max-height: none;
+    height: auto;
+    min-height: 200px;
+    aspect-ratio: 16 / 10;
   }
 
   .home-hero .welcome-inner {
     grid-template-columns: 1fr;
+    align-items: center;
   }
 
   .welcome-inner {
