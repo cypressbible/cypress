@@ -554,9 +554,11 @@ body.has-menu-open {
 }
 
 .home-hero .welcome-video {
-  aspect-ratio: auto;
+  align-self: stretch;
+  width: 100%;
   height: 100%;
-  min-height: 220px;
+  min-height: 0;
+  aspect-ratio: unset;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
@@ -566,7 +568,10 @@ body.has-menu-open {
 }
 
 .home-hero .welcome-video-el {
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
 }
 
 /* Laptop / desktop: rotator leads; welcome bar stays compact beneath */
@@ -579,10 +584,6 @@ body.has-menu-open {
     margin-top: -36px;
     padding-top: 36px;
     padding-bottom: 36px;
-  }
-
-  .home-hero .welcome-video {
-    min-height: 260px;
   }
 
   .home-hero .slide-content h1.slide-headline {
@@ -1384,14 +1385,20 @@ body.has-menu-open {
   }
 
   .home-hero .welcome-video {
+    align-self: auto;
     height: auto;
-    min-height: 200px;
     aspect-ratio: 16 / 10;
+  }
+
+  .home-hero .welcome-video-el {
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
   }
 
   .home-hero .welcome-inner {
     grid-template-columns: 1fr;
-    align-items: center;
+    align-items: stretch;
   }
 
   .welcome-inner {
