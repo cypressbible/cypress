@@ -1,116 +1,115 @@
 # Cypress Bible web — design system
 
-This document locks the **visual language** for the static site (Astro) so new pages do not drift toward one-off colors or layout patterns. Engineers and content editors should skim this before adding pages or large UI blocks.
+Visual language aligned with the **BibleSlides marketing UI**: flat, minimal, warm neutrals, Geist typography, solid teal brand (`#285570`).
+
+Defined in `src/styles/global.css` and `src/styles/fonts.css`. Prefer CSS variables for all new work.
 
 ---
 
-## 1. Foundations
+## 1. Design philosophy
 
-### 1.1 Two page modes
-
-1. **Dark immersive** — Hero-first pages on near-black slate (`var(--cbc-bg-deep)` → `var(--cbc-bg-main)`). Used for homepage hero, `/our-mission`, `/what-we-believe` hero band, `/events` hero + embedded calendar band.
-
-2. **Light editorial** — White or soft-gray surfaces (`var(--cbc-light-surface)` / `#e9edf5`) on top of dark global body chrome, **or** full-bleed light sections (Plan a Visit stripes, Leadership roster, Events card list). Typography stays **dark** (`#0f172a`, `#475569`) on light panels.
-
-Pick one primary mode **per scrolling region**. When switching modes, use a deliberate band (padding + background change), not gradual mixing.
-
-### 1.2 Structural chrome
-
-- **Site header**: Sticky, glassy overlay `rgba(5, 9, 21, 0.92)` over content.
-- **Site footer**: Dark charcoal `#1a1a1a` / legal bar `#141414`, consistent across all routes.
-- **Main body** (`body`): Dark `#0b1220` exposes only at edges unless a page wraps full-bleed light content (e.g. staff page).
+- **Flat over dimensional** — 1px warm borders for depth; avoid heavy box shadows.
+- **Warm neutrals** — `#faf7f5` backgrounds, `#e3ded7` borders (not cool gray-50/200).
+- **Sharp type, generous space** — Geist Sans with tight headline tracking (`letter-spacing: -0.025em`).
+- **Solid brand color** — `#285570` for buttons, links, sub-page heroes (no gradient fills).
+- **Function-first motion** — opacity transitions only; no hover lift or bounce.
 
 ---
 
-## 2. Color tokens (`:root`)
+## 2. Fonts
 
-Defined in `src/styles/global.css`. Prefer these CSS variables **for new work**:
+| Role | Stack |
+|------|--------|
+| UI / body | `var(--font-sans)` — Geist Sans via `@fontsource/geist-sans` |
+| Eyebrows / footer labels | `var(--font-mono)` — Geist Mono |
 
-| Token | Role |
-| ----- | ----- |
-| `--cbc-bg-deep` | Deepest immersive fill (`#050915`) |
-| `--cbc-bg-main` | Default page canvas behind nav (`#0b1220`) |
-| `--cbc-accent-slate` | Primary links / headings on brand (`#294a62`) |
-| `--cbc-accent-soft` | Softer slate / eyebrow accents (`#4a6f8f`) |
-| `--cbc-accent-teal` | Secondary accent (pillars / event accent bar) (`#2d6a6a`) |
-| `--cbc-light-surface` | Light section fill (`#f4f7fb`) |
-| `--cbc-card` | White cards (`#ffffff`) |
-| `--cbc-line` | Borders on dark (`rgba(255,255,255,0.08)`) |
-| `--cbc-line-dark` | Borders on light (`#e2e8f0`) |
-| `--cbc-heading`, `--cbc-text` | Default light text on immersive sections |
+Loaded in `src/styles/fonts.css`, imported from `src/layouts/BaseLayout.astro`.
 
-Avoid introducing new blues/grays unless they map clearly to these roles (WCAG contrast on both dark and light).
+### Type hierarchy
 
----
-
-## 3. Typography
-
-- **Sans default**: `"Arial", sans-serif` — navigation, utility, dense UI (leadership roster, footer, event cards body).
-- **Serif accents**: `Georgia`, `Times New Roman` — sparingly on **immersive headings** (`/what-we-believe`, `/events` page title family) only; do not use for paragraphs.
-- **Nav / eyebrow cadence**: Small caps vibe via uppercase + `letter-spacing: 0.06em–0.16em`.
-- **In-page H1**: Responsive clamp sizing; immersive pages may use serif; light editorial sections use sans bold.
+| Role | Pattern |
+|------|---------|
+| Hero headline | `font-weight: 700`, `letter-spacing: -0.025em`, fluid `clamp()` |
+| Section headline | Bold, tight tracking |
+| Eyebrow | `font-mono`, 11px, uppercase, `letter-spacing: 0.12em`, `color: var(--bs-text-sec)` |
+| Body | `1rem`, `line-height: 1.625`, `color: var(--bs-text-sec)` |
 
 ---
 
-## 4. Radius, shadow, rhythm
+## 3. Color tokens (`:root`)
 
-| Token | Use |
-| ----- | ----- |
-| `--radius-sm` (6px) | Chips, pills |
-| `--radius-md` (12px) | Footer panels |
-| `--radius-lg` (14px) | Event cards |
+### BibleSlides marketing tokens
 
-Shadows stay **soft** (`0–4–28 rgba(15,23,42, 0.06)` on cards). Hero sections use gradients, not harsh drop shadows on text.
+| Token | Value | Use |
+|-------|-------|-----|
+| `--bs-dark` | `#0d1117` | Hero backgrounds, dark immersive bands |
+| `--bs-dark-2` | `#161b22` | Dark surfaces / stats strips |
+| `--bs-teal` | `#285570` | Primary buttons, links, accents, sub-page heroes |
+| `--bs-warm-bg` | `#faf7f5` | Page / section alternation |
+| `--bs-warm-bdr` | `#e3ded7` | All 1px borders on light UI |
+| `--bs-text-pri` | `#1c1917` | Headings on light backgrounds |
+| `--bs-text-sec` | `#6b6459` | Body text on light backgrounds |
+| `--bs-text-muted` | `#b0a89e` | Placeholders, meta |
+| `--bs-footer-bg` | `#0a0d11` | Footer |
+| `--bs-white` | `#ffffff` | Cards, inputs |
 
-Spacing: favor **clamp()** bands already used elsewhere (`24px→48px` lateral padding).
+### Legacy aliases (`--cbc-*`)
 
----
-
-## 5. Imagery & media
-
-- **Raster**: Prefer **WebP** for photos; descriptive `alt`; fixed `width` / `height` when possible for CLS.
-- **Embeds**: Google Maps / YouTube — rounded rectangle, subdued border consistent with immersive theme.
-- **Leadership portraits**: Aspect ~4:5, `object-fit: cover`; initials fallback inherits soft gradient from token family.
-
----
-
-## 6. Events & calendar (content integration)
-
-The **authoritative URLs** live in **`src/config/calendar-embed.ts`**:
-
-- **ICS import:** `webcal://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics` (build normalizes `webcal` → **`https`**; default fetch uses **`?strip_html=true`** for cleaner text).
-- **Embed:** `/goto/embed/calendar/public`
-- **Web:** `/goto/events/public`
-
-**Listed events cards** (`/events`) and the **footer “Next up”** block consume that ICS feed at **build time**. If **`CALENDAR_ICAL_URL`** is **unset**, Astro uses **`CHURCH_CALENDAR_ICAL_IMPORT_URL`** from config (CCB subscription feed).
-
-```bash
-# Optional — override ICS source (HTTPS or webcal URL)
-CALENDAR_ICAL_URL=webcal://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics
-
-# Alternatively:
-# CALENDAR_ICAL_URL=https://cypressbiblechurch.ccbchurch.com/w_calendar_sub.ics?strip_html=true
-```
-
-- If fetching fails during build or the feed is empty, cards may omit items while the embedded CCB iframe on `/events` can still render.
-- Regenerate deployments after changing **`CALENDAR_ICAL_URL`** (static HTML is generated once per build).
+Still supported for existing components — they map to the tokens above.
 
 ---
 
-## 7. Third-party stacks (unchanged but documented)
+## 4. Components
 
-- **Font Awesome 6**: Icons via CDN tag in layout.
-- **TinaCMS**: Admin lives under `/admin`; home content pulls menu slides.
-- **Formsubmit**: Newsletter footer form.
+### Header (`.top-nav`)
+
+Warm cream `rgba(250,247,245,0.97)`, `backdrop-filter: blur(8px)`, `border-bottom: 1px solid var(--bs-warm-bdr)`. Logo 42px height.
+
+### Buttons (`.btn-primary`, `.hero-cta`, `.welcome-cta`)
+
+- Background: `var(--bs-teal)`
+- `border-radius: var(--radius-sm)` (6px)
+- `min-height: 44px`
+- Hover: `opacity: 0.9` (no shadow lift)
+
+### Cards
+
+White background, `border: 1px solid var(--bs-warm-bdr)`, no drop shadow. Hover: border shifts toward teal where interactive.
+
+### Footer (`.site-footer`)
+
+- Background: `var(--bs-footer-bg)`
+- Column headers: Geist Mono, 10px uppercase, `rgba(255,255,255,0.25)`
+- Links: `rgba(255,255,255,0.35)` → white on hover
+- Dividers: `rgba(255,255,255,0.06)`
 
 ---
 
-## 8. QA before shipping visuals
+## 5. Page modes
 
-1. Hover / focus-visible states visible on interactive elements.
-2. Contrast acceptable on dark + white cards.
-3. No orphan brand colors imported ad hoc—map to **`--cbc-*`** or extend tokens here first.
+1. **Dark immersive** — `--bs-dark` heroes (homepage rotator, mission, events hero).
+2. **Light editorial** — `--bs-white` / `--bs-warm-bg` bands with `--bs-text-pri` / `--bs-text-sec`.
+
+Alternate sections with warm bg + 1px `#e3ded7` dividers.
 
 ---
 
-_Last updated alongside events + footer calendar migration._
+## 6. What not to do
+
+- Gradient button or hero backgrounds (use solid `#285570` or `#0d1117`)
+- `box-shadow-lg` / hover lift on cards
+- Cool gray borders (`#e2e8f0`, `border-gray-200`)
+- Montserrat / Libre Baskerville / Inter
+- Decorative bounce or translate hover animations
+
+---
+
+## 7. File reference
+
+| File | Purpose |
+|------|---------|
+| `src/styles/fonts.css` | Geist Sans + Mono imports |
+| `src/styles/global.css` | Tokens + all component styles |
+| `src/layouts/BaseLayout.astro` | Font + global CSS load |
+| `src/components/SiteHeader.astro` | Site header markup |
+| `src/components/SiteFooter.astro` | Site footer markup |

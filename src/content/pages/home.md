@@ -81,7 +81,7 @@ welcomeBody: "As David said, in Psalms 16:11, \"You make known to me the path of
 welcomeCtaText: "Plan A Visit"
 welcomeCtaHref: "/plan-a-visit"
 welcomeVideoSrc: "/videos/welcome.mp4"
-welcomeVideoPoster: "https://cypressbible.org/wp-content/uploads/2024/10/6N3A2137-scaled.webp"
+welcomeVideoPoster: "/images/welcome-video-poster.webp"
 discipleshipHeading: "DISCIPLESHIP"
 discipleshipIntro: "Growing into a disciple of Christ is a lifelong process. Four pillars of discipleship support our spiritual growth at CBC."
 discipleshipPillars:
