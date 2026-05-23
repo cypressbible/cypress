@@ -45,6 +45,10 @@
   font-synthesis-weight: none;
 }
 
+html {
+  font-family: var(--font-sans);
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -56,6 +60,13 @@ body {
   flex-direction: column;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 h1,
@@ -2208,7 +2219,7 @@ body.has-menu-open {
 }
 
 .footer-cal-code {
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.78em;
   padding: 1px 4px;
   border-radius: 3px;
@@ -3054,7 +3065,7 @@ body.has-menu-open {
 
 .belief-hero-title {
   margin: 0 0 12px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2rem, 5vw, 2.85rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -3090,7 +3101,7 @@ body.has-menu-open {
 
 .belief-page-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.85rem, 4vw, 2.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -3880,7 +3891,7 @@ body.has-menu-open {
 }
 
 .staff-footnote .staff-code {
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.76em;
   padding: 2px 6px;
   border-radius: 4px;
@@ -3934,7 +3945,7 @@ body.has-menu-open {
 
 .events-hero-title {
   margin: 0 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.1rem, 5vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -3997,7 +4008,7 @@ body.has-menu-open {
 }
 
 .events-empty-code {
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.88em;
   padding: 2px 6px;
   border-radius: 4px;
@@ -4152,7 +4163,7 @@ body.has-menu-open {
 
 .events-month-title {
   margin: 0 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.25rem;
   font-weight: 700;
   color: #f1f5f9;
@@ -4502,7 +4513,7 @@ body.has-menu-open {
 
 .live-hero-title {
   margin: 0 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.1rem, 5vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -4716,7 +4727,7 @@ body.has-menu-open {
 
 .resources-hero-title {
   margin: 0 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.1rem, 5vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -4902,7 +4913,7 @@ body.has-menu-open {
 
 .join-group-page-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.4rem, 6vw, 3.5rem);
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -4939,7 +4950,7 @@ body.has-menu-open {
 
 .join-group-scripture p {
   margin: 0 0 12px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.05rem, 2.2vw, 1.35rem);
   font-style: italic;
   line-height: 1.55;
@@ -5021,7 +5032,7 @@ body.has-menu-open {
 .join-group-band-wordmark {
   margin: 0 auto clamp(20px, 3vw, 28px);
   text-align: center;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   font-weight: 400;
   color: #1c1917;
@@ -5114,7 +5125,7 @@ body.has-menu-open {
 
 .ministry-hero-title {
   margin: 0 0 10px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 400;
   line-height: 1.08;
@@ -5329,7 +5340,7 @@ body.has-menu-open {
 
 .spotlight-title {
   margin: 0 0 10px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.85rem, 4vw, 2.65rem);
   font-weight: 400;
   line-height: 1.15;
