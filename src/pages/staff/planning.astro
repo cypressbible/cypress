@@ -1,0 +1,446 @@
+---
+import StaffLayout from "../../layouts/StaffLayout.astro";
+import {
+  planningEvents,
+  ministryLabels,
+  getMonthlyLoads,
+  getMinistryHeatmap,
+  getPublishTimeline,
+  getOpenSlots,
+  getDashboardStats,
+  maxHeatmapLoad,
+  formatShortDate,
+  type PlanningEvent,
+  type MinistryKey
+} from "../../data/staff-planning";
+
+const monthlyLoads = getMonthlyLoads(planningEvents);
+const heatmap = getMinistryHeatmap(planningEvents);
+const heatmapMax = maxHeatmapLoad(heatmap.cells);
+const publishRows = getPublishTimeline(planningEvents);
+const openSlots = getOpenSlots(planningEvents);
+const stats = getDashboardStats(planningEvents);
+
+const ministryRows: MinistryKey[] = [
+  "all-church",
+  "worship",
+  "life-groups",
+  "equipping",
+  "kids",
+  "students",
+  "families",
+  "men",
+  "women",
+  "missions",
+  "outreach",
+  "vbs"
+];
+
+const heatmapGridCols = `120px repeat(${heatmap.months.length}, minmax(28px, 1fr))`;
+
+function heatmapCell(ministry: MinistryKey, monthKey: string) {
+  return heatmap.cells.find((c) => c.ministry === ministry && c.monthKey === monthKey);
+}
+
+function heatLevel(load: number): number {
+  if (load <= 0) return 0;
+  return Math.min(5, Math.ceil((load / heatmapMax) * 5));
+}
+
+function heatColor(level: number): string {
+  if (level === 0) return "";
+  const alpha = 0.15 + level * 0.14;
+  return `rgba(40, 85, 112, ${alpha})`;
+}
+
+const maxMonthlyPeak = Math.max(1, ...monthlyLoads.map((m) => m.peakLoad));
+
+function isChristmasMonth(monthKey: string): boolean {
+  return monthKey.endsWith("-11") || monthKey.endsWith("-12");
+}
+
+function isVbsMonth(monthKey: string): boolean {
+  return monthKey.endsWith("-06");
+}
+
+/** Timeline range for Fall 2026 window */
+const timelineEvents = planningEvents.filter((e) => e.planLabel === "Fall 2026");
+const timelineStart = new Date("2026-05-01T12:00:00").getTime();
+const timelineEnd = new Date("2027-01-15T12:00:00").getTime();
+const timelineSpan = timelineEnd - timelineStart;
+
+type TimelineLane = { id: string; label: string; match: (e: PlanningEvent) => boolean };
+
+const timelineLanes: TimelineLane[] = [
+  {
+    id: "church",
+    label: "Church-wide",
+    match: (e) => e.ministries.includes("all-church") || e.ministries.includes("worship")
+  },
+  {
+    id: "discipleship",
+    label: "Discipleship",
+    match: (e) => e.ministries.includes("life-groups") || e.ministries.includes("equipping")
+  },
+  {
+    id: "lifestage",
+    label: "Life stage",
+    match: (e) =>
+      e.ministries.some((m) => ["kids", "students", "families", "vbs"].includes(m)) &&
+      !e.ministries.includes("equipping")
+  },
+  {
+    id: "men-women",
+    label: "Men / Women",
+    match: (e) => e.ministries.includes("men") || e.ministries.includes("women")
+  },
+  {
+    id: "missions",
+    label: "Missions / outreach",
+    match: (e) => e.ministries.includes("missions") || e.ministries.includes("outreach")
+  }
+];
+
+function timelinePosition(ev: PlanningEvent) {
+  const s = new Date(`${ev.start}T12:00:00`).getTime();
+  const e = new Date(`${ev.end}T12:00:00`).getTime();
+  const left = ((s - timelineStart) / timelineSpan) * 100;
+  const width = Math.max(1.5, ((e - s) / timelineSpan) * 100 + (0.3 / timelineSpan) * 100);
+  return { left: `${Math.max(0, left)}%`, width: `${Math.min(100 - left, width)}%` };
+}
+
+const complexityX = { low: 15, medium: 50, high: 85 };
+const seasonColors: Record<string, string> = {
+  christmas: "#c4a574",
+  vbs: "#5a9a6f",
+  missions: "#6b8cae",
+  "fall-launch": "#285570",
+  summer: "#4a7a94",
+  equipping: "#3d6a7a",
+  outreach: "#7a6b5a",
+  easter: "#9a7aab",
+  none: "#555"
+};
+const scatterEvents = planningEvents;
+---
+
+<StaffLayout title="Staff calendar planning dashboard | Cypress Bible Church">
+  <div class="staff-dash" data-staff-dash>
+    <header class="staff-dash-header">
+      <div>
+        <p class="staff-dash-kicker">Internal · not in public navigation</p>
+        <h1 class="staff-dash-title">Calendar planning dashboard</h1>
+        <p class="staff-dash-sub">
+          Fall 2026 and 2027 anchor dates — staff load estimates, ministry overlap, seasonal pressure,
+          publishing lead times, and open slots. Bookmark <code>/staff/planning</code>.
+        </p>
+      </div>
+      <div class="staff-dash-filters" role="group" aria-label="Filter plan year">
+        <button type="button" class="staff-dash-filter is-active" data-filter="all">All</button>
+        <button type="button" class="staff-dash-filter" data-filter="Fall 2026">Fall 2026</button>
+        <button type="button" class="staff-dash-filter" data-filter="2027">2027</button>
+      </div>
+    </header>
+
+    <section class="staff-dash-kpis" aria-label="Summary metrics">
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">Total milestones</p>
+        <p class="staff-dash-kpi-value" data-kpi="total">{stats.total}</p>
+        <p class="staff-dash-kpi-hint">Across both planning horizons</p>
+      </div>
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">Fall 2026</p>
+        <p class="staff-dash-kpi-value" data-kpi="fall">{stats.fall2026Count}</p>
+        <p class="staff-dash-kpi-hint">May–Dec programming arc</p>
+      </div>
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">High load (4–5)</p>
+        <p class="staff-dash-kpi-value" data-kpi="high">{stats.highLoadCount}</p>
+        <p class="staff-dash-kpi-hint">Heavy staff / volunteer demand</p>
+      </div>
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">Open / TBD</p>
+        <p class="staff-dash-kpi-value" data-kpi="open">{stats.openCount}</p>
+        <p class="staff-dash-kpi-hint">Needs date or decision</p>
+      </div>
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">Ministries touched</p>
+        <p class="staff-dash-kpi-value" data-kpi="ministries">{stats.ministryCount}</p>
+        <p class="staff-dash-kpi-hint">Unique ministry areas</p>
+      </div>
+      <div class="staff-dash-kpi">
+        <p class="staff-dash-kpi-label">Christmas load</p>
+        <p class="staff-dash-kpi-value" data-kpi="christmas">{stats.christmasLoad}</p>
+        <p class="staff-dash-kpi-hint">Summed staff-load index (Advent–Eve)</p>
+      </div>
+    </section>
+
+    <div class="staff-dash-grid">
+      <!-- Viz 1: Seasonal monthly load -->
+      <section class="staff-dash-panel staff-dash-panel--wide" data-panel data-plan="all">
+        <div class="staff-dash-panel-head">
+          <h2 class="staff-dash-panel-title">1 · Seasonal staff-load by month</h2>
+          <p class="staff-dash-panel-desc">
+            Bar height = peak single-event load that month. Gold = Nov–Dec (Christmas). Green = June (VBS).
+          </p>
+        </div>
+        <div class="staff-dash-panel-body">
+          <div class="staff-load-bars" role="img" aria-label="Monthly staff load chart">
+            {
+              monthlyLoads.map((m) => {
+                const pct = (m.peakLoad / maxMonthlyPeak) * 100;
+                const extraClass = isChristmasMonth(m.monthKey)
+                  ? "staff-load-bar-fill--christmas"
+                  : isVbsMonth(m.monthKey)
+                    ? "staff-load-bar-fill--vbs"
+                    : m.peakLoad >= 5
+                      ? "staff-load-bar-fill--peak"
+                      : "";
+                return (
+                  <div class="staff-load-bar-col" data-month={m.monthKey}>
+                    <div class="staff-load-bar-track">
+                      <div
+                        class:list={["staff-load-bar-fill", extraClass]}
+                        style={`height: ${pct}%`}
+                        title={`${m.label}: peak load ${m.peakLoad}, ${m.eventCount} event(s)`}
+                      />
+                    </div>
+                    <span class="staff-load-bar-meta">{m.peakLoad}</span>
+                    <span class="staff-load-bar-label">{m.label}</span>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Viz 2: Ministry heatmap -->
+      <section class="staff-dash-panel staff-dash-panel--wide" data-panel data-plan="all">
+        <div class="staff-dash-panel-head">
+          <h2 class="staff-dash-panel-title">2 · Ministry impact heatmap</h2>
+          <p class="staff-dash-panel-desc">
+            Cell value = summed staff-load index when that ministry is involved. Darker teal = more concurrent
+            pressure.
+          </p>
+        </div>
+        <div class="staff-dash-panel-body staff-heatmap-wrap">
+          <div class="staff-heatmap" style={`grid-template-columns: ${heatmapGridCols}`}>
+            <span class="staff-heatmap-corner">Ministry</span>
+            {heatmap.monthLabels.map((label) => (
+              <span class="staff-heatmap-month">{label}</span>
+            ))}
+            {
+              ministryRows.map((ministry) => (
+                <div class="staff-heatmap-row" style="display: contents">
+                  <span class="staff-heatmap-row-label">{ministryLabels[ministry]}</span>
+                  {heatmap.months.map((mk) => {
+                    const cell = heatmapCell(ministry, mk);
+                    const load = cell?.load ?? 0;
+                    const level = heatLevel(load);
+                    return (
+                      <span
+                        class:list={["staff-heatmap-cell", level === 0 && "staff-heatmap-cell--0"]}
+                        style={level > 0 ? `background: ${heatColor(level)}` : undefined}
+                        title={
+                          load > 0
+                            ? `${ministryLabels[ministry]} · ${mk}: load ${load} (${cell?.eventCount} events)`
+                            : undefined
+                        }
+                      >
+                        {load > 0 ? load : "·"}
+                      </span>
+                    );
+                  })}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Viz 3: Timeline swimlanes -->
+      <section class="staff-dash-panel staff-dash-panel--wide" data-panel data-plan="Fall 2026">
+        <div class="staff-dash-panel-head">
+          <h2 class="staff-dash-panel-title">3 · Programming timeline (Fall 2026)</h2>
+          <p class="staff-dash-panel-desc">
+            Swimlanes by ministry cluster. Dashed = TBD or potential. Width = date span (May 2026–Jan 2027).
+          </p>
+        </div>
+        <div class="staff-dash-panel-body">
+          <div class="staff-timeline">
+            {
+              timelineLanes.map((lane) => {
+                const laneEvents = timelineEvents.filter(lane.match);
+                return (
+                  <div class="staff-timeline-lane">
+                    <span class="staff-timeline-lane-label">{lane.label}</span>
+                    <div class="staff-timeline-track">
+                      {
+                        laneEvents.map((ev) => {
+                          const pos = timelinePosition(ev);
+                          return (
+                            <span
+                              class:list={[
+                                "staff-timeline-event",
+                                ev.status === "tbd" && "staff-timeline-event--tbd",
+                                ev.status === "potential" && "staff-timeline-event--potential",
+                                ev.staffLoad >= 4 && "staff-timeline-event--high"
+                              ]}
+                              style={`left: ${pos.left}; width: ${pos.width}`}
+                              title={`${ev.title} · ${formatShortDate(ev.start)}${ev.end !== ev.start ? ` – ${formatShortDate(ev.end)}` : ""} · load ${ev.staffLoad}`}
+                            >
+                              {ev.title}
+                            </span>
+                          );
+                        })
+                      }
+                    </div>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+      </section>
+
+      <div class="staff-dash-grid staff-dash-grid--2">
+        <!-- Viz 4: Complexity vs load -->
+        <section class="staff-dash-panel" data-panel data-plan="all">
+          <div class="staff-dash-panel-head">
+            <h2 class="staff-dash-panel-title">4 · Complexity vs staff load</h2>
+            <p class="staff-dash-panel-desc">
+              Bubble size = number of ministries involved. Use to spot “simple but heavy” vs “complex planning”
+              work.
+            </p>
+          </div>
+          <div class="staff-dash-panel-body">
+            <div class="staff-scatter" role="img" aria-label="Complexity versus staff load scatter plot">
+              <span class="staff-scatter-axis-y">Staff load →</span>
+              <span class="staff-scatter-axis-x">Complexity →</span>
+              {
+                scatterEvents.map((ev) => {
+                  const x = complexityX[ev.complexity] ?? 50;
+                  const y = ((ev.staffLoad - 1) / 4) * 100;
+                  const size = 10 + ev.ministries.length * 3;
+                  return (
+                    <span
+                      class="staff-scatter-dot"
+                      style={`left: ${x}%; bottom: ${y}%; width: ${size}px; height: ${size}px; background: ${seasonColors[ev.season] ?? "#285570"}`}
+                      title={`${ev.title} · ${ev.complexity} complexity · load ${ev.staffLoad}`}
+                    />
+                  );
+                })
+              }
+            </div>
+            <div class="staff-scatter-legend">
+              <span><i style="background: #c4a574" /> Christmas</span>
+              <span><i style="background: #5a9a6f" /> VBS</span>
+              <span><i style="background: #285570" /> Fall launch</span>
+              <span><i style="background: #6b8cae" /> Missions</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Viz 5: Open slots -->
+        <section class="staff-dash-panel" data-panel data-plan="all">
+          <div class="staff-dash-panel-head">
+            <h2 class="staff-dash-panel-title">5 · Open slots & decisions</h2>
+            <p class="staff-dash-panel-desc">TBD times, potential events, and ministry gaps needing ownership.</p>
+          </div>
+          <div class="staff-dash-panel-body staff-open-slots">
+            {
+              openSlots.length === 0 ? (
+                <p style="color: rgba(255,255,255,0.5); margin: 0;">No open slots in current data.</p>
+              ) : (
+                openSlots.map((ev) => (
+                  <article
+                    class:list={["staff-open-card", ev.status === "potential" && "staff-open-card--potential"]}
+                  >
+                    <h3 class="staff-open-title">{ev.title}</h3>
+                    <p class="staff-publish-meta">
+                      {formatShortDate(ev.start)}
+                      {ev.notes ? ` · ${ev.notes}` : ""}
+                    </p>
+                    <div class="staff-tags">
+                      <span class:list={["staff-tag", `staff-tag--status-${ev.status}`]}>{ev.status}</span>
+                      <span class:list={["staff-tag", ev.staffLoad >= 5 && "staff-tag--load-5"]}>
+                        load {ev.staffLoad}
+                      </span>
+                      {ev.ministries.map((m) => (
+                        <span class="staff-tag">{ministryLabels[m]}</span>
+                      ))}
+                    </div>
+                  </article>
+                ))
+              )
+            }
+          </div>
+        </section>
+      </div>
+
+      <!-- Publishing timeline (bonus panel - part of viz 5 conceptually) -->
+      <section class="staff-dash-panel staff-dash-panel--wide" data-panel data-plan="all">
+        <div class="staff-dash-panel-head">
+          <h2 class="staff-dash-panel-title">Publishing lead-time runway</h2>
+          <p class="staff-dash-panel-desc">
+            Target “live by” dates based on configured lead weeks before each event. Red = publish window may
+            already be tight for upcoming dates.
+          </p>
+        </div>
+        <div class="staff-dash-panel-body">
+          <ul class="staff-publish-list">
+            {
+              publishRows.map(({ event, publishBy, weeksOut, isOverdue }) => (
+                <li class:list={["staff-publish-item", isOverdue && "staff-publish-item--overdue"]}>
+                  <div>
+                    <p class="staff-publish-title">{event.title}</p>
+                    <p class="staff-publish-meta">
+                      Event {formatShortDate(event.start)} · {event.publishLeadWeeks}w lead · ministries:{" "}
+                      {event.ministries.map((m) => ministryLabels[m]).join(", ")}
+                    </p>
+                  </div>
+                  <span class="staff-publish-date">
+                    Publish by {publishBy}
+                    <br />
+                    {weeksOut > 0 ? `${weeksOut}w out` : "started"}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <footer class="staff-dash-foot">
+      <p>
+        Internal planning view only — not linked from the public site menu. Return to{" "}
+        <a href="/">cypressbible.org</a>. Edit data in <code>src/data/staff-planning.ts</code>.
+      </p>
+    </footer>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var root = document.querySelector("[data-staff-dash]");
+      if (!root) return;
+      var panels = Array.from(root.querySelectorAll("[data-panel]"));
+      var filters = Array.from(root.querySelectorAll("[data-filter]"));
+
+      filters.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var plan = btn.getAttribute("data-filter");
+          filters.forEach(function (b) {
+            b.classList.toggle("is-active", b === btn);
+          });
+          panels.forEach(function (panel) {
+            var panelPlan = panel.getAttribute("data-plan");
+            var show = plan === "all" || panelPlan === "all" || panelPlan === plan;
+            panel.hidden = !show;
+          });
+        });
+      });
+    })();
+  </script>
+</StaffLayout>

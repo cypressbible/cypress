@@ -324,10 +324,11 @@ a.esv-crossref-link:focus-visible {
 .mini-menu {
   position: fixed;
   inset: 0;
-  z-index: 1200;
+  z-index: 5000;
   background: rgba(250, 247, 245, 0.98);
   overflow-y: auto;
   padding: clamp(22px, 3vw, 36px) clamp(18px, 4vw, 46px) 34px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mini-menu[hidden] {

@@ -89,50 +89,50 @@ const giveHref = giveItem?.href || "/give";
       </span>
     </button>
   </div>
-
-  <div class="mini-menu" id="site-mini-menu" data-mini-menu hidden>
-    <div class="mini-menu-header">
-      <p class="mini-menu-title">Menu</p>
-      <button type="button" class="mini-menu-close" aria-label="Close menu" data-menu-close>
-        ×
-      </button>
-    </div>
-    <nav class="mini-menu-nav" aria-label="Expanded site navigation">
-      {
-        menuItems.map((item) => (
-          <div class="mini-menu-group">
-            <a
-              class:list={["mini-menu-link", "mini-menu-link--parent", linkIsCurrent(item.href) && "is-current"]}
-              href={item.href}
-              aria-current={linkIsCurrent(item.href) ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-            {item.children && item.children.length > 0 && (
-              <div class="mini-menu-children">
-                {item.children.map((child) => (
-                  <a
-                    class:list={["mini-menu-link", linkIsCurrent(child.href) && "is-current"]}
-                    href={child.href}
-                    aria-current={linkIsCurrent(child.href) ? "page" : undefined}
-                  >
-                    {child.label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        ))
-      }
-    </nav>
-  </div>
 </header>
+
+<div class="mini-menu" id="site-mini-menu" data-mini-menu hidden>
+  <div class="mini-menu-header">
+    <p class="mini-menu-title">Menu</p>
+    <button type="button" class="mini-menu-close" aria-label="Close menu" data-menu-close>
+      ×
+    </button>
+  </div>
+  <nav class="mini-menu-nav" aria-label="Expanded site navigation">
+    {
+      menuItems.map((item) => (
+        <div class="mini-menu-group">
+          <a
+            class:list={["mini-menu-link", "mini-menu-link--parent", linkIsCurrent(item.href) && "is-current"]}
+            href={item.href}
+            aria-current={linkIsCurrent(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+          {item.children && item.children.length > 0 && (
+            <div class="mini-menu-children">
+              {item.children.map((child) => (
+                <a
+                  class:list={["mini-menu-link", linkIsCurrent(child.href) && "is-current"]}
+                  href={child.href}
+                  aria-current={linkIsCurrent(child.href) ? "page" : undefined}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))
+    }
+  </nav>
+</div>
 
 <script is:inline>
   const header = document.querySelector(".top-nav");
   const toggleButton = header?.querySelector("[data-menu-toggle]");
-  const closeButton = header?.querySelector("[data-menu-close]");
-  const miniMenu = header?.querySelector("[data-mini-menu]");
+  const miniMenu = document.getElementById("site-mini-menu");
+  const closeButton = miniMenu?.querySelector("[data-menu-close]");
 
   if (toggleButton instanceof HTMLButtonElement && miniMenu instanceof HTMLElement) {
     const openMenu = () => {
